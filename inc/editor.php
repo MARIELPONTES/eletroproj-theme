@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
 function ep_register_block_styles(): void {
 	$styles = array(
 		'core/paragraph' => array( 'section-number' => __( 'Rótulo de seção', 'eletroproj' ) ),
+		'core/quote'     => array( 'norma' => __( 'Caixa da norma', 'eletroproj' ) ),
 		'core/group'     => array(
 			'callout' => __( 'Aviso', 'eletroproj' ),
 			'formula' => __( 'Fórmula', 'eletroproj' ),
@@ -52,7 +53,7 @@ function ep_register_patterns(): void {
 		),
 		'norma'     => array(
 			__( 'Caixa da norma (NBR)', 'eletroproj' ),
-			'<!-- wp:quote --><blockquote class="wp-block-quote"><!-- wp:paragraph --><p>“O SPDA deve ser composto por sistemas externo e interno de proteção contra descargas atmosféricas.”</p><!-- /wp:paragraph --><cite>NBR 5419:2015 · Parte 3, seção 5.1 — consulte sempre a edição vigente da norma.</cite></blockquote><!-- /wp:quote -->',
+			'<!-- wp:quote {"className":"is-style-norma"} --><blockquote class="wp-block-quote is-style-norma"><!-- wp:paragraph --><p>NBR 5419:2015 · Parte 3, seção 5.1</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>“O SPDA deve ser composto por sistemas externo e interno de proteção contra descargas atmosféricas.”</p><!-- /wp:paragraph --><cite>Nota técnica: consulte sempre a edição vigente da norma.</cite></blockquote><!-- /wp:quote -->',
 		),
 		'aviso'     => array(
 			__( 'Aviso (Importante)', 'eletroproj' ),

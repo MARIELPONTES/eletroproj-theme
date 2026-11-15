@@ -334,6 +334,30 @@
 	font-size: 12px;
 	font-style: normal;
 }
+/* Estilo "Caixa da norma": 1º parágrafo = referência com ícone de livro (Figma: nbr-box). */
+.entry-content .is-style-norma > p:first-child {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: var(--accent);
+	font: 600 14px/1.4 var(--font-body);
+}
+.entry-content .is-style-norma > p:first-child::before {
+	content: "";
+	flex: none;
+	width: 21px;
+	height: 21px;
+	background: currentColor;
+	--m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z'/%3E%3C/svg%3E");
+	-webkit-mask: var(--m) center / contain no-repeat;
+	mask: var(--m) center / contain no-repeat;
+}
+.entry-content .is-style-norma > p + p {
+	margin-top: 20px;
+}
+.entry-content .is-style-norma cite {
+	margin-top: 20px;
+}
 
 /* Aviso (Figma: callout) — bloco Grupo com estilo "Aviso". */
 .entry-content .is-style-callout {
