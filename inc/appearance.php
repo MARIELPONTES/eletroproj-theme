@@ -263,7 +263,7 @@ function ep_style_css( string $scope = '.entry-content' ): string {
 	if ( 18 !== $size ) {
 		// Desktop = tamanho escolhido; celular = 1 px a menos (como no padrão 18/17); 1º parágrafo na mesma proporção (23/18).
 		$css .= sprintf(
-			'%1$s{font-size:%2$srem}%1$s>p:first-child{font-size:%3$srem}@media (max-width:767px){%1$s{font-size:%4$srem}}',
+			'%1$s{font-size:%2$srem;font-size:round(%2$srem,1px)}%1$s>p:first-child{font-size:%3$srem;font-size:round(%3$srem,1px)}@media (max-width:767px){%1$s{font-size:%4$srem}}',
 			$scope,
 			ep_rem( $size ),
 			ep_rem( $size * 23 / 18 ),

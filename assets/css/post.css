@@ -197,6 +197,7 @@
 .entry-content > p:first-child {
 	color: var(--text);
 	font-size: 1.4375rem;
+	font-size: round(1.4375rem, 1px);
 	line-height: 1.65;
 }
 .entry-content strong,

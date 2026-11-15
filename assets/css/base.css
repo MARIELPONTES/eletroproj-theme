@@ -102,6 +102,7 @@ body {
 	color: var(--text);
 	font-family: var(--font-body);
 	font-size: 1.125rem;
+	font-size: round(1.125rem, 1px); /* tamanho inteiro em px: texto mais nítido no Windows */
 	line-height: 1.7;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
