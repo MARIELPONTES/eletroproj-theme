@@ -622,6 +622,22 @@
 	background: color-mix(in srgb, var(--surface) 60%, transparent);
 }
 
+/* Calculadoras e ferramentas no texto (qualquer bloco com campos de formulário):
+   texto fluido conforme a tela e mais largura em monitores grandes, ocupando o espaço vazio à direita. */
+.entry-content > :is(div, section, form):has(input:not([type="hidden"]), select) {
+	font-size: clamp(15px, 0.3vw + 11.5px, 18px);
+}
+@media (min-width: 1600px) {
+	.article-layout:not(.no-toc) .entry-content > :is(div, section, form):has(input:not([type="hidden"]), select) {
+		margin-right: -160px;
+	}
+}
+@media (min-width: 1880px) {
+	.article-layout:not(.no-toc) .entry-content > :is(div, section, form):has(input:not([type="hidden"]), select) {
+		margin-right: -240px;
+	}
+}
+
 /* Botões do editor = botão primário do Figma. */
 .entry-content .wp-block-buttons {
 	display: flex;
