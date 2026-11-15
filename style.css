@@ -1,0 +1,16 @@
+/*
+Theme Name: Eletroproj
+Theme URI: https://eletroproj.com.br/
+Author: Mariel Pontes
+Author URI: https://eletroproj.com.br/
+Description: Tema da biblioteca técnica Eletroproj — engenharia elétrica, SPDA, NBR 5410/5419 e automação. Feito do zero com foco em performance (CSS inline por template, sem jQuery, 1 fonte auto-hospedada).
+Version: 0.1.0
+Requires at least: 6.4
+Tested up to: 6.8
+Requires PHP: 8.0
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: eletroproj
+*/
+
+/* Este arquivo só identifica o tema. Os estilos ficam em assets/css/ e são impressos inline por inc/assets.php. */
