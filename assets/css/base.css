@@ -230,10 +230,12 @@ samp {
 	margin-inline: auto;
 }
 
-/* ---------- Rótulos em mono ---------- */
+/* ---------- Rótulos em mono ----------
+   Figma usa a classe "category"; aqui é "cat-label" porque o WordPress põe "category"
+   no <body> das páginas de categoria (deixava o site inteiro em mono laranja). */
 .eyebrow,
 .section-number,
-.category {
+.cat-label {
 	color: var(--accent);
 	font: 600 12px/1.3 var(--font-mono);
 	letter-spacing: 0.11em;
