@@ -132,11 +132,20 @@
 	background: var(--surface);
 	border: 1px solid var(--border);
 	border-radius: var(--radius);
-	transition: transform 0.25s, border-color 0.25s;
+	transition: border-color 0.25s;
 }
-.pillar-card:hover {
-	transform: translateY(-4px);
+/* Hover sem deslocamento (pedido do Mariel): só a borda âmbar e a seta. */
+.pillar-card:hover,
+.pillar-card:focus-visible {
 	border-color: var(--accent);
+}
+.pillar-card .card-arrow,
+.tool-card > .icon-arrow-right {
+	transition: color 0.2s;
+}
+.pillar-card:hover .card-arrow,
+.tool-card:hover > .icon-arrow-right {
+	color: var(--accent);
 }
 .pillar-card > div {
 	display: flex;
@@ -186,7 +195,8 @@
 	border-radius: var(--radius);
 	transition: border-color 0.2s;
 }
-.tool-card:hover {
+.tool-card:hover,
+.tool-card:focus-visible {
 	border-color: var(--accent);
 }
 .tool-card > span {
