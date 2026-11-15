@@ -45,3 +45,14 @@ add_action( 'after_setup_theme', 'ep_content_width', 0 );
 
 // Não buscar padrões no diretório remoto.
 add_filter( 'should_load_remote_block_patterns', '__return_false' );
+
+/**
+ * Favicon do tema enquanto não houver "Ícone do site" em Aparência › Personalizar › Identidade do site.
+ */
+function ep_favicon(): void {
+	if ( has_site_icon() ) {
+		return;
+	}
+	printf( '<link rel="icon" href="%s" type="image/svg+xml">' . "\n", esc_url( EP_URI . '/assets/img/favicon.svg' ) );
+}
+add_action( 'wp_head', 'ep_favicon', 2 );

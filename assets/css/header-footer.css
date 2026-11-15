@@ -1,0 +1,311 @@
+/* ==========================================================================
+   Header, busca e footer (Figma: Header, search-overlay, Footer).
+   ========================================================================== */
+
+/* ---------- Logo ---------- */
+.logo {
+	color: var(--text);
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	flex: none;
+}
+.logo-mark {
+	width: 30px;
+	height: 30px;
+	display: grid;
+	place-items: center;
+	color: var(--accent);
+	border: 1px solid var(--accent);
+	border-radius: 3px;
+}
+.logo-wordmark {
+	width: 105px;
+	height: 21px;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	height: var(--header-h);
+	background: var(--header);
+	border-bottom: 1px solid var(--border);
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+}
+.admin-bar .site-header {
+	top: var(--wp-admin--admin-bar--height, 32px);
+}
+.header-inner {
+	width: min(1320px, calc(100% - 40px));
+	height: 100%;
+	margin: auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.main-nav {
+	margin-left: auto;
+	margin-right: 34px;
+	padding-left: 24px;
+}
+.main-nav-list {
+	display: flex;
+	gap: 32px;
+}
+.main-nav-list a {
+	color: var(--muted);
+	font-size: 15px;
+	font-weight: 600;
+	transition: color 0.2s;
+}
+.main-nav-list a:hover,
+.main-nav-list [aria-current="page"] {
+	color: var(--text);
+}
+.main-nav-search {
+	display: none;
+}
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.mobile-menu {
+	display: none;
+}
+.mobile-menu .icon-x,
+.mobile-menu[aria-expanded="true"] .icon-menu {
+	display: none;
+}
+.mobile-menu[aria-expanded="true"] .icon-x {
+	display: block;
+}
+
+/* ---------- Busca (dialog) — sempre escura, como no Figma ---------- */
+.search-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+	max-width: none;
+	max-height: none;
+	margin: 0;
+	padding: 15vh 0 0;
+	border: 0;
+	color: #e8eaed;
+	background: rgba(4, 5, 7, 0.88);
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+}
+.search-overlay[open] {
+	display: grid;
+	place-items: start center;
+}
+.search-overlay::backdrop {
+	background: transparent;
+}
+.search-dialog {
+	width: min(720px, calc(100% - 40px));
+}
+.search-dialog h2 {
+	font-size: clamp(40px, 6vw, 64px);
+	margin: 10px 0 30px;
+	color: #e8eaed;
+}
+.search-dialog .eyebrow {
+	color: #f5a623;
+}
+.search-field {
+	height: 66px;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 0 20px;
+	color: #9aa1ac;
+	background: #171a1f;
+	border: 1px solid #3a404a;
+	border-radius: var(--radius);
+}
+.search-field:focus-within {
+	border-color: #f5a623;
+}
+.search-field input {
+	flex: 1;
+	min-width: 0;
+	width: auto;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	color: #e8eaed;
+	background: transparent;
+	box-shadow: none !important;
+}
+.search-field input:focus-visible {
+	outline: none;
+}
+.search-field input::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+}
+.search-field kbd {
+	font-size: 12px;
+	border: 1px solid #3a404a;
+	padding: 4px 7px;
+	border-radius: 3px;
+}
+.search-dialog p {
+	font-size: 14px;
+	color: #9aa1ac;
+	margin-top: 16px;
+}
+.search-dialog p a {
+	color: #f5a623;
+}
+.search-dialog p a:hover {
+	text-decoration: underline;
+}
+.search-close {
+	position: fixed;
+	top: 28px;
+	right: 30px;
+	color: #e8eaed;
+}
+.search-close:focus-visible,
+.search-dialog :focus-visible {
+	outline-color: #f5a623;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+	padding-top: 70px;
+	background: var(--wash);
+	border-top: 1px solid var(--border);
+}
+.footer-grid {
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1.3fr;
+	gap: 50px;
+}
+.footer-grid > * {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 7px;
+}
+.footer-grid p,
+.footer-grid a:not(.logo) {
+	color: var(--muted);
+	font-size: 13px;
+}
+.footer-grid ul {
+	font-size: 13px;
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+}
+.footer-grid a:not(.logo):hover {
+	color: var(--accent);
+}
+.footer-grid strong {
+	font-size: 13px;
+	margin-bottom: 9px;
+}
+.footer-brand p {
+	max-width: 280px;
+	margin-top: 15px;
+}
+.footer-bottom {
+	margin-top: 60px;
+	padding-block: 17px;
+	border-top: 1px solid var(--border);
+	display: flex;
+	justify-content: space-between;
+	color: var(--muted);
+	font-size: 11px;
+}
+
+/* ---------- 768–1099px ---------- */
+@media (max-width: 1099.98px) {
+	.main-nav {
+		margin-right: 18px;
+	}
+	.main-nav-list {
+		gap: 18px;
+	}
+}
+
+/* ---------- Menu recolhido (<900px): no Figma o menu só recolhe no mobile, mas abaixo de ~900px
+   os 4 links + ações não cabem ao lado do logo. ---------- */
+@media (max-width: 899.98px) {
+	.mobile-menu {
+		display: inline-grid;
+	}
+	.main-nav {
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		margin: 0;
+		padding: 15px 16px 24px;
+		background: var(--bg);
+		border-bottom: 1px solid var(--border);
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.main-nav.open {
+		display: flex;
+	}
+	.main-nav-list {
+		width: 100%;
+		flex-direction: column;
+		gap: 0;
+	}
+	.main-nav-list a,
+	.main-nav-search {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		text-align: left;
+		padding: 8px 0;
+		font: 600 25px/1.3 var(--font-display);
+		color: var(--text);
+	}
+	.main-nav-search .icon {
+		color: var(--accent);
+	}
+}
+
+/* ---------- Mobile (<768px) ---------- */
+@media (max-width: 767.98px) {
+	.header-inner {
+		width: calc(100% - 24px);
+	}
+	.header-cta,
+	.header-search {
+		display: none;
+	}
+	.footer-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+	.footer-brand {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 390px) {
+	.footer-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* "Buscar" dentro do menu só no mobile; de 768 a 899px a lupa continua no header. */
+@media (min-width: 768px) {
+	.main-nav-search {
+		display: none !important;
+	}
+}

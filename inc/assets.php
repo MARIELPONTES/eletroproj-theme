@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string[]
  */
 function ep_css_files(): array {
-	$files = array( 'base' );
+	$files = array( 'base', 'header-footer' );
 
 	/**
 	 * Permite que cada etapa/template acrescente seus arquivos (post, home, guide...).

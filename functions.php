@@ -15,3 +15,5 @@ require_once EP_DIR . '/inc/setup.php';
 require_once EP_DIR . '/inc/cleanup.php';
 require_once EP_DIR . '/inc/assets.php';
 require_once EP_DIR . '/inc/icons.php';
+require_once EP_DIR . '/inc/logo.php';
+require_once EP_DIR . '/inc/customizer.php';

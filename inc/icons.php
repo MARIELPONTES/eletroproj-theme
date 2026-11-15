@@ -103,7 +103,8 @@ function ep_icon( string $name, int $size = 20, array $args = array() ): void {
  */
 function ep_print_icon_sprite(): void {
 	$used = ep_icons_used();
-	if ( ! $used ) {
+	$logo = function_exists( 'ep_logo_used' ) && ep_logo_used();
+	if ( ! $used && ! $logo ) {
 		return;
 	}
 	$paths = ep_icon_paths();
@@ -111,6 +112,9 @@ function ep_print_icon_sprite(): void {
 	foreach ( array_keys( $used ) as $name ) {
 		// Conteúdo estático deste arquivo.
 		echo '<symbol id="i-' . esc_attr( $name ) . '" viewBox="0 0 24 24">' . $paths[ $name ] . '</symbol>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+	if ( $logo ) {
+		echo ep_logo_symbol(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG estático.
 	}
 	echo "</svg>\n";
 }
