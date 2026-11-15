@@ -3,57 +3,57 @@
    ========================================================================== */
 
 .service-hero {
-	padding-block: 90px;
+	padding-block: 5.625rem;
 	background: var(--wash);
 	border-bottom: 1px solid var(--border);
 }
 .service-hero-grid {
 	display: grid;
 	grid-template-columns: 1fr 0.75fr;
-	gap: 80px;
+	gap: 5rem;
 	align-items: center;
 }
 .service-hero h1 {
-	max-width: 740px;
-	font-size: clamp(58px, 6.4vw, 86px);
-	margin: 14px 0 24px;
+	max-width: 46.25rem;
+	font-size: clamp(3.625rem, 6.4vw, 5.375rem);
+	margin: .875rem 0 1.5rem;
 }
 .service-hero p {
-	max-width: 640px;
-	font-size: 21px;
+	max-width: 40rem;
+	font-size: 1.3125rem;
 	color: var(--muted);
 }
 .hero-actions {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 10px;
-	margin-top: 18px;
+	gap: .625rem;
+	margin-top: 1.125rem;
 }
 .cert-row {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 18px;
-	margin-top: 35px;
+	gap: 1.125rem;
+	margin-top: 2.1875rem;
 	color: var(--muted);
-	font-size: 12px;
+	font-size: .75rem;
 }
 .cert-row span {
 	display: flex;
 	align-items: center;
-	gap: 6px;
+	gap: .375rem;
 }
 .cert-row .icon {
 	color: var(--accent);
 }
 .service-image {
 	position: relative;
-	height: 500px;
+	height: 31.25rem;
 	background-color: var(--surface);
 	border: 1px solid var(--border);
 }
 .service-image.no-image {
 	background-image: linear-gradient(rgba(245, 166, 35, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(245, 166, 35, 0.1) 1px, transparent 1px);
-	background-size: 42px 42px;
+	background-size: 2.625rem 2.625rem;
 }
 .service-image img {
 	width: 100%;
@@ -66,19 +66,19 @@
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	padding: 12px 16px;
+	padding: .75rem 1rem;
 	background: var(--accent);
 	color: var(--accent-text);
-	font: 10px/1.4 var(--font-mono);
+	font: .625rem/1.4 var(--font-mono);
 }
 
 .benefit-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 16px;
+	gap: 1rem;
 }
 .info-card {
-	padding: 28px;
+	padding: 1.75rem;
 	background: var(--surface);
 	border: 1px solid var(--border);
 	border-radius: var(--radius);
@@ -87,18 +87,18 @@
 	color: var(--accent);
 }
 .info-card h3 {
-	font-size: 28px;
-	margin: 28px 0 10px;
+	font-size: 1.75rem;
+	margin: 1.75rem 0 .625rem;
 }
 .info-card p {
 	color: var(--muted);
-	font-size: 14px;
+	font-size: .875rem;
 }
 
 .process {
 	display: grid;
 	grid-template-columns: 0.6fr 1.4fr;
-	gap: 70px;
+	gap: 4.375rem;
 }
 .process-steps {
 	display: grid;
@@ -108,79 +108,79 @@
 	border: 1px solid var(--border);
 }
 .process-steps > li {
-	padding: 25px;
+	padding: 1.5625rem;
 	background: var(--surface);
-	min-height: 130px;
+	min-height: 8.125rem;
 }
 .process-steps span {
 	color: var(--accent);
-	font: 11px var(--font-mono);
+	font: .6875rem var(--font-mono);
 }
 .process-steps h3 {
-	margin-top: 22px;
-	font-size: 23px;
+	margin-top: 1.375rem;
+	font-size: 1.4375rem;
 }
 
 .standards {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 100px;
+	gap: 6.25rem;
 }
 .standards > div p {
 	color: var(--muted);
 }
 .standards dl {
 	display: grid;
-	grid-template-columns: 120px 1fr;
+	grid-template-columns: 7.5rem 1fr;
 	align-items: stretch;
 }
 .standards dt,
 .standards dd {
-	padding: 16px;
+	padding: 1rem;
 	border-top: 1px solid var(--border);
 }
 .standards dt {
 	color: var(--accent);
-	font: 12px var(--font-mono);
+	font: .75rem var(--font-mono);
 }
 .standards dd {
 	color: var(--muted);
-	font-size: 14px;
+	font-size: .875rem;
 }
 
 .service-content {
-	padding-block: 0 100px;
+	padding-block: 0 6.25rem;
 }
 
 .quote-section {
-	padding-block: 100px;
+	padding-block: 6.25rem;
 	background: var(--surface);
 	border-block: 1px solid var(--border);
-	scroll-margin-top: 60px;
+	scroll-margin-top: 3.75rem;
 }
 .quote-grid {
 	display: grid;
 	grid-template-columns: 0.8fr 1.2fr;
-	gap: 100px;
+	gap: 6.25rem;
 }
 .quote-grid h2 {
-	font-size: 58px;
-	margin: 14px 0 20px;
+	font-size: 3.625rem;
+	margin: .875rem 0 1.25rem;
 }
 .quote-grid > div > p {
 	color: var(--muted);
 }
 .contact-note {
-	margin-top: 40px;
-	padding-top: 20px;
+	margin-top: 2.5rem;
+	padding-top: 1.25rem;
 	border-top: 1px solid var(--border);
 	display: flex;
 	flex-direction: column;
-	font-size: 13px;
+	font-size: .8125rem;
 }
 .contact-note a {
 	color: var(--accent);
-	font: 18px var(--font-mono);
+	font: 1.125rem var(--font-mono);
 }
 .contact-note a:hover {
 	text-decoration: underline;
@@ -188,35 +188,35 @@
 .quote-form {
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	gap: 1rem;
 }
 .quote-form label {
 	color: var(--muted);
-	font-size: 13px;
+	font-size: .8125rem;
 }
 .quote-form input,
 .quote-form textarea,
 .quote-form select {
-	margin-top: 6px;
+	margin-top: .375rem;
 	background: var(--bg);
 }
 .quote-form select {
-	height: calc(1.7em + 24px);
+	height: calc(1.7em + 1.5rem);
 }
 .quote-form > div {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 12px;
+	gap: .75rem;
 }
 .quote-form .btn {
 	align-self: flex-start;
 }
 .quote-form > small {
 	color: var(--muted);
-	font-size: 10px;
+	font-size: .625rem;
 }
 .quote-success {
-	min-height: 340px;
+	min-height: 21.25rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -228,19 +228,19 @@
 	color: var(--accent);
 }
 .quote-success h3 {
-	font-size: 36px;
-	margin: 15px 0 8px;
+	font-size: 2.25rem;
+	margin: .9375rem 0 .5rem;
 }
 .quote-success p {
 	color: var(--muted);
 }
 .form-error {
 	color: var(--error);
-	font-size: 14px;
+	font-size: .875rem;
 }
 .ep-hp {
 	position: absolute !important;
-	left: -9999px;
+	left: -624.9375rem;
 	width: 1px;
 	height: 1px;
 	opacity: 0;
@@ -248,7 +248,7 @@
 
 /* FAQ (Figma: faq) com <details>. */
 .service-faq {
-	padding-bottom: 120px;
+	padding-bottom: 7.5rem;
 }
 .faq {
 	border-top: 1px solid var(--border);
@@ -262,8 +262,8 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	gap: 16px;
-	padding: 18px 0;
+	gap: 1rem;
+	padding: 1.125rem 0;
 	font-weight: 600;
 }
 .faq summary::-webkit-details-marker {
@@ -278,24 +278,24 @@
 	color: var(--accent);
 }
 .faq > p {
-	padding: 0 40px 20px 0;
-	font-size: 15px;
+	padding: 0 2.5rem 1.25rem 0;
+	font-size: .9375rem;
 	color: var(--muted);
 }
 
 @media (max-width: 1099.98px) {
 	.service-hero-grid {
-		gap: 35px;
+		gap: 2.1875rem;
 	}
 	.quote-grid,
 	.standards {
-		gap: 50px;
+		gap: 3.125rem;
 	}
 }
 
 @media (max-width: 767.98px) {
 	.service-hero {
-		padding-block: 20px 55px;
+		padding-block: 1.25rem 3.4375rem;
 	}
 	.service-hero-grid,
 	.process,
@@ -304,43 +304,43 @@
 	.benefit-grid,
 	.process-steps,
 	.quote-form select {
-	height: calc(1.7em + 24px);
+	height: calc(1.7em + 1.5rem);
 }
 .quote-form > div {
 		grid-template-columns: 1fr;
 	}
 	.service-hero-grid {
-		padding-top: 35px;
+		padding-top: 2.1875rem;
 	}
 	.service-hero h1 {
-		font-size: 53px;
+		font-size: 3.3125rem;
 	}
 	.service-hero p {
-		font-size: 18px;
+		font-size: 1.125rem;
 	}
 	.service-image {
-		height: 330px;
+		height: 20.625rem;
 	}
 	.cert-row {
 		flex-direction: column;
-		gap: 6px;
+		gap: .375rem;
 	}
 	.process,
 	.standards,
 	.quote-grid {
-		gap: 42px;
+		gap: 2.625rem;
 	}
 	.quote-grid h2 {
-		font-size: 46px;
+		font-size: 2.875rem;
 	}
 	.quote-section {
-		padding-block: 70px;
+		padding-block: 4.375rem;
 	}
 }
 
 @media (max-width: 390px) {
 	.service-hero h1 {
-		font-size: 48px;
+		font-size: 3rem;
 	}
 	.hero-actions {
 		flex-direction: column;

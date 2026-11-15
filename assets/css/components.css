@@ -4,19 +4,19 @@
 
 /* ---------- Seções genéricas (também usadas em guia e serviço) ---------- */
 .section {
-	padding-block: 100px;
+	padding-block: 6.25rem;
 }
 .section h2,
 .narrow h2 {
-	font-size: clamp(38px, 4.2vw, 52px);
-	margin: 12px 0 22px;
+	font-size: clamp(2.375rem, 4.2vw, 3.25rem);
+	margin: .75rem 0 1.375rem;
 }
 .section-head {
 	display: flex;
 	align-items: end;
 	justify-content: space-between;
-	gap: 24px;
-	margin-bottom: 36px;
+	gap: 1.5rem;
+	margin-bottom: 2.25rem;
 }
 .section-head h2 {
 	margin-bottom: 0;
@@ -24,10 +24,10 @@
 .section-head > a {
 	flex: none;
 	color: var(--accent);
-	font-size: 14px;
+	font-size: .875rem;
 	display: flex;
 	align-items: center;
-	gap: 7px;
+	gap: .4375rem;
 }
 .section-head > a:hover {
 	text-decoration: underline;
@@ -41,22 +41,22 @@
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
-	gap: 7px;
+	gap: .4375rem;
 	color: var(--muted);
-	font-size: 13px;
+	font-size: .8125rem;
 	line-height: 1.4;
-	margin-bottom: 48px;
+	margin-bottom: 3rem;
 }
 .breadcrumb a:hover {
 	color: var(--text);
 }
 /* ---------- Newsletter (Figma: newsletter) ---------- */
 .newsletter {
-	margin-top: 72px;
-	padding: 38px;
+	margin-top: 4.5rem;
+	padding: 2.375rem;
 	display: grid;
-	grid-template-columns: 135px 1fr;
-	gap: 34px;
+	grid-template-columns: 8.4375rem 1fr;
+	gap: 2.125rem;
 	background: var(--surface);
 	border: 1px solid var(--border);
 	border-radius: var(--radius);
@@ -65,31 +65,31 @@
 	align-self: center;
 	background: var(--accent);
 	color: var(--accent-text);
-	min-height: 175px;
-	padding: 17px;
+	min-height: 10.9375rem;
+	padding: 1.0625rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	box-shadow: 10px 10px 0 var(--border);
 }
 .pdf-cover span {
-	font: 600 33px/0.85 var(--font-display);
+	font: 600 2.0625rem/0.85 var(--font-display);
 }
 .pdf-cover small {
-	font: 600 10px/1.4 var(--font-mono);
+	font: 600 .625rem/1.4 var(--font-mono);
 }
 .newsletter h2 {
-	font-size: 38px;
-	margin: 9px 0;
+	font-size: 2.375rem;
+	margin: .5625rem 0;
 }
 .newsletter p {
 	color: var(--muted);
-	font-size: 14px;
+	font-size: .875rem;
 }
 .newsletter form {
 	display: flex;
-	gap: 8px;
-	margin: 18px 0 8px;
+	gap: .5rem;
+	margin: 1.125rem 0 .5rem;
 }
 .newsletter form input {
 	min-width: 0;
@@ -99,23 +99,23 @@
 }
 .newsletter > div:last-child > small {
 	color: var(--muted);
-	font-size: 11px;
+	font-size: .6875rem;
 }
 .success {
 	color: var(--accent);
-	font-size: 14px;
+	font-size: .875rem;
 	display: flex;
-	gap: 8px;
+	gap: .5rem;
 	align-items: center;
-	margin: 18px 0;
+	margin: 1.125rem 0;
 }
 .form-error {
 	color: var(--error) !important;
-	margin-top: 12px;
+	margin-top: .75rem;
 }
 .ep-hp {
 	position: absolute !important;
-	left: -9999px;
+	left: -624.9375rem;
 	width: 1px;
 	height: 1px;
 	opacity: 0;
@@ -124,28 +124,28 @@
 
 @media (max-width: 767.98px) {
 	.section {
-		padding-block: 70px;
+		padding-block: 4.375rem;
 	}
 	.section h2,
 	.narrow h2 {
-		font-size: 39px;
+		font-size: 2.4375rem;
 	}
 	.section-head {
 		flex-wrap: wrap;
 	}
 	.breadcrumb {
-		margin-bottom: 32px;
+		margin-bottom: 2rem;
 		flex-wrap: nowrap;
 		white-space: nowrap;
 		overflow: hidden;
 	}
 	.newsletter {
-		padding: 24px;
+		padding: 1.5rem;
 		grid-template-columns: 1fr;
 	}
 	.pdf-cover {
-		width: 110px;
-		min-height: 145px;
+		width: 6.875rem;
+		min-height: 9.0625rem;
 		align-self: start;
 	}
 	.newsletter form {
