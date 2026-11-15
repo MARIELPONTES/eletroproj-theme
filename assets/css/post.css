@@ -578,16 +578,19 @@
 
 /* FAQ: blocos "Detalhes" e FAQ do Rank Math (Figma: faq). */
 .entry-content details,
-.rank-math-list-item {
+.rank-math-list-item,
+.rank-math-faq-item {
 	border-top: 1px solid var(--border);
 	margin: 0;
 }
 .entry-content > details + details,
-.rank-math-list-item + .rank-math-list-item {
+.rank-math-list-item + .rank-math-list-item,
+.rank-math-faq-item + .rank-math-faq-item {
 	margin-top: 0;
 }
 .entry-content details:last-of-type,
-.rank-math-list-item:last-child {
+.rank-math-list-item:last-child,
+.rank-math-faq-item:last-child {
 	border-bottom: 1px solid var(--border);
 }
 .entry-content summary {
@@ -623,14 +626,21 @@
 	padding: 0 40px 20px 0;
 	font-size: 15px;
 }
-.rank-math-question {
+.rank-math-list {
+	list-style: none !important;
+	padding: 0 !important;
+}
+.rank-math-list > li + li {
+	margin-top: 0;
+}
+.entry-content .rank-math-question {
 	padding: 18px 0 8px;
 	margin: 0 !important;
 	color: var(--text);
 	font: 600 18px/1.4 var(--font-body) !important;
 	letter-spacing: 0 !important;
 }
-.rank-math-answer {
+.entry-content .rank-math-answer {
 	padding: 0 40px 20px 0;
 	font-size: 15px;
 }
