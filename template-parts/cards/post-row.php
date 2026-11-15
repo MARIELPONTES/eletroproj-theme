@@ -1,0 +1,23 @@
+<?php
+/**
+ * Linha de post (Figma: post-list da home).
+ *
+ * @package Eletroproj
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+$ep_post = get_post( $args['post'] ?? null );
+if ( ! $ep_post ) {
+	return;
+}
+$ep_cat = ep_primary_category( $ep_post );
+?>
+<a class="post-row" href="<?php echo esc_url( get_permalink( $ep_post ) ); ?>">
+	<span><?php echo esc_html( $ep_cat ? $ep_cat->name : '' ); ?></span>
+	<div>
+		<h3><?php echo esc_html( get_the_title( $ep_post ) ); ?></h3>
+		<small><?php echo esc_html( sprintf( '%d min · %s', ep_reading_time( $ep_post ), ep_date( $ep_post ) ) ); ?></small>
+	</div>
+	<?php ep_icon( 'arrow-right', 24 ); ?>
+</a>

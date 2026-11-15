@@ -39,19 +39,6 @@
 	padding-top: 74px;
 	max-width: 950px;
 }
-.breadcrumb {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: 7px;
-	color: var(--muted);
-	font-size: 13px;
-	line-height: 1.4;
-	margin-bottom: 48px;
-}
-.breadcrumb a:hover {
-	color: var(--text);
-}
 .cat-label {
 	display: inline-block;
 	margin-bottom: 18px;
@@ -693,77 +680,6 @@
 	font-size: 14px;
 }
 
-/* ---------- Newsletter (Figma: newsletter) ---------- */
-.newsletter {
-	margin-top: 72px;
-	padding: 38px;
-	display: grid;
-	grid-template-columns: 135px 1fr;
-	gap: 34px;
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-}
-.pdf-cover {
-	align-self: center;
-	background: var(--accent);
-	color: var(--accent-text);
-	min-height: 175px;
-	padding: 17px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	box-shadow: 10px 10px 0 var(--border);
-}
-.pdf-cover span {
-	font: 600 33px/0.85 var(--font-display);
-}
-.pdf-cover small {
-	font: 600 10px/1.4 var(--font-mono);
-}
-.newsletter h2 {
-	font-size: 38px;
-	margin: 9px 0;
-}
-.newsletter p {
-	color: var(--muted);
-	font-size: 14px;
-}
-.newsletter form {
-	display: flex;
-	gap: 8px;
-	margin: 18px 0 8px;
-}
-.newsletter form input {
-	min-width: 0;
-}
-.newsletter form .btn {
-	flex: none;
-}
-.newsletter > div:last-child > small {
-	color: var(--muted);
-	font-size: 11px;
-}
-.success {
-	color: var(--accent);
-	font-size: 14px;
-	display: flex;
-	gap: 8px;
-	align-items: center;
-	margin: 18px 0;
-}
-.form-error {
-	color: var(--error) !important;
-	margin-top: 12px;
-}
-.ep-hp {
-	position: absolute !important;
-	left: -9999px;
-	width: 1px;
-	height: 1px;
-	opacity: 0;
-}
-
 /* ---------- Relacionados (Figma: related-grid + mini-card) ---------- */
 .related {
 	padding-top: 88px;
@@ -995,12 +911,6 @@
 	.article-hero {
 		padding-top: 38px;
 	}
-	.breadcrumb {
-		margin-bottom: 32px;
-		flex-wrap: nowrap;
-		white-space: nowrap;
-		overflow: hidden;
-	}
 	.article-hero h1 {
 		font-size: 45px;
 	}
@@ -1052,17 +962,6 @@
 	.comment-form {
 		grid-template-columns: 1fr;
 	}
-	.newsletter {
-		padding: 24px;
-		grid-template-columns: 1fr;
-	}
-	.pdf-cover {
-		width: 110px;
-		min-height: 145px;
-	}
-	.newsletter form {
-		flex-direction: column;
-	}
 	.article-layout {
 		padding-bottom: 80px;
 	}
@@ -1071,5 +970,15 @@
 @media (max-width: 390px) {
 	.article-hero h1 {
 		font-size: 41px;
+	}
+}
+
+/* Página comum: cabeçalho alinhado ao texto. */
+.page-hero {
+	max-width: 740px;
+}
+@media (max-width: 1099.98px) {
+	.article-layout.no-toc {
+		margin-inline: auto;
 	}
 }

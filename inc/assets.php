@@ -21,21 +21,16 @@ function ep_css_files(): array {
 	$files = array( 'base', 'header-footer' );
 
 	if ( is_singular( 'post' ) ) {
-		$files[] = 'post';
-	} elseif ( is_front_page() && ! is_home() ) {
-		$files[] = 'post';
-		$files[] = 'home';
+		$files = array_merge( $files, array( 'components', 'post' ) );
+	} elseif ( is_front_page() ) {
+		$files = array_merge( $files, array( 'components', 'home' ) );
 	} elseif ( is_page_template( 'page-templates/servico.php' ) ) {
-		$files[] = 'post';
-		$files[] = 'service';
+		$files = array_merge( $files, array( 'components', 'post', 'service' ) );
 	} elseif ( is_page() ) {
-		$files[] = 'post';
-	} elseif ( is_category() ) {
-		$files[] = 'guide';
+		$files = array_merge( $files, array( 'components', 'post' ) );
 	} else {
-		// Blog, busca, tags, autor, datas e 404.
-		$files[] = 'guide';
-		$files[] = 'archive';
+		// Categorias (guias), blog, busca, tags, autor, datas e 404.
+		$files = array_merge( $files, array( 'components', 'guide' ) );
 	}
 
 	/**

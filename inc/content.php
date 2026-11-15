@@ -233,3 +233,66 @@ function ep_comment( $comment, $args, $depth ): void {
 	<?php
 	// O </li> é fechado pelo walker.
 }
+
+/**
+ * Categorias dos 3 guias pilares (Personalizar; sem escolha: SPDA, NBR 5410, Automação pelo slug,
+ * completando com as categorias com mais posts).
+ *
+ * @return array<int,WP_Term|null> Índices 1 a 3.
+ */
+function ep_pillar_categories(): array {
+	$guess = array(
+		1 => array( 'spda' ),
+		2 => array( 'nbr-5410', 'nbr5410', 'instalacoes-eletricas' ),
+		3 => array( 'automacao', 'automacao-industrial' ),
+	);
+	$out  = array();
+	$used = array();
+	for ( $i = 1; $i <= 3; $i++ ) {
+		$term = null;
+		$id   = (int) ep_opt( "ep_pillar{$i}_cat" );
+		if ( $id ) {
+			$t    = get_term( $id, 'category' );
+			$term = $t instanceof WP_Term ? $t : null;
+		}
+		if ( ! $term ) {
+			foreach ( $guess[ $i ] as $slug ) {
+				$t = get_term_by( 'slug', $slug, 'category' );
+				if ( $t instanceof WP_Term ) {
+					$term = $t;
+					break;
+				}
+			}
+		}
+		$out[ $i ] = $term;
+		if ( $term ) {
+			$used[] = $term->term_id;
+		}
+	}
+	foreach ( $out as $i => $term ) {
+		if ( $term ) {
+			continue;
+		}
+		$more = get_categories(
+			array(
+				'orderby' => 'count',
+				'order'   => 'DESC',
+				'number'  => 1,
+				'exclude' => array_merge( $used, array( (int) get_option( 'default_category' ) ) ),
+			)
+		);
+		if ( $more ) {
+			$out[ $i ] = $more[0];
+			$used[]    = $more[0]->term_id;
+		}
+	}
+	return $out;
+}
+
+/**
+ * Página de calculadoras (slug "calculadoras"), se existir.
+ */
+function ep_calculators_url(): string {
+	$page = get_page_by_path( 'calculadoras' );
+	return $page ? (string) get_permalink( $page ) : home_url( '/' );
+}

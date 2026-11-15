@@ -1,0 +1,154 @@
+/* ==========================================================================
+   Componentes compartilhados: seções, breadcrumb e newsletter.
+   ========================================================================== */
+
+/* ---------- Seções genéricas (também usadas em guia e serviço) ---------- */
+.section {
+	padding-block: 100px;
+}
+.section h2,
+.narrow h2 {
+	font-size: clamp(38px, 4.2vw, 52px);
+	margin: 12px 0 22px;
+}
+.section-head {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 24px;
+	margin-bottom: 36px;
+}
+.section-head h2 {
+	margin-bottom: 0;
+}
+.section-head > a {
+	flex: none;
+	color: var(--accent);
+	font-size: 14px;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+.section-head > a:hover {
+	text-decoration: underline;
+}
+.alt-section {
+	background: var(--wash);
+	border-block: 1px solid var(--border);
+}
+
+.breadcrumb {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 7px;
+	color: var(--muted);
+	font-size: 13px;
+	line-height: 1.4;
+	margin-bottom: 48px;
+}
+.breadcrumb a:hover {
+	color: var(--text);
+}
+/* ---------- Newsletter (Figma: newsletter) ---------- */
+.newsletter {
+	margin-top: 72px;
+	padding: 38px;
+	display: grid;
+	grid-template-columns: 135px 1fr;
+	gap: 34px;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+.pdf-cover {
+	align-self: center;
+	background: var(--accent);
+	color: var(--accent-text);
+	min-height: 175px;
+	padding: 17px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	box-shadow: 10px 10px 0 var(--border);
+}
+.pdf-cover span {
+	font: 600 33px/0.85 var(--font-display);
+}
+.pdf-cover small {
+	font: 600 10px/1.4 var(--font-mono);
+}
+.newsletter h2 {
+	font-size: 38px;
+	margin: 9px 0;
+}
+.newsletter p {
+	color: var(--muted);
+	font-size: 14px;
+}
+.newsletter form {
+	display: flex;
+	gap: 8px;
+	margin: 18px 0 8px;
+}
+.newsletter form input {
+	min-width: 0;
+}
+.newsletter form .btn {
+	flex: none;
+}
+.newsletter > div:last-child > small {
+	color: var(--muted);
+	font-size: 11px;
+}
+.success {
+	color: var(--accent);
+	font-size: 14px;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin: 18px 0;
+}
+.form-error {
+	color: var(--error) !important;
+	margin-top: 12px;
+}
+.ep-hp {
+	position: absolute !important;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+}
+
+
+@media (max-width: 767.98px) {
+	.section {
+		padding-block: 70px;
+	}
+	.section h2,
+	.narrow h2 {
+		font-size: 39px;
+	}
+	.section-head {
+		flex-wrap: wrap;
+	}
+	.breadcrumb {
+		margin-bottom: 32px;
+		flex-wrap: nowrap;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.newsletter {
+		padding: 24px;
+		grid-template-columns: 1fr;
+	}
+	.pdf-cover {
+		width: 110px;
+		min-height: 145px;
+		align-self: start;
+	}
+	.newsletter form {
+		flex-direction: column;
+	}
+}
