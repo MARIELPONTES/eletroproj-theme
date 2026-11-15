@@ -627,6 +627,11 @@
 .entry-content > :is(div, section, form):has(input:not([type="hidden"]), select) {
 	font-size: clamp(15px, 0.3vw + 11.5px, 18px);
 }
+@media (min-width: 1100px) {
+	.article-layout:not(.no-toc) .entry-content > :is(div, section, form):has(input:not([type="hidden"]), select) {
+		margin-right: -8.5rem;
+	}
+}
 @media (min-width: 1600px) {
 	.article-layout:not(.no-toc) .entry-content > :is(div, section, form):has(input:not([type="hidden"]), select) {
 		margin-right: -10rem;
