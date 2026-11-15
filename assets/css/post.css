@@ -458,6 +458,33 @@
 	margin-top: 10px;
 }
 
+/* Bloco Matemática (WP 6.9+, MathML nativo): caixa "Fórmula" do Figma. */
+.entry-content math {
+	color: var(--text);
+	font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", math;
+}
+.entry-content > .wp-block-math {
+	padding: 30px;
+	margin-block: 30px;
+	text-align: center;
+	overflow-x: auto;
+	border: 1px solid var(--border);
+	background: var(--surface);
+}
+.entry-content > .wp-block-math + * {
+	margin-top: 0;
+}
+.entry-content .wp-block-math math {
+	font-size: 28px;
+}
+.entry-content .is-style-formula .wp-block-math {
+	overflow-x: auto;
+}
+.entry-content .is-style-formula > .wp-block-math + p {
+	font-size: 12px;
+	margin-top: 10px;
+}
+
 /* Etapas (Figma: steps). */
 .entry-content ol.is-style-steps {
 	list-style: none;
