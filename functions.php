@@ -21,3 +21,4 @@ require_once EP_DIR . '/inc/content.php';
 require_once EP_DIR . '/inc/newsletter.php';
 require_once EP_DIR . '/inc/editor.php';
 require_once EP_DIR . '/inc/meta.php';
+require_once EP_DIR . '/inc/forms.php';

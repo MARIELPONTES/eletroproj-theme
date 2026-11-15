@@ -25,7 +25,10 @@ function ep_css_files(): array {
 	} elseif ( is_front_page() ) {
 		$files = array_merge( $files, array( 'components', 'home' ) );
 	} elseif ( is_page_template( 'page-templates/servico.php' ) ) {
-		$files = array_merge( $files, array( 'components', 'post', 'service' ) );
+		$files = array_merge( $files, array( 'components', 'service' ) );
+		if ( '' !== trim( (string) get_post_field( 'post_content', get_queried_object_id() ) ) ) {
+			$files[] = 'post';
+		}
 	} elseif ( is_page() ) {
 		$files = array_merge( $files, array( 'components', 'post' ) );
 	} else {
@@ -39,6 +42,19 @@ function ep_css_files(): array {
 	 * @param string[] $files Nomes sem extensão.
 	 */
 	return array_values( array_unique( apply_filters( 'ep_css_files', $files ) ) );
+}
+
+/**
+ * CSS não crítico (abaixo da dobra), carregado sem bloquear.
+ *
+ * @return string[]
+ */
+function ep_css_deferred_files(): array {
+	$files = array();
+	if ( is_singular() && ( is_singular( 'post' ) || comments_open() || get_comments_number() ) ) {
+		$files[] = 'post-extra';
+	}
+	return $files;
 }
 
 /**
@@ -99,6 +115,18 @@ function ep_head_assets(): void {
 		'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
 		esc_url( EP_URI . '/assets/fonts/barlow-condensed-600.woff2' )
 	);
+
+	// CSS do fim da página (autor, relacionados, comentários): baixa sem bloquear a renderização.
+	foreach ( ep_css_deferred_files() as $name ) {
+		$path = EP_DIR . '/assets/css/' . $name . '.css';
+		if ( is_readable( $path ) ) {
+			$href = add_query_arg( 'ver', filemtime( $path ), EP_URI . '/assets/css/' . $name . '.css' );
+			printf(
+				'<link rel="preload" as="style" href="%1$s" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="%1$s"></noscript>' . "\n",
+				esc_url( $href )
+			);
+		}
+	}
 
 	// O CSS é do próprio tema (arquivos estáticos do repositório), não entrada de usuário.
 	echo '<style id="ep-css">' . ep_inline_css() . "</style>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

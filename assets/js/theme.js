@@ -75,24 +75,25 @@
 		const links = [...toc.querySelectorAll('a')];
 		const byId = new Map(links.map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
 		const heads = [...byId.keys()].map((id) => document.getElementById(id)).filter(Boolean);
-		let current = null;
-		const update = () => {
-			let id = heads.length ? heads[0].id : null;
-			for (const h of heads) {
-				if (h.getBoundingClientRect().top < 180) {
-					id = h.id;
-				} else {
-					break;
-				}
-			}
-			if (id !== current) {
-				current = id;
-				links.forEach((a) => a.classList.toggle('active', a === byId.get(id)));
-			}
-		};
-		const io = new IntersectionObserver(update, { rootMargin: '-170px 0px -45% 0px' });
+		const setActive = (id) => links.forEach((a) => a.classList.toggle('active', a === byId.get(id)));
+		/* Sem leituras de layout: usa só os dados que o observer entrega (evita "forced reflow"). */
+		const io = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((e) => {
+					const i = heads.indexOf(e.target);
+					if (e.isIntersecting) {
+						setActive(e.target.id);
+					} else if (e.boundingClientRect.top > e.rootBounds.top && i > 0) {
+						setActive(heads[i - 1].id); // título saiu por baixo: volta ao anterior
+					}
+				});
+			},
+			{ rootMargin: '-170px 0px -55% 0px' }
+		);
 		heads.forEach((h) => io.observe(h));
-		update();
+		if (heads[0]) {
+			setActive(heads[0].id);
+		}
 	}
 
 	/* Sumário do mobile fecha ao escolher um item. */
