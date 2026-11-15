@@ -479,6 +479,16 @@
 .entry-content .wp-block-math math {
 	font-size: 28px;
 }
+.entry-content .is-style-formula math {
+	display: block;
+	display: block math;
+	math-style: normal;
+	text-align: center;
+}
+.entry-content ol.is-style-steps math {
+	math-style: normal;
+	font-size: 1.1em;
+}
 .entry-content .is-style-formula .wp-block-math {
 	overflow-x: auto;
 }
@@ -572,6 +582,46 @@
 	text-decoration: none;
 }
 
+/* Colunas (o CSS de blocos do WP é removido; layout mínimo aqui). */
+.entry-content .wp-block-columns {
+	display: flex;
+	gap: 32px;
+	align-items: center;
+}
+.entry-content .wp-block-column {
+	flex: 1 1 0;
+	min-width: 0;
+}
+.entry-content .wp-block-column > * + * {
+	margin-top: 16px;
+}
+.entry-content .wp-block-column table {
+	min-width: 0;
+}
+/* Rótulo (eyebrow) antes de um título dentro do texto. */
+.entry-content > .eyebrow {
+	margin-top: 48px;
+}
+.entry-content > .eyebrow + h2,
+.entry-content > .eyebrow + h3 {
+	margin-top: 8px;
+}
+@media (max-width: 767.98px) {
+	.entry-content .wp-block-columns {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}
+
+/* Marcações antigas (<mark> com cores do tema anterior) herdam a cor do texto. */
+.entry-content mark {
+	background-color: transparent;
+	color: inherit;
+}
+.entry-content .is-style-stripes tbody tr:nth-child(odd) {
+	background: color-mix(in srgb, var(--surface) 60%, transparent);
+}
+
 /* Botões do editor = botão primário do Figma. */
 .entry-content .wp-block-buttons {
 	display: flex;
@@ -604,75 +654,6 @@
 }
 
 /* Figura (Figma: figure). */
-
-/* FAQ: blocos "Detalhes" e FAQ do Rank Math (Figma: faq). */
-.entry-content details,
-.rank-math-list-item,
-.rank-math-faq-item {
-	border-top: 1px solid var(--border);
-	margin: 0;
-}
-.entry-content > details + details,
-.rank-math-list-item + .rank-math-list-item,
-.rank-math-faq-item + .rank-math-faq-item {
-	margin-top: 0;
-}
-.entry-content details:last-of-type,
-.rank-math-list-item:last-child,
-.rank-math-faq-item:last-child {
-	border-bottom: 1px solid var(--border);
-}
-.entry-content summary {
-	list-style: none;
-	cursor: pointer;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 16px;
-	padding: 18px 0;
-	color: var(--text);
-	font-weight: 600;
-}
-.entry-content summary::-webkit-details-marker {
-	display: none;
-}
-.entry-content summary::after {
-	content: "";
-	flex: none;
-	width: 19px;
-	height: 19px;
-	background: currentColor;
-	--m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-	-webkit-mask: var(--m) center / contain no-repeat;
-	mask: var(--m) center / contain no-repeat;
-	transition: transform 0.2s;
-}
-.entry-content details[open] > summary::after {
-	transform: rotate(180deg);
-	background: var(--accent);
-}
-.entry-content details > :not(summary) {
-	padding: 0 40px 20px 0;
-	font-size: 15px;
-}
-.rank-math-list {
-	list-style: none !important;
-	padding: 0 !important;
-}
-.rank-math-list > li + li {
-	margin-top: 0;
-}
-.entry-content .rank-math-question {
-	padding: 18px 0 8px;
-	margin: 0 !important;
-	color: var(--text);
-	font: 600 18px/1.4 var(--font-body) !important;
-	letter-spacing: 0 !important;
-}
-.entry-content .rank-math-answer {
-	padding: 0 40px 20px 0;
-	font-size: 15px;
-}
 
 /* ---------- 768–1099px: sem coluna do sumário (recolhível) ---------- */
 @media (max-width: 1099.98px) {

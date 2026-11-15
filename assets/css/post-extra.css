@@ -2,6 +2,75 @@
    Fim do post (carregado sem bloquear a página): autor, relacionados, comentários.
    ========================================================================== */
 
+/* FAQ: blocos "Detalhes" e FAQ do Rank Math (Figma: faq). */
+.entry-content > details,
+.rank-math-list-item,
+.rank-math-faq-item {
+	border-top: 1px solid var(--border);
+	margin: 0;
+}
+.entry-content > details + details,
+.rank-math-list-item + .rank-math-list-item,
+.rank-math-faq-item + .rank-math-faq-item {
+	margin-top: 0;
+}
+.entry-content > details:last-of-type,
+.rank-math-list-item:last-child,
+.rank-math-faq-item:last-child {
+	border-bottom: 1px solid var(--border);
+}
+.entry-content > details > summary {
+	list-style: none;
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	padding: 18px 0;
+	color: var(--text);
+	font-weight: 600;
+}
+.entry-content > details > summary::-webkit-details-marker {
+	display: none;
+}
+.entry-content > details > summary::after {
+	content: "";
+	flex: none;
+	width: 19px;
+	height: 19px;
+	background: currentColor;
+	--m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+	-webkit-mask: var(--m) center / contain no-repeat;
+	mask: var(--m) center / contain no-repeat;
+	transition: transform 0.2s;
+}
+.entry-content > details[open] > summary::after {
+	transform: rotate(180deg);
+	background: var(--accent);
+}
+.entry-content > details > :not(summary) {
+	padding: 0 40px 20px 0;
+	font-size: 15px;
+}
+.rank-math-list {
+	list-style: none !important;
+	padding: 0 !important;
+}
+.rank-math-list > li + li {
+	margin-top: 0;
+}
+.entry-content .rank-math-question {
+	padding: 18px 0 8px;
+	margin: 0 !important;
+	color: var(--text);
+	font: 600 18px/1.4 var(--font-body) !important;
+	letter-spacing: 0 !important;
+}
+.entry-content .rank-math-answer {
+	padding: 0 40px 20px 0;
+	font-size: 15px;
+}
+
 /* ---------- Sobre o autor ---------- */
 .author-box {
 	display: flex;
