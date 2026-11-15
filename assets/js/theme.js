@@ -75,16 +75,39 @@
 		const links = [...toc.querySelectorAll('a')];
 		const byId = new Map(links.map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
 		const heads = [...byId.keys()].map((id) => document.getElementById(id)).filter(Boolean);
-		const setActive = (id) => links.forEach((a) => a.classList.toggle('active', a === byId.get(id)));
+		const box = toc.closest('.toc');
+		const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		let current = null;
+		const seen = new Set();
+		const setActive = (id) => {
+			if (id === current) {
+				return;
+			}
+			current = id;
+			const link = byId.get(id);
+			links.forEach((a) => a.classList.toggle('active', a === link));
+			/* Rola só o sumário (não a página) para manter o item ativo no meio dele. */
+			if (link && box && box.scrollHeight > box.clientHeight) {
+				box.scrollTo({
+					top: link.offsetTop - box.clientHeight / 2 + link.offsetHeight / 2,
+					behavior: smooth ? 'smooth' : 'auto',
+				});
+			}
+		};
 		/* Sem leituras de layout: usa só os dados que o observer entrega (evita "forced reflow"). */
 		const io = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((e) => {
 					const i = heads.indexOf(e.target);
+					const was = seen.has(e.target);
 					if (e.isIntersecting) {
+						seen.add(e.target);
 						setActive(e.target.id);
-					} else if (e.boundingClientRect.top > e.rootBounds.top && i > 0) {
-						setActive(heads[i - 1].id); // título saiu por baixo: volta ao anterior
+					} else if (was) {
+						seen.delete(e.target);
+						if (e.boundingClientRect.top > e.rootBounds.top && i > 0) {
+							setActive(heads[i - 1].id); // título saiu por baixo (rolando para cima): volta ao anterior
+						}
 					}
 				});
 			},

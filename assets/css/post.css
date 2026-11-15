@@ -121,7 +121,9 @@
 	top: 110px;
 	max-height: calc(100vh - 130px);
 	overflow-y: auto;
+	overscroll-behavior: contain;
 	scrollbar-width: thin;
+	scrollbar-color: var(--border) transparent;
 }
 .toc nav {
 	margin-top: 17px;
