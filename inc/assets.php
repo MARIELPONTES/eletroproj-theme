@@ -108,13 +108,15 @@ function ep_inline_css(): string {
  * <head>: script de tema, preload da fonte e CSS inline — nesta ordem, antes de qualquer outra coisa.
  */
 function ep_head_assets(): void {
-	// Aplica o tema salvo antes da pintura. Padrão (Figma): escuro, já definido no <html>.
-	echo "<script>try{var t=localStorage.getItem('ep-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>\n";
+	// Aplica o tema salvo (ou o do sistema, se configurado) antes da pintura. Script fixo do tema.
+	echo ep_theme_script(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
-	printf(
-		'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
-		esc_url( EP_URI . '/assets/fonts/barlow-condensed-600.woff2' )
-	);
+	if ( ep_uses_display_font() ) {
+		printf(
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+			esc_url( EP_URI . '/assets/fonts/barlow-condensed-600.woff2' )
+		);
+	}
 
 	// CSS do fim da página (autor, relacionados, comentários): baixa sem bloquear a renderização.
 	foreach ( ep_css_deferred_files() as $name ) {

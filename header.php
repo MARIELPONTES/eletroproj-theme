@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 ?><!doctype html>
-<html <?php language_attributes(); ?> data-theme="dark">
+<html <?php language_attributes(); ?> data-theme="<?php echo esc_attr( ep_html_theme() ); ?>">
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">

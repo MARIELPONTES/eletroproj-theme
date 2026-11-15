@@ -17,6 +17,7 @@ require_once EP_DIR . '/inc/assets.php';
 require_once EP_DIR . '/inc/icons.php';
 require_once EP_DIR . '/inc/logo.php';
 require_once EP_DIR . '/inc/customizer.php';
+require_once EP_DIR . '/inc/appearance.php';
 require_once EP_DIR . '/inc/content.php';
 require_once EP_DIR . '/inc/newsletter.php';
 require_once EP_DIR . '/inc/editor.php';
