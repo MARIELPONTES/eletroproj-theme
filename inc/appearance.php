@@ -127,12 +127,16 @@ function ep_style_selects(): array {
 		),
 		'ep_st_body_font'     => array(
 			'Fonte do texto',
-			'sans',
+			'inter',
 			array(
-				'sans'  => 'Sem serifa do sistema (padrão: Segoe UI, Roboto, San Francisco)',
-				'serif' => 'Com serifa do sistema (Georgia, Noto Serif, Times)',
+				'inter'                      => 'Inter (padrão — nítida em telas, ótima para números)',
+				'source-sans-3'              => 'Source Sans 3 (elegante, um pouco mais estreita)',
+				'ibm-plex-sans'              => 'IBM Plex Sans (visual técnico, de engenharia)',
+				'atkinson-hyperlegible-next' => 'Atkinson Hyperlegible Next (máxima legibilidade)',
+				'sans'                       => 'Sem serifa do sistema (Segoe UI, Roboto, San Francisco)',
+				'serif'                      => 'Com serifa do sistema (Georgia, Noto Serif, Times)',
 			),
-			'Fontes do próprio aparelho do visitante: não pesam no carregamento.',
+			'As quatro primeiras são do próprio site (≈ 20–28 KB, um arquivo só, sem Google Fonts). As do sistema não baixam nada, mas mudam conforme o aparelho.',
 		),
 		'ep_st_text_size'     => array(
 			'Tamanho do texto dos artigos (em telas de 1920 px; as menores acompanham)',
@@ -160,6 +164,72 @@ function ep_style_selects(): array {
 		),
 	);
 }
+
+/**
+ * Fontes do texto hospedadas no tema: slug => array( nome, métricas Arial, métricas Roboto ).
+ * Métricas (size-adjust, ascent, descent em %) para a fonte de reserva ocupar o mesmo espaço (CLS 0).
+ * Arquivos: assets/fonts/<slug>.woff2 — variável 400–700, latin, licença OFL.
+ *
+ * @return array<string,array{0:string,1:array{0:float,1:float,2:float},2:array{0:float,1:float,2:float}}>
+ */
+function ep_body_webfonts(): array {
+	return array(
+		'inter' => array( 'Inter', array( 106.55, 90.92, 22.64 ), array( 106.82, 90.69, 22.58 ) ),
+		'source-sans-3' => array( 'Source Sans 3', array( 93.24, 109.82, 42.9 ), array( 93.49, 109.53, 42.79 ) ),
+		'ibm-plex-sans' => array( 'IBM Plex Sans', array( 100.19, 102.31, 27.45 ), array( 100.45, 102.04, 27.38 ) ),
+		'atkinson-hyperlegible-next' => array( 'Atkinson Hyperlegible Next', array( 98.87, 99.53, 31.96 ), array( 99.13, 99.27, 31.88 ) ),
+	);
+}
+
+/**
+ * Slug da fonte do texto hospedada no tema ('' quando é fonte do sistema).
+ */
+function ep_body_webfont(): string {
+	$slug = ep_style( 'ep_st_body_font' );
+	return isset( ep_body_webfonts()[ $slug ] ) ? $slug : '';
+}
+
+/**
+ * @font-face da fonte do texto e das reservas com métricas ajustadas.
+ */
+function ep_body_font_css(): string {
+	$slug = ep_body_webfont();
+	if ( '' === $slug ) {
+		return '';
+	}
+	list( $name, $arial, $roboto ) = ep_body_webfonts()[ $slug ];
+	$url = esc_url_raw( EP_URI . '/assets/fonts/' . $slug . '.woff2' );
+	$css = sprintf(
+		'@font-face{font-family:"%1$s";src:url(%2$s) format("woff2");font-weight:400 700;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2013-2014,U+2018-201E,U+2022,U+2026,U+2032-2033,U+2039-203A,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}',
+		$name,
+		$url
+	);
+	foreach ( array( 'EP Body Fallback' => array( $arial, 'local("Arial"),local("ArialMT"),local("Liberation Sans")' ), 'EP Body Fallback Roboto' => array( $roboto, 'local("Roboto"),local("Roboto-Regular")' ) ) as $family => list( $m, $src ) ) {
+		$css .= sprintf(
+			'@font-face{font-family:"%1$s";src:%2$s;size-adjust:%3$s%%;ascent-override:%4$s%%;descent-override:%5$s%%;line-gap-override:0%%}',
+			$family,
+			$src,
+			$m[0],
+			$m[1],
+			$m[2]
+		);
+	}
+	return $css;
+}
+
+/**
+ * Preload da fonte do texto (quando é do tema), logo no início do <head>.
+ */
+function ep_preload_body_font(): void {
+	$slug = ep_body_webfont();
+	if ( '' !== $slug ) {
+		printf(
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+			esc_url( EP_URI . '/assets/fonts/' . $slug . '.woff2' )
+		);
+	}
+}
+add_action( 'wp_head', 'ep_preload_body_font', 0 );
 
 /**
  * Valor de uma opção de aparência, sempre válido.
@@ -231,11 +301,14 @@ function ep_style_css( string $scope = '.entry-content' ): string {
 	if ( 'system' === ep_style( 'ep_st_heading_font' ) ) {
 		$root .= '--font-display:var(--font-body);';
 	}
-	if ( 'serif' === ep_style( 'ep_st_body_font' ) ) {
+	$body_font = ep_style( 'ep_st_body_font' );
+	if ( 'serif' === $body_font ) {
 		$root .= '--font-body:Georgia,"Noto Serif","Times New Roman",Times,serif;';
+	} elseif ( '' !== ep_body_webfont() ) {
+		$root .= '--font-body:"' . ep_body_webfonts()[ $body_font ][0] . '","EP Body Fallback","EP Body Fallback Roboto",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;';
 	}
 
-	$css = '';
+	$css = ep_body_font_css();
 	if ( '' !== $root ) {
 		$css .= ':root{' . $root . '}';
 	}
