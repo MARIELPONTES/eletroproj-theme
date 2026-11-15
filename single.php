@@ -31,17 +31,7 @@ while ( have_posts() ) :
 			<?php if ( has_excerpt() ) : ?>
 				<p class="article-deck"><?php echo esc_html( get_the_excerpt() ); ?></p>
 			<?php endif; ?>
-			<div class="byline">
-				<div class="ep-avatar" aria-hidden="true"><?php echo esc_html( ep_initials( $ep_author ) ); ?></div>
-				<div class="byline-who">
-					<strong><?php echo esc_html( $ep_author ); ?></strong>
-					<span><?php echo esc_html( (string) ep_opt( 'ep_rt_role' ) ); ?></span>
-				</div>
-				<div class="meta">
-					<span><?php esc_html_e( 'Atualizado em', 'eletroproj' ); ?> <time datetime="<?php echo esc_attr( get_the_modified_date( 'c' ) ); ?>"><?php echo esc_html( ep_date( null, true ) ); ?></time></span>
-					<span><?php ep_icon( 'clock-3', 15 ); ?> <?php echo esc_html( sprintf( /* translators: %d: minutos */ __( '%d min de leitura', 'eletroproj' ), ep_reading_time() ) ); ?></span>
-				</div>
-			</div>
+			<hr class="hero-rule">
 		</header>
 
 		<?php if ( $ep_toc ) : ?>

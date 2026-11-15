@@ -19,5 +19,6 @@ if ( '' === $ep_bio ) {
 		<span class="eyebrow"><?php esc_html_e( 'Sobre o autor', 'eletroproj' ); ?></span>
 		<h2 class="h3"><?php echo esc_html( $ep_name ); ?></h2>
 		<p><?php echo esc_html( $ep_bio ? $ep_bio : (string) ep_opt( 'ep_rt_role' ) ); ?></p>
+		<p class="author-updated"><?php esc_html_e( 'Artigo atualizado em', 'eletroproj' ); ?> <time datetime="<?php echo esc_attr( get_the_modified_date( 'c' ) ); ?>"><?php echo esc_html( ep_date( null, true ) ); ?></time></p>
 	</div>
 </section>

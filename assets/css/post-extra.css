@@ -86,6 +86,10 @@
 	color: var(--muted);
 	font-size: .875rem;
 }
+.author-box .author-updated {
+	margin-top: .375rem;
+	font-size: .75rem;
+}
 
 /* ---------- Relacionados (Figma: related-grid + mini-card) ---------- */
 .related {

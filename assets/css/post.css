@@ -37,7 +37,6 @@
 /* ---------- Cabeçalho do artigo ---------- */
 .article-hero {
 	padding-top: 2.25rem;
-	max-width: 59.375rem;
 }
 .cat-label {
 	display: inline-block;
@@ -47,7 +46,7 @@
 	margin-bottom: 1.75rem;
 }
 .article-hero h1 {
-	max-width: 58.75rem;
+	max-width: 66.375rem; /* sumário + espaço + texto */
 	font-size: calc(clamp(3rem, 5.6vw, 4.75rem) * var(--h1s, 1));
 }
 .article-deck {
@@ -57,14 +56,11 @@
 	line-height: 1.5;
 	margin-top: 1.5rem;
 }
-.byline {
-	margin-top: 2rem;
+.hero-rule {
+	max-width: 66.375rem;
+	margin: 2rem 0 0;
+	border: 0;
 	border-top: 1px solid var(--border);
-	border-bottom: 1px solid var(--border);
-	padding: 1.25rem 0;
-	display: flex;
-	align-items: center;
-	gap: .875rem;
 }
 .ep-avatar {
 	width: 2.625rem;
@@ -81,29 +77,6 @@
 .ep-avatar.large {
 	width: 4rem;
 	height: 4rem;
-}
-.byline-who {
-	display: flex;
-	flex-direction: column;
-	line-height: 1.3;
-}
-.byline strong {
-	font-size: .875rem;
-}
-.byline-who span,
-.meta {
-	color: var(--muted);
-	font-size: .75rem;
-}
-.meta {
-	margin-left: auto;
-	display: flex;
-	gap: 1.5rem;
-}
-.meta span {
-	display: flex;
-	align-items: center;
-	gap: .375rem;
 }
 
 /* ---------- Layout: sumário + texto ---------- */
@@ -125,8 +98,10 @@
 	max-height: calc(100vh - 130px);
 	overflow-y: auto;
 	overscroll-behavior: contain;
-	scrollbar-width: thin;
-	scrollbar-color: var(--border) transparent;
+	scrollbar-width: none; /* sem barra visível: o sumário rola sozinho até o H2 atual */
+}
+.toc::-webkit-scrollbar {
+	display: none;
 }
 .toc nav {
 	margin-top: 1.0625rem;
@@ -225,6 +200,9 @@
 }
 .entry-content > h2 {
 	margin-top: 5.5rem;
+}
+.entry-content > :first-child {
+	margin-top: 0;
 }
 .article-body h3,
 .article-body .h3 {
@@ -682,6 +660,9 @@
 
 /* ---------- 768–1099px: sem coluna do sumário (recolhível) ---------- */
 @media (max-width: 1099.98px) {
+	.article-hero {
+		max-width: 59.375rem;
+	}
 	.article-layout {
 		display: block;
 		max-width: 46.25rem;
@@ -756,16 +737,6 @@
 	}
 	.article-deck {
 		font-size: 1.125rem;
-	}
-	.byline {
-		align-items: flex-start;
-		flex-wrap: wrap;
-	}
-	.byline .meta {
-		width: 100%;
-		margin-left: 3.5rem;
-		flex-direction: column;
-		gap: 3px;
 	}
 	.entry-content > p:first-child {
 		font-size: 1.25rem;
