@@ -20,6 +20,24 @@ defined( 'ABSPATH' ) || exit;
 function ep_css_files(): array {
 	$files = array( 'base', 'header-footer' );
 
+	if ( is_singular( 'post' ) ) {
+		$files[] = 'post';
+	} elseif ( is_front_page() && ! is_home() ) {
+		$files[] = 'post';
+		$files[] = 'home';
+	} elseif ( is_page_template( 'page-templates/servico.php' ) ) {
+		$files[] = 'post';
+		$files[] = 'service';
+	} elseif ( is_page() ) {
+		$files[] = 'post';
+	} elseif ( is_category() ) {
+		$files[] = 'guide';
+	} else {
+		// Blog, busca, tags, autor, datas e 404.
+		$files[] = 'guide';
+		$files[] = 'archive';
+	}
+
 	/**
 	 * Permite que cada etapa/template acrescente seus arquivos (post, home, guide...).
 	 *
@@ -109,6 +127,17 @@ function ep_enqueue_scripts(): void {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'ep_enqueue_scripts' );
+
+/**
+ * Script de resposta a comentários só onde ele é usado.
+ */
+function ep_enqueue_comment_reply(): void {
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+		wp_script_add_data( 'comment-reply', 'strategy', 'defer' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'ep_enqueue_comment_reply' );
 
 /**
  * Limpa o cache de CSS ao trocar/atualizar o tema.

@@ -68,4 +68,51 @@
 			menuBtn.focus();
 		}
 	});
+
+	/* ---------- Sumário: item ativo conforme a rolagem ---------- */
+	const toc = $('[data-toc]');
+	if (toc && 'IntersectionObserver' in window) {
+		const links = [...toc.querySelectorAll('a')];
+		const byId = new Map(links.map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
+		const heads = [...byId.keys()].map((id) => document.getElementById(id)).filter(Boolean);
+		let current = null;
+		const update = () => {
+			let id = heads.length ? heads[0].id : null;
+			for (const h of heads) {
+				if (h.getBoundingClientRect().top < 180) {
+					id = h.id;
+				} else {
+					break;
+				}
+			}
+			if (id !== current) {
+				current = id;
+				links.forEach((a) => a.classList.toggle('active', a === byId.get(id)));
+			}
+		};
+		const io = new IntersectionObserver(update, { rootMargin: '-170px 0px -45% 0px' });
+		heads.forEach((h) => io.observe(h));
+		update();
+	}
+
+	/* Sumário do mobile fecha ao escolher um item. */
+	document.querySelectorAll('.mobile-toc a').forEach((a) => {
+		a.addEventListener('click', () => a.closest('details').removeAttribute('open'));
+	});
+
+	/* ---------- Guia: filtro por nível ---------- */
+	const filter = $('[data-level-filter]');
+	if (filter) {
+		filter.addEventListener('click', (event) => {
+			const btn = event.target.closest('button[data-level]');
+			if (!btn) {
+				return;
+			}
+			const level = btn.dataset.level;
+			filter.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+			document.querySelectorAll('[data-chapter]').forEach((row) => {
+				row.hidden = level !== 'todos' && row.dataset.chapter !== level;
+			});
+		});
+	}
 })();
