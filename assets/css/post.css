@@ -45,7 +45,7 @@
 }
 .article-hero h1 {
 	max-width: 58.75rem;
-	font-size: clamp(3rem, 5.6vw, 4.75rem);
+	font-size: calc(clamp(3rem, 5.6vw, 4.75rem) * var(--h1s, 1));
 }
 .article-deck {
 	color: var(--muted);
@@ -216,7 +216,7 @@
 	scroll-margin-top: 5.625rem;
 }
 .article-body h2 {
-	font-size: clamp(2.375rem, 4.2vw, 3.25rem);
+	font-size: calc(clamp(2.375rem, 4.2vw, 3.25rem) * var(--h2s, 1));
 	margin: .75rem 0 1.375rem;
 }
 .entry-content > h2 {
@@ -224,7 +224,7 @@
 }
 .article-body h3,
 .article-body .h3 {
-	font-size: 1.5rem;
+	font-size: calc(1.5rem * var(--h3s, 1));
 }
 .entry-content > h3 {
 	margin-top: 2.5rem;
@@ -572,7 +572,7 @@
 }
 .whatsapp-cta h3 {
 	margin: .5rem 0;
-	font-size: 1.875rem;
+	font-size: calc(1.875rem * var(--h3s, 1));
 	color: var(--text);
 }
 .whatsapp-cta p {
@@ -748,7 +748,7 @@
 		padding-top: 2.375rem;
 	}
 	.article-hero h1 {
-		font-size: 2.8125rem;
+		font-size: calc(2.8125rem * var(--h1s, 1));
 	}
 	.article-deck {
 		font-size: 1.125rem;
@@ -771,7 +771,7 @@
 		margin-top: 4.125rem;
 	}
 	.article-body h2 {
-		font-size: 2.4375rem;
+		font-size: calc(2.4375rem * var(--h2s, 1));
 	}
 	.entry-content blockquote {
 		padding: 1.25rem;
@@ -790,7 +790,7 @@
 
 @media (max-width: 390px) {
 	.article-hero h1 {
-		font-size: 2.5625rem;
+		font-size: calc(2.5625rem * var(--h1s, 1));
 	}
 }
 

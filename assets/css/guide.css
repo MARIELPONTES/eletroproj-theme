@@ -19,7 +19,7 @@
 	margin-bottom: 3.75rem;
 }
 .guide-hero h1 {
-	font-size: clamp(3.625rem, 6.4vw, 5.375rem);
+	font-size: calc(clamp(3.625rem, 6.4vw, 5.375rem) * var(--h1s, 1));
 	margin: .875rem 0 1.5rem;
 }
 .guide-hero p {
@@ -166,7 +166,7 @@
 	text-transform: uppercase;
 }
 .chapter-list h3 {
-	font-size: 1.75rem;
+	font-size: calc(1.75rem * var(--h3s, 1));
 	margin: .25rem 0;
 }
 .chapter-list p {
@@ -233,7 +233,7 @@
 		margin-bottom: 2.625rem;
 	}
 	.guide-hero h1 {
-		font-size: 3.3125rem;
+		font-size: calc(3.3125rem * var(--h1s, 1));
 	}
 	.guide-hero p {
 		font-size: 1.125rem;
@@ -262,6 +262,6 @@
 
 @media (max-width: 390px) {
 	.guide-hero h1 {
-		font-size: 3rem;
+		font-size: calc(3rem * var(--h1s, 1));
 	}
 }

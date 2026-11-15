@@ -8,7 +8,7 @@
 }
 .section h2,
 .narrow h2 {
-	font-size: clamp(2.375rem, 4.2vw, 3.25rem);
+	font-size: calc(clamp(2.375rem, 4.2vw, 3.25rem) * var(--h2s, 1));
 	margin: .75rem 0 1.375rem;
 }
 .section-head {
@@ -79,7 +79,7 @@
 	font: 600 .625rem/1.4 var(--font-mono);
 }
 .newsletter h2 {
-	font-size: 2.375rem;
+	font-size: calc(2.375rem * var(--h2s, 1));
 	margin: .5625rem 0;
 }
 .newsletter p {
@@ -128,7 +128,7 @@
 	}
 	.section h2,
 	.narrow h2 {
-		font-size: 2.4375rem;
+		font-size: calc(2.4375rem * var(--h2s, 1));
 	}
 	.section-head {
 		flex-wrap: wrap;

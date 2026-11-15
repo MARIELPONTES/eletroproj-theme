@@ -64,6 +64,67 @@ function ep_style_selects(): array {
 			),
 			'',
 		),
+		'ep_st_h1_size'       => array(
+			'Títulos principais (H1) — tamanho',
+			'100',
+			array( '70' => '70%', '80' => '80%', '90' => '90%', '100' => '100% (padrão)', '110' => '110%', '120' => '120%', '130' => '130%', '140' => '140%' ),
+			'Título do post e o título grande do topo da página inicial, dos guias e da página de serviço.',
+		),
+		'ep_st_h2_size'       => array(
+			'Títulos de seção (H2) — tamanho',
+			'100',
+			array( '70' => '70%', '80' => '80%', '90' => '90%', '100' => '100% (padrão)', '110' => '110%', '120' => '120%', '130' => '130%', '140' => '140%' ),
+			'Os H2 dos artigos e os títulos das seções das páginas.',
+		),
+		'ep_st_h3_size'       => array(
+			'Subtítulos (H3) — tamanho',
+			'100',
+			array( '70' => '70%', '80' => '80%', '90' => '90%', '100' => '100% (padrão)', '110' => '110%', '120' => '120%', '130' => '130%', '140' => '140%' ),
+			'Os H3 dos artigos e os títulos dos cards.',
+		),
+		'ep_st_heading_weight' => array(
+			'Títulos — peso',
+			'600',
+			array(
+				'500' => 'Médio',
+				'600' => 'Seminegrito (padrão)',
+				'700' => 'Negrito',
+				'800' => 'Extranegrito',
+			),
+			'Com a Barlow Condensed só existe o seminegrito; os outros pesos ficam corretos com a fonte do sistema.',
+		),
+		'ep_st_heading_case'  => array(
+			'Títulos — letras',
+			'none',
+			array(
+				'none'      => 'Como foram digitados (padrão)',
+				'uppercase' => 'TUDO EM MAIÚSCULAS',
+			),
+			'',
+		),
+		'ep_st_heading_spacing' => array(
+			'Títulos — espaço entre as letras',
+			'-0.02em',
+			array(
+				'-0.03em' => 'Mais justo',
+				'-0.02em' => 'Justo (padrão)',
+				'0'       => 'Normal',
+				'0.02em'  => 'Espaçado',
+				'0.05em'  => 'Bem espaçado',
+			),
+			'',
+		),
+		'ep_st_heading_line'  => array(
+			'Títulos — espaço entre as linhas (títulos com mais de uma linha)',
+			'1.04',
+			array(
+				'1'    => 'Bem justo (1,0)',
+				'1.04' => 'Justo (1,04 — padrão)',
+				'1.15' => 'Normal (1,15)',
+				'1.25' => 'Arejado (1,25)',
+			),
+			'',
+		),
 		'ep_st_body_font'     => array(
 			'Fonte do texto',
 			'sans',
@@ -161,6 +222,12 @@ function ep_style_css( string $scope = '.entry-content' ): string {
 	}
 
 	$root = $vars['dark'];
+	foreach ( array( 'h1', 'h2', 'h3' ) as $level ) {
+		$scale = (int) ep_style( 'ep_st_' . $level . '_size' );
+		if ( 100 !== $scale ) {
+			$root .= '--' . $level . 's:' . ( $scale / 100 ) . ';';
+		}
+	}
 	if ( 'system' === ep_style( 'ep_st_heading_font' ) ) {
 		$root .= '--font-display:var(--font-body);';
 	}
@@ -174,6 +241,22 @@ function ep_style_css( string $scope = '.entry-content' ): string {
 	}
 	if ( '' !== $vars['light'] ) {
 		$css .= ':root[data-theme="light"]{' . $vars['light'] . '}';
+	}
+
+	$heading = '';
+	foreach ( array(
+		'ep_st_heading_weight'  => array( 'font-weight', '600' ),
+		'ep_st_heading_case'    => array( 'text-transform', 'none' ),
+		'ep_st_heading_spacing' => array( 'letter-spacing', '-0.02em' ),
+		'ep_st_heading_line'    => array( 'line-height', '1.04' ),
+	) as $key => list( $property, $default ) ) {
+		$value = ep_style( $key );
+		if ( $value !== $default ) {
+			$heading .= $property . ':' . $value . ';';
+		}
+	}
+	if ( '' !== $heading ) {
+		$css .= 'h1,h2,h3{' . $heading . '}';
 	}
 
 	$size = (int) ep_style( 'ep_st_text_size' );

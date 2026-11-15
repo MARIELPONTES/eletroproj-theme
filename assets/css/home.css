@@ -17,7 +17,7 @@
 	padding-block: 4.5rem;
 }
 .hero-copy h1 {
-	font-size: clamp(3.625rem, 6.4vw, 5.375rem);
+	font-size: calc(clamp(3.625rem, 6.4vw, 5.375rem) * var(--h1s, 1));
 	margin: .875rem 0 1.5rem;
 }
 .hero-copy > p {
@@ -165,7 +165,7 @@
 }
 .pillar-card h3 {
 	margin: .625rem 0;
-	font-size: 1.9375rem;
+	font-size: calc(1.9375rem * var(--h3s, 1));
 	max-width: 17.5rem;
 }
 .pillar-card p {
@@ -208,7 +208,7 @@
 	background: var(--surface-2);
 }
 .tool-card h3 {
-	font-size: 1.5rem;
+	font-size: calc(1.5rem * var(--h3s, 1));
 }
 .tool-card p {
 	color: var(--muted);
@@ -240,7 +240,7 @@
 	text-transform: uppercase;
 }
 .post-row h3 {
-	font-size: 1.5rem;
+	font-size: calc(1.5rem * var(--h3s, 1));
 	transition: color 0.2s;
 }
 .post-row:hover h3 {
@@ -256,7 +256,7 @@
 	background: var(--surface);
 }
 .service-panel h2 {
-	font-size: 2.6875rem;
+	font-size: calc(2.6875rem * var(--h2s, 1));
 	margin: .75rem 0 1.125rem;
 }
 .service-panel p {
@@ -291,7 +291,7 @@
 		gap: 2.1875rem;
 	}
 	.pillar-card h3 {
-		font-size: 1.6875rem;
+		font-size: calc(1.6875rem * var(--h3s, 1));
 	}
 	.tools-grid {
 		grid-template-columns: 1fr;
@@ -308,7 +308,7 @@
 		min-height: 0;
 	}
 	.hero-copy h1 {
-		font-size: 3.3125rem;
+		font-size: calc(3.3125rem * var(--h1s, 1));
 	}
 	.hero-copy > p {
 		font-size: 1.125rem;
@@ -345,7 +345,7 @@
 
 @media (max-width: 390px) {
 	.hero-copy h1 {
-		font-size: 3rem;
+		font-size: calc(3rem * var(--h1s, 1));
 	}
 	.hero-actions {
 		align-items: stretch;
@@ -361,6 +361,6 @@
 		grid-column: 1 / -1;
 	}
 	.post-row h3 {
-		font-size: 1.3125rem;
+		font-size: calc(1.3125rem * var(--h3s, 1));
 	}
 }
