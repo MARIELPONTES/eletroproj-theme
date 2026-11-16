@@ -58,7 +58,7 @@ while ( have_posts() ) :
 						</figure>
 					<?php endif; ?>
 
-					<?php eletroproj_the_toc(); ?>
+					<?php eletroproj_the_toc( 'inline' ); ?>
 
 					<div class="entry-content">
 						<?php
@@ -88,11 +88,12 @@ while ( have_posts() ) :
 
 				<aside class="article-aside">
 					<?php get_template_part( 'template-parts/author-box', null, array( 'compact' => true ) ); ?>
+					<?php if ( is_active_sidebar( 'lateral-artigo' ) ) : ?>
+						<?php dynamic_sidebar( 'lateral-artigo' ); ?>
+					<?php endif; ?>
 					<div class="article-aside__sticky">
+						<?php eletroproj_the_toc( 'lateral' ); ?>
 						<?php get_template_part( 'template-parts/newsletter', null, array( 'variant' => 'sidebar' ) ); ?>
-						<?php if ( is_active_sidebar( 'lateral-artigo' ) ) : ?>
-							<?php dynamic_sidebar( 'lateral-artigo' ); ?>
-						<?php endif; ?>
 					</div>
 				</aside>
 			</div>

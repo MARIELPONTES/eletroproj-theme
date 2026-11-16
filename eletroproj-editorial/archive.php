@@ -22,27 +22,10 @@ $eletroproj_desc = get_the_archive_description();
 			</div>
 		</div>
 	<?php else : ?>
-		<p class="page-head__kicker">
-			<?php
-			if ( is_category() ) {
-				esc_html_e( 'Categoria', 'eletroproj' );
-			} elseif ( is_tag() ) {
-				esc_html_e( 'Tag', 'eletroproj' );
-			} else {
-				esc_html_e( 'Arquivo', 'eletroproj' );
-			}
-			?>
-		</p>
 		<h1 class="page-head__title"><?php echo esc_html( wp_strip_all_tags( get_the_archive_title() ) ); ?></h1>
 		<?php if ( $eletroproj_desc ) : ?>
 			<div class="page-head__desc"><?php echo wp_kses_post( $eletroproj_desc ); ?></div>
 		<?php endif; ?>
-		<p class="page-head__count">
-			<?php
-			/* translators: %s: número de artigos */
-			printf( esc_html( _n( '%s artigo', '%s artigos', (int) $wp_query->found_posts, 'eletroproj' ) ), esc_html( number_format_i18n( $wp_query->found_posts ) ) );
-			?>
-		</p>
 	<?php endif; ?>
 </div>
 <div class="container">

@@ -50,6 +50,10 @@ function eletroproj_defaults() {
 		'eletroproj_familia_4_url'       => '',
 		'eletroproj_familia_4_icone'     => 'livro',
 
+		'eletroproj_faixa_mostrar'       => true,
+		'eletroproj_faixa_categorias'    => '',
+		'eletroproj_faixa_ordem'         => 'escolha',
+
 		'eletroproj_artigo_sumario'      => true,
 		'eletroproj_artigo_progresso'    => true,
 		'eletroproj_artigo_relacionados' => true,
@@ -88,6 +92,27 @@ function eletroproj_sanitize_checkbox( $v ) {
 }
 
 /**
+ * Sanitiza a lista de categorias da faixa (IDs separados por vírgula).
+ *
+ * @param string $v Valor.
+ * @return string
+ */
+function eletroproj_sanitize_id_list( $v ) {
+	$ids = array_filter( array_map( 'absint', explode( ',', (string) $v ) ) );
+	return implode( ',', array_unique( $ids ) );
+}
+
+/**
+ * Sanitiza a ordem da faixa de categorias.
+ *
+ * @param string $v Valor.
+ * @return string
+ */
+function eletroproj_sanitize_faixa_ordem( $v ) {
+	return in_array( $v, array( 'escolha', 'nome', 'quantidade' ), true ) ? $v : 'escolha';
+}
+
+/**
  * Sanitiza o nome do ícone.
  *
  * @param string $v Valor.
@@ -113,6 +138,89 @@ function eletroproj_icon_choices() {
 		'chip'        => 'Chip / CLP',
 	);
 }
+
+/**
+ * Define o controle de lista de categorias com caixas de seleção.
+ * Fica dentro de um gancho porque WP_Customize_Control só existe no Personalizador.
+ */
+function eletroproj_define_customizer_controls() {
+	if ( class_exists( 'Eletroproj_Category_Checklist_Control' ) || ! class_exists( 'WP_Customize_Control' ) ) {
+		return;
+	}
+
+	/**
+	 * Lista de categorias com caixas de seleção (salva os IDs na ordem em que são marcados).
+	 */
+	class Eletroproj_Category_Checklist_Control extends WP_Customize_Control {
+		/**
+		 * Tipo do controle.
+		 *
+		 * @var string
+		 */
+		public $type = 'eletroproj-category-checklist';
+
+		/**
+		 * HTML do controle.
+		 */
+		public function render_content() {
+			$cats     = get_categories(
+				array(
+					'hide_empty' => false,
+					'orderby'    => 'name',
+				)
+			);
+			$value    = (string) $this->value();
+			$selected = array_filter( array_map( 'absint', explode( ',', $value ) ) );
+			$uid      = 'eletroproj-cl-' . sanitize_html_class( $this->id );
+			?>
+			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<?php if ( empty( $cats ) ) : ?>
+				<p><?php esc_html_e( 'Nenhuma categoria criada ainda.', 'eletroproj' ); ?></p>
+			<?php else : ?>
+				<div id="<?php echo esc_attr( $uid ); ?>" style="max-height:320px;overflow:auto;border:1px solid #dcdcde;background:#fff;padding:6px 10px;">
+					<?php foreach ( $cats as $cat ) : ?>
+						<label style="display:block;margin:4px 0;">
+							<input type="checkbox" value="<?php echo esc_attr( $cat->term_id ); ?>" <?php checked( in_array( (int) $cat->term_id, $selected, true ) ); ?>>
+							<?php echo esc_html( $cat->name ); ?> <span style="color:#757575;">(<?php echo esc_html( number_format_i18n( $cat->count ) ); ?>)</span>
+						</label>
+					<?php endforeach; ?>
+				</div>
+				<p class="description"><?php esc_html_e( 'Desmarque todas para voltar ao comportamento automático.', 'eletroproj' ); ?></p>
+			<?php endif; ?>
+			<input type="hidden" id="<?php echo esc_attr( $uid ); ?>-valor" value="<?php echo esc_attr( $value ); ?>" <?php $this->link(); ?>>
+			<script>
+			( function () {
+				var box = document.getElementById( <?php echo wp_json_encode( $uid ); ?> );
+				var input = document.getElementById( <?php echo wp_json_encode( $uid . '-valor' ); ?> );
+				if ( ! box || ! input ) {
+					return;
+				}
+				box.addEventListener( 'change', function ( e ) {
+					if ( ! e.target || 'checkbox' !== e.target.type ) {
+						return;
+					}
+					var ids = input.value ? input.value.split( ',' ) : [];
+					var id = e.target.value;
+					ids = ids.filter( function ( v ) {
+						return v && v !== id;
+					} );
+					if ( e.target.checked ) {
+						ids.push( id );
+					}
+					input.value = ids.join( ',' );
+					if ( window.jQuery ) {
+						window.jQuery( input ).trigger( 'change' );
+					} else {
+						input.dispatchEvent( new Event( 'change' ) );
+					}
+				} );
+			} )();
+			</script>
+			<?php
+		}
+	}
+}
+add_action( 'customize_register', 'eletroproj_define_customizer_controls', 0 );
 
 /**
  * Registra painéis, seções e controles.
@@ -245,6 +353,56 @@ function eletroproj_customize_register( $wp_customize ) {
 		$add( "eletroproj_familia_{$i}_url", 'eletroproj_familia', $n . ' — ' . __( 'link', 'eletroproj' ), 'url' );
 		$add( "eletroproj_familia_{$i}_icone", 'eletroproj_familia', $n . ' — ' . __( 'ícone', 'eletroproj' ), 'icon' );
 	}
+
+	// Faixa de categorias (abaixo do menu).
+	$wp_customize->add_section(
+		'eletroproj_faixa',
+		array(
+			'title'       => __( 'Faixa de categorias (abaixo do menu)', 'eletroproj' ),
+			'panel'       => 'eletroproj',
+			'description' => __( 'Marque as categorias que aparecem na faixa logo abaixo do menu. Se nenhuma for marcada, o tema usa o menu "Faixa de categorias" (Aparência → Menus) ou, sem ele, as categorias com mais artigos.', 'eletroproj' ),
+		)
+	);
+	$add( 'eletroproj_faixa_mostrar', 'eletroproj_faixa', __( 'Mostrar a faixa de categorias', 'eletroproj' ), 'checkbox' );
+
+	$wp_customize->add_setting(
+		'eletroproj_faixa_categorias',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'eletroproj_sanitize_id_list',
+		)
+	);
+	$wp_customize->add_control(
+		new Eletroproj_Category_Checklist_Control(
+			$wp_customize,
+			'eletroproj_faixa_categorias',
+			array(
+				'label'   => __( 'Categorias exibidas', 'eletroproj' ),
+				'section' => 'eletroproj_faixa',
+			)
+		)
+	);
+
+	$wp_customize->add_setting(
+		'eletroproj_faixa_ordem',
+		array(
+			'default'           => $d['eletroproj_faixa_ordem'],
+			'sanitize_callback' => 'eletroproj_sanitize_faixa_ordem',
+		)
+	);
+	$wp_customize->add_control(
+		'eletroproj_faixa_ordem',
+		array(
+			'label'   => __( 'Ordem das categorias', 'eletroproj' ),
+			'section' => 'eletroproj_faixa',
+			'type'    => 'select',
+			'choices' => array(
+				'escolha'    => __( 'Na ordem em que forem marcadas', 'eletroproj' ),
+				'nome'       => __( 'Alfabética', 'eletroproj' ),
+				'quantidade' => __( 'Mais artigos primeiro', 'eletroproj' ),
+			),
+		)
+	);
 
 	// Artigo.
 	$wp_customize->add_section(

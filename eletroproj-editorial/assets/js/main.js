@@ -140,9 +140,11 @@
 	/* Sumário: destaca a seção visível ------------------------------------ */
 	var tocLinks = document.querySelectorAll( '.toc__item a' );
 	if ( tocLinks.length && 'IntersectionObserver' in window ) {
+		// O mesmo título pode ter dois links (índice lateral e índice do celular).
 		var map = {};
 		tocLinks.forEach( function ( a ) {
-			map[ decodeURIComponent( a.hash.slice( 1 ) ) ] = a;
+			var id = decodeURIComponent( a.hash.slice( 1 ) );
+			( map[ id ] = map[ id ] || [] ).push( a );
 		} );
 		var observer = new IntersectionObserver(
 			function ( entries ) {
@@ -150,8 +152,12 @@
 					if ( entry.isIntersecting && map[ entry.target.id ] ) {
 						tocLinks.forEach( function ( a ) {
 							a.classList.remove( 'is-active' );
+							a.removeAttribute( 'aria-current' );
 						} );
-						map[ entry.target.id ].classList.add( 'is-active' );
+						map[ entry.target.id ].forEach( function ( a ) {
+							a.classList.add( 'is-active' );
+							a.setAttribute( 'aria-current', 'location' );
+						} );
 					}
 				} );
 			},

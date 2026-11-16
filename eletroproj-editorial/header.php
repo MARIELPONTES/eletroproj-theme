@@ -73,21 +73,7 @@
 		</div>
 	</div>
 
-	<nav class="topics-bar" aria-label="<?php esc_attr_e( 'Categorias', 'eletroproj' ); ?>">
-		<div class="container">
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'categorias',
-					'container'      => false,
-					'menu_class'     => 'pills',
-					'depth'          => 1,
-					'fallback_cb'    => 'eletroproj_categories_fallback',
-				)
-			);
-			?>
-		</div>
-	</nav>
+	<?php eletroproj_topics_bar(); ?>
 </header>
 
 <main id="main" class="site-main" tabindex="-1">

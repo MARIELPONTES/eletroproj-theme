@@ -208,6 +208,69 @@ function eletroproj_breadcrumbs() {
 }
 
 /**
+ * Faixa de categorias abaixo do menu.
+ *
+ * Prioridade: categorias marcadas no Personalizador → menu "Faixa de categorias" → categorias com mais artigos.
+ */
+function eletroproj_topics_bar() {
+	if ( ! eletroproj_mod( 'faixa_mostrar' ) ) {
+		return;
+	}
+	$ids = array_filter( array_map( 'absint', explode( ',', (string) eletroproj_mod( 'faixa_categorias' ) ) ) );
+
+	ob_start();
+	if ( $ids ) {
+		$ordem = eletroproj_mod( 'faixa_ordem' );
+		$args  = array(
+			'include'    => $ids,
+			'hide_empty' => false,
+		);
+		if ( 'nome' === $ordem ) {
+			$args['orderby'] = 'name';
+		} elseif ( 'quantidade' === $ordem ) {
+			$args['orderby'] = 'count';
+			$args['order']   = 'DESC';
+		} else {
+			$args['orderby'] = 'include';
+		}
+		eletroproj_render_category_pills( get_categories( $args ) );
+	} else {
+		wp_nav_menu(
+			array(
+				'theme_location' => 'categorias',
+				'container'      => false,
+				'menu_class'     => 'pills',
+				'depth'          => 1,
+				'fallback_cb'    => 'eletroproj_categories_fallback',
+			)
+		);
+	}
+	$html = trim( ob_get_clean() );
+	if ( '' === $html ) {
+		return;
+	}
+	echo '<nav class="topics-bar" aria-label="' . esc_attr__( 'Categorias', 'eletroproj' ) . '"><div class="container">' . $html . '</div></nav>'; // phpcs:ignore WordPress.Security.EscapeOutput
+}
+
+/**
+ * Imprime a lista de categorias no formato de "pílulas".
+ *
+ * @param WP_Term[] $cats Categorias.
+ */
+function eletroproj_render_category_pills( $cats ) {
+	if ( empty( $cats ) || is_wp_error( $cats ) ) {
+		return;
+	}
+	echo '<ul class="pills">';
+	$current = is_category() ? get_queried_object_id() : 0;
+	foreach ( $cats as $cat ) {
+		$is_current = ( $current === $cat->term_id );
+		echo '<li' . ( $is_current ? ' class="current-cat"' : '' ) . '><a href="' . esc_url( get_category_link( $cat ) ) . '"' . ( $is_current ? ' aria-current="page"' : '' ) . '>' . esc_html( $cat->name ) . '</a></li>'; // phpcs:ignore WordPress.Security.EscapeOutput
+	}
+	echo '</ul>';
+}
+
+/**
  * Menu de fallback quando o usuário ainda não criou o menu de categorias.
  */
 function eletroproj_categories_fallback() {
@@ -218,17 +281,7 @@ function eletroproj_categories_fallback() {
 			'number'  => 16,
 		)
 	);
-	if ( empty( $cats ) ) {
-		return;
-	}
-	echo '<ul class="pills">';
-	$current = is_category() ? get_queried_object_id() : 0;
-	foreach ( $cats as $cat ) {
-		$class = ( $current === $cat->term_id ) ? ' class="current-cat"' : '';
-		$aria  = ( $current === $cat->term_id ) ? ' aria-current="page"' : '';
-		echo '<li' . $class . '><a href="' . esc_url( get_category_link( $cat ) ) . '"' . $aria . '>' . esc_html( $cat->name ) . '</a></li>'; // phpcs:ignore WordPress.Security.EscapeOutput
-	}
-	echo '</ul>';
+	eletroproj_render_category_pills( $cats );
 }
 
 /**

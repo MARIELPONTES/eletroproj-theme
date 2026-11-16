@@ -93,6 +93,18 @@ html {
 	-webkit-text-size-adjust: 100%;
 	text-size-adjust: 100%;
 	scroll-padding-top: 1.5rem;
+	/* Sem barra de rolagem visível (a página continua rolando normalmente). */
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	/* Nada pode vazar para os lados. */
+	overflow-x: hidden;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+	display: none;
+	width: 0;
+	height: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -103,6 +115,7 @@ html {
 
 body {
 	margin: 0;
+	overflow-x: clip;
 	background: var(--fundo);
 	color: var(--texto);
 	font-family: var(--f-texto);
@@ -1154,9 +1167,9 @@ html[data-theme="dark"] .service__icon {
 
 .article-layout {
 	display: grid;
-	grid-template-columns: minmax(0, var(--texto-largura)) 320px;
-	justify-content: space-between;
-	gap: clamp(2rem, 6vw, 6rem);
+	grid-template-columns: minmax(0, var(--texto-largura)) 300px;
+	justify-content: start;
+	gap: clamp(2rem, 4vw, 3.5rem);
 }
 
 .article-main {
@@ -1170,6 +1183,27 @@ html[data-theme="dark"] .service__icon {
 .article-aside__sticky {
 	position: sticky;
 	top: 1.5rem;
+	margin-top: 2rem;
+	max-height: calc(100vh - 3rem);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: none;
+}
+
+.article-aside__sticky::-webkit-scrollbar {
+	display: none;
+}
+
+.article-aside__sticky > :first-child {
+	margin-top: 0;
+}
+
+/* Imagens largas não invadem a coluna lateral. */
+.article-main .entry-content .alignwide,
+.article-main .entry-content .alignfull {
+	width: 100%;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 .summary {
@@ -1218,6 +1252,21 @@ html[data-theme="dark"] .service__icon {
 	border-radius: var(--raio);
 	padding: 1rem 1.25rem;
 	margin: 0 0 2.25rem;
+}
+
+/* Índice na lateral (desktop), acompanha a leitura. */
+.toc--lateral {
+	margin: 0 0 1.5rem;
+	padding: 0.9rem 1rem;
+}
+
+.toc--lateral .toc__list {
+	font-size: 0.95rem;
+}
+
+/* Índice acima do texto: só no celular/tablet. */
+.toc--inline {
+	display: none;
 }
 
 .toc__title {
@@ -1352,7 +1401,7 @@ html[data-theme="dark"] .service__icon {
 }
 
 .article-aside .newsletter {
-	margin-top: 4.5rem;
+	margin-top: 0;
 }
 
 .widget {
@@ -2028,6 +2077,16 @@ pre:hover .copy-code,
 	.magazine__aside,
 	.article-aside__sticky {
 		position: static;
+		max-height: none;
+		overflow: visible;
+	}
+
+	.toc--inline {
+		display: block;
+	}
+
+	.toc--lateral {
+		display: none;
 	}
 
 	.article-aside .author-box--compact {
