@@ -1,0 +1,53 @@
+name: Deploy do tema Eletroproj Editorial (FTP)
+
+# Envia SOMENTE a pasta eletroproj-editorial/ para a pasta própria dela no servidor
+# (wp-content/themes/eletroproj-editorial). Não mexe no tema principal.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'eletroproj-editorial/**'
+      - '.github/workflows/deploy-editorial.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-editorial
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SERVER_DIR: ${{ secrets.EDITORIAL_FTP_SERVER_DIR }}
+      # Usa um usuário FTP próprio, se existir; senão, o mesmo do tema principal.
+      FTP_USER: ${{ secrets.EDITORIAL_FTP_USERNAME || secrets.FTP_USERNAME }}
+      FTP_PASS: ${{ secrets.EDITORIAL_FTP_PASSWORD || secrets.FTP_PASSWORD }}
+      FTP_HOST: ${{ secrets.EDITORIAL_FTP_SERVER || secrets.FTP_SERVER }}
+    steps:
+      - name: Verificar configuração
+        if: env.SERVER_DIR == '' || env.FTP_HOST == ''
+        run: echo "::warning::Secret EDITORIAL_FTP_SERVER_DIR (ou FTP_SERVER) não configurado. Deploy do Eletroproj Editorial ignorado por segurança."
+
+      - name: Baixar código
+        if: env.SERVER_DIR != '' && env.FTP_HOST != ''
+        uses: actions/checkout@v4
+
+      - name: Enviar tema por FTP (somente arquivos alterados)
+        if: env.SERVER_DIR != '' && env.FTP_HOST != ''
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ env.FTP_HOST }}
+          username: ${{ env.FTP_USER }}
+          password: ${{ env.FTP_PASS }}
+          protocol: ftps
+          port: 21
+          local-dir: ./eletroproj-editorial/
+          server-dir: ${{ secrets.EDITORIAL_FTP_SERVER_DIR }}
+          state-name: .ftp-deploy-sync-state-editorial.json
+          exclude: |
+            **/.git*
+            **/.git*/**
+            README.md
+            **/node_modules/**
+            **/*.map

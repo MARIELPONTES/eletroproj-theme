@@ -3,6 +3,10 @@ name: Deploy para o site (FTP)
 on:
   push:
     branches: [main]
+    # O tema "Eletroproj Editorial" tem deploy próprio (deploy-editorial.yml).
+    paths-ignore:
+      - 'eletroproj-editorial/**'
+      - '.github/workflows/deploy-editorial.yml'
   workflow_dispatch:
 
 concurrency:
@@ -38,6 +42,7 @@ jobs:
             **/.git*/**
             .github/**
             README.md
+            eletroproj-editorial/**
             **/node_modules/**
             **/src/**
             **/*.map
