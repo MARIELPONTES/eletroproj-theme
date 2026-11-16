@@ -67,6 +67,12 @@ function eletroproj_custom_colors_css() {
 	if ( $link ) {
 		$css .= '--wp--preset--color--link:' . $link . ';';
 	}
+	foreach ( eletroproj_larguras() as $id => $lim ) {
+		$px = (int) eletroproj_mod( $id );
+		if ( $px ) {
+			$css .= $lim[3] . ':' . max( $lim[0], min( $lim[1], $px ) ) . 'px;';
+		}
+	}
 	$css .= '}';
 	return $css;
 }

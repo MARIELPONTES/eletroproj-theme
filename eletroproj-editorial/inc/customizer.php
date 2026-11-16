@@ -17,6 +17,11 @@ function eletroproj_defaults() {
 		'eletroproj_cor_marca'           => '#C2410C',
 		'eletroproj_cor_link'            => '#0B66C3',
 
+		'eletroproj_largura_site'        => 1240,
+		'eletroproj_largura_texto'       => 680,
+		'eletroproj_largura_lateral'     => 300,
+		'eletroproj_largura_espaco'      => 56,
+
 		'eletroproj_home_destaque'       => true,
 		'eletroproj_home_newsletter'     => true,
 		'eletroproj_home_guias'          => true,
@@ -79,6 +84,40 @@ function eletroproj_mod( $key ) {
 	}
 	$defaults = eletroproj_defaults();
 	return get_theme_mod( $key, isset( $defaults[ $key ] ) ? $defaults[ $key ] : '' );
+}
+
+/**
+ * Limites (mínimo, máximo, passo) das larguras, em pixels.
+ *
+ * @return array
+ */
+function eletroproj_larguras() {
+	return array(
+		'eletroproj_largura_site'    => array( 960, 1680, 10, '--container' ),
+		'eletroproj_largura_texto'   => array( 560, 960, 10, '--texto-largura' ),
+		'eletroproj_largura_lateral' => array( 220, 440, 10, '--lateral-largura' ),
+		'eletroproj_largura_espaco'  => array( 32, 120, 4, '--lateral-gap' ),
+	);
+}
+
+/**
+ * Sanitiza uma largura: número inteiro dentro dos limites da opção.
+ *
+ * @param mixed                $v       Valor.
+ * @param WP_Customize_Setting $setting Opção.
+ * @return int
+ */
+function eletroproj_sanitize_largura( $v, $setting ) {
+	$limites = eletroproj_larguras();
+	$id      = $setting->id;
+	$v       = absint( $v );
+	if ( ! isset( $limites[ $id ] ) ) {
+		return $v;
+	}
+	if ( ! $v ) {
+		return (int) $setting->default;
+	}
+	return max( $limites[ $id ][0], min( $limites[ $id ][1], $v ) );
 }
 
 /**
@@ -297,6 +336,47 @@ function eletroproj_customize_register( $wp_customize ) {
 	$add( 'eletroproj_cor_marca', 'eletroproj_cores', __( 'Cor da marca (cabeçalho, botões, destaques)', 'eletroproj' ), 'color' );
 	$add( 'eletroproj_cor_link', 'eletroproj_cores', __( 'Cor dos links no texto', 'eletroproj' ), 'color' );
 
+	// Larguras.
+	$wp_customize->add_section(
+		'eletroproj_larguras',
+		array(
+			'title'       => __( 'Larguras do site', 'eletroproj' ),
+			'panel'       => 'eletroproj',
+			'description' => __( 'Medidas em pixels, válidas para telas de computador. No celular e no tablet o layout se ajusta sozinho. Na página do artigo, a largura total é a soma do texto, do espaço e da lateral.', 'eletroproj' ),
+		)
+	);
+	$larguras = array(
+		'eletroproj_largura_site'    => __( 'Largura total do site (cabeçalho, página inicial, listas)', 'eletroproj' ),
+		'eletroproj_largura_texto'   => __( 'Largura do texto do artigo', 'eletroproj' ),
+		'eletroproj_largura_lateral' => __( 'Largura da lateral (sidebar)', 'eletroproj' ),
+		'eletroproj_largura_espaco'  => __( 'Espaço entre o texto e a lateral', 'eletroproj' ),
+	);
+	foreach ( eletroproj_larguras() as $id => $lim ) {
+		$wp_customize->add_setting(
+			$id,
+			array(
+				'default'           => $d[ $id ],
+				'sanitize_callback' => 'eletroproj_sanitize_largura',
+				'transport'         => 'postMessage',
+			)
+		);
+		$wp_customize->add_control(
+			$id,
+			array(
+				'label'       => $larguras[ $id ],
+				/* translators: 1: mínimo, 2: máximo, 3: padrão. */
+				'description' => sprintf( __( 'De %1$d a %2$d px. Padrão: %3$d px.', 'eletroproj' ), $lim[0], $lim[1], $d[ $id ] ),
+				'section'     => 'eletroproj_larguras',
+				'type'        => 'number',
+				'input_attrs' => array(
+					'min'  => $lim[0],
+					'max'  => $lim[1],
+					'step' => $lim[2],
+				),
+			)
+		);
+	}
+
 	// Página inicial.
 	$wp_customize->add_section(
 		'eletroproj_home',
@@ -431,3 +511,18 @@ function eletroproj_customize_register( $wp_customize ) {
 	$add( 'eletroproj_whatsapp', 'eletroproj_rodape', 'WhatsApp (URL, ex.: https://wa.me/5521999999999)', 'url' );
 }
 add_action( 'customize_register', 'eletroproj_customize_register' );
+
+/**
+ * Pré-visualização ao vivo das larguras no Personalizar (sem recarregar a página).
+ */
+function eletroproj_customize_preview_larguras() {
+	$mapa = array();
+	foreach ( eletroproj_larguras() as $id => $lim ) {
+		$mapa[ $id ] = array( $lim[3], $lim[0], $lim[1] );
+	}
+	wp_add_inline_script(
+		'customize-preview',
+		'(function(api,m){Object.keys(m).forEach(function(id){api(id,function(v){v.bind(function(n){n=parseInt(n,10);if(!n){return;}n=Math.max(m[id][1],Math.min(m[id][2],n));document.documentElement.style.setProperty(m[id][0],n+"px");});});});})(wp.customize,' . wp_json_encode( $mapa ) . ');'
+	);
+}
+add_action( 'customize_preview_init', 'eletroproj_customize_preview_larguras' );
