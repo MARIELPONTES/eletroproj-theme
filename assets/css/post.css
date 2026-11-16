@@ -442,24 +442,121 @@
 	margin-top: .625rem;
 }
 
-/* Bloco Matemática (WP 6.9+, MathML nativo): caixa "Fórmula" do Figma. */
+/* Bloco Matemática (WP 6.9+, MathML nativo): fórmulas confortáveis de ler. */
+.entry-content {
+	counter-reset: equacao;
+}
 .entry-content math {
 	color: var(--text);
-	font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", math;
+	font-family: math, "Cambria Math", "STIX Two Math", "Latin Modern Math", serif;
 }
+/* Fórmula dentro do parágrafo (formato "Matemática" em linha). */
+.entry-content :is(p, li, td, th, figcaption) math:not([display="block"]) {
+	font-size: 1.06em;
+	padding-inline: .12em;
+	white-space: nowrap;
+}
+/* Caixa padrão: painel calmo, fórmula centralizada e maior. */
 .entry-content > .wp-block-math {
-	padding: 1.875rem;
+	--math-fundo: var(--surface);
+	--math-sombra: color-mix(in srgb, var(--text) 22%, transparent);
+	position: relative;
+	padding: 1.5rem clamp(1rem, 4vw, 2rem);
 	margin-block: 1.875rem;
 	text-align: center;
-	overflow-x: auto;
 	border: 1px solid var(--border);
-	background: var(--surface);
+	border-radius: var(--radius);
+	/* Sombras nas bordas só aparecem quando a fórmula é larga e dá para rolar. */
+	background:
+		linear-gradient(to right, var(--math-fundo) 30%, transparent) left / 2.5rem 100% no-repeat local,
+		linear-gradient(to left, var(--math-fundo) 30%, transparent) right / 2.5rem 100% no-repeat local,
+		radial-gradient(farthest-side at 0 50%, var(--math-sombra), transparent) left / .8rem 100% no-repeat scroll,
+		radial-gradient(farthest-side at 100% 50%, var(--math-sombra), transparent) right / .8rem 100% no-repeat scroll,
+		var(--math-fundo);
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	scrollbar-width: thin;
+	scrollbar-color: var(--border) transparent;
 }
 .entry-content > .wp-block-math + * {
 	margin-top: 0;
 }
 .entry-content .wp-block-math math {
-	font-size: 1.75rem;
+	display: block math;
+	math-style: normal;
+	width: max-content;
+	max-width: none;
+	margin: 0 auto;
+	padding-block: .15em;
+	font-size: clamp(1.25rem, 1.1rem + .6vw, 1.6rem);
+	line-height: 1.5;
+}
+/* Operadores (=, +, ×, √…) um tom mais suave que letras e números. */
+.entry-content .wp-block-math mo {
+	color: color-mix(in srgb, var(--text) 72%, var(--bg));
+}
+/* Estilo "Fórmula em destaque": a fórmula principal do artigo. */
+.entry-content > .wp-block-math.is-style-destaque {
+	--math-fundo: color-mix(in srgb, var(--accent) 9%, var(--surface));
+	padding-top: 2.4rem;
+	border-left: 4px solid var(--accent);
+}
+.entry-content > .wp-block-math.is-style-destaque::before {
+	content: "Fórmula";
+	position: absolute;
+	top: .75rem;
+	left: 1.1rem;
+	font: 700 .8rem/1 var(--font-display);
+	letter-spacing: .14em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+/* Estilo "Numerada": (1), (2), (3)… à direita, como em livro técnico. */
+.entry-content .wp-block-math.is-style-numerada {
+	counter-increment: equacao;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+.entry-content .wp-block-math.is-style-numerada math {
+	flex: 1 0 auto;
+}
+.entry-content .wp-block-math.is-style-numerada::after {
+	content: "(" counter(equacao) ")";
+	flex: none;
+	font: 600 1rem/1 var(--font-display);
+	font-variant-numeric: tabular-nums;
+	color: var(--muted);
+}
+/* Estilo "Sem caixa": só a fórmula, centralizada no texto. */
+.entry-content > .wp-block-math.is-style-limpa {
+	--math-fundo: var(--bg);
+	padding: .25rem 0;
+	border: 0;
+	border-radius: 0;
+}
+/* Cor de fundo escolhida no editor substitui a caixa padrão. */
+.entry-content > .wp-block-math.has-background {
+	background-image: none;
+	border-color: transparent;
+}
+/* Parágrafo "Onde: …" logo após a fórmula: menor e mais suave. */
+.entry-content > .wp-block-math + p:has(> strong:first-child) {
+	font-size: .95em;
+	color: var(--muted);
+}
+@media (max-width: 600px) {
+	.entry-content > .wp-block-math {
+		margin-inline: calc(var(--gutter) * -.5);
+	}
+}
+@media print {
+	.entry-content > .wp-block-math {
+		background: none;
+		border: 1px solid #999;
+		overflow: visible;
+	}
 }
 .entry-content .is-style-formula math {
 	display: block;

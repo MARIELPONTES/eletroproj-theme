@@ -19,6 +19,11 @@ function ep_register_block_styles(): void {
 			'callout' => __( 'Aviso', 'eletroproj' ),
 			'formula' => __( 'Fórmula', 'eletroproj' ),
 		),
+		'core/math'      => array(
+			'destaque' => __( 'Fórmula em destaque', 'eletroproj' ),
+			'numerada' => __( 'Numerada', 'eletroproj' ),
+			'limpa'    => __( 'Sem caixa', 'eletroproj' ),
+		),
 		'core/list'      => array(
 			'checklist' => __( 'Checklist', 'eletroproj' ),
 			'steps'     => __( 'Etapas numeradas', 'eletroproj' ),
