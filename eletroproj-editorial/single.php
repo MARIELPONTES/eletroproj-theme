@@ -16,10 +16,12 @@ while ( have_posts() ) :
 				<?php eletroproj_breadcrumbs(); ?>
 				<p class="article-head__byline">
 					<a class="byline__author" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"><?php the_author(); ?></a>
-					<span aria-hidden="true">/</span>
-					<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_date( 'j M Y' ) ); ?></time>
-					<?php if ( get_the_modified_date( 'Ymd' ) > get_the_date( 'Ymd' ) ) : ?>
-						<span class="article-head__updated">(<?php esc_html_e( 'atualizado em', 'eletroproj' ); ?> <time datetime="<?php echo esc_attr( get_the_modified_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_modified_date( 'j M Y' ) ); ?></time>)</span>
+					<?php if ( eletroproj_mod( 'mostrar_datas' ) ) : ?>
+						<span aria-hidden="true">/</span>
+						<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_date( 'j M Y' ) ); ?></time>
+						<?php if ( eletroproj_mod( 'mostrar_atualizado' ) && get_the_modified_date( 'Ymd' ) > get_the_date( 'Ymd' ) ) : ?>
+							<span class="article-head__updated">(<?php esc_html_e( 'atualizado em', 'eletroproj' ); ?> <time datetime="<?php echo esc_attr( get_the_modified_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_modified_date( 'j M Y' ) ); ?></time>)</span>
+						<?php endif; ?>
 					<?php endif; ?>
 					<?php if ( comments_open() || get_comments_number() ) : ?>
 						<span aria-hidden="true">/</span>

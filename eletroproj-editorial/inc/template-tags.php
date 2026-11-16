@@ -102,14 +102,23 @@ function eletroproj_author_wrote() {
  */
 function eletroproj_date_and_cats() {
 	$cats = eletroproj_category_links();
+	$data  = eletroproj_mod( 'mostrar_datas' );
+	if ( ! $data && ! $cats ) {
+		return;
+	}
 	echo '<span class="meta-line">';
-	printf(
-		'<time class="meta-line__date" datetime="%1$s">%2$s</time>',
-		esc_attr( get_the_date( DATE_W3C ) ),
-		esc_html( get_the_date( 'j M Y' ) )
-	);
+	if ( $data ) {
+		printf(
+			'<time class="meta-line__date" datetime="%1$s">%2$s</time>',
+			esc_attr( get_the_date( DATE_W3C ) ),
+			esc_html( get_the_date( 'j M Y' ) )
+		);
+	}
 	if ( $cats ) {
-		echo ' <em>' . esc_html__( 'em', 'eletroproj' ) . '</em> <span class="meta-line__cats">' . wp_kses_post( $cats ) . '</span>';
+		if ( $data ) {
+			echo ' <em>' . esc_html__( 'em', 'eletroproj' ) . '</em> ';
+		}
+		echo '<span class="meta-line__cats">' . wp_kses_post( $cats ) . '</span>';
 	}
 	echo '</span>';
 }

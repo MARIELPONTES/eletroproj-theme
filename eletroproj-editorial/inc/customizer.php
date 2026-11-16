@@ -62,6 +62,8 @@ function eletroproj_defaults() {
 		'eletroproj_artigo_sumario'      => true,
 		'eletroproj_artigo_progresso'    => true,
 		'eletroproj_artigo_relacionados' => true,
+		'eletroproj_mostrar_datas'       => true,
+		'eletroproj_mostrar_atualizado'  => true,
 		'eletroproj_mostrar_sumario'     => true,
 
 		'eletroproj_rodape_texto'        => 'Conteúdo técnico de qualidade sobre engenharia elétrica, automação industrial e SPDA.',
@@ -495,6 +497,8 @@ function eletroproj_customize_register( $wp_customize ) {
 	$add( 'eletroproj_mostrar_sumario', 'eletroproj_artigo', __( 'Sumário automático (3+ subtítulos)', 'eletroproj' ), 'checkbox' );
 	$add( 'eletroproj_artigo_progresso', 'eletroproj_artigo', __( 'Barra de progresso de leitura', 'eletroproj' ), 'checkbox' );
 	$add( 'eletroproj_artigo_relacionados', 'eletroproj_artigo', __( 'Artigos relacionados no final', 'eletroproj' ), 'checkbox' );
+	$add( 'eletroproj_mostrar_datas', 'eletroproj_artigo', __( 'Mostrar as datas dos posts (artigo, listas e cards)', 'eletroproj' ), 'checkbox' );
+	$add( 'eletroproj_mostrar_atualizado', 'eletroproj_artigo', __( 'Mostrar "atualizado em" no artigo (quando houver)', 'eletroproj' ), 'checkbox' );
 
 	// Rodapé e redes.
 	$wp_customize->add_section(
