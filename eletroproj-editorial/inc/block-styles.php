@@ -42,6 +42,20 @@ function eletroproj_register_block_styles() {
 			'label' => __( 'Com moldura', 'eletroproj' ),
 		)
 	);
+	$formulas = array(
+		'destaque' => __( 'Fórmula em destaque', 'eletroproj' ),
+		'numerada' => __( 'Numerada', 'eletroproj' ),
+		'limpa'    => __( 'Sem caixa', 'eletroproj' ),
+	);
+	foreach ( $formulas as $slug => $label ) {
+		register_block_style(
+			'core/math',
+			array(
+				'name'  => $slug,
+				'label' => $label,
+			)
+		);
+	}
 	register_block_style(
 		'core/table',
 		array(

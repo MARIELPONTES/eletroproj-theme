@@ -57,3 +57,65 @@ pre.wp-block-code {
 	border: 1px solid #e3e5e8;
 	padding: 0.6rem 0.8rem;
 }
+
+/* Bloco Matemática (fórmulas). */
+math {
+	font-family: math, "Cambria Math", "STIX Two Math", "Latin Modern Math", serif;
+}
+
+.wp-block-math {
+	padding: 1.5rem 2rem;
+	background: #f7f7f8;
+	border: 1px solid #e3e5e8;
+	border-radius: 12px;
+	text-align: center;
+	overflow-x: auto;
+	counter-increment: equacao;
+}
+
+.wp-block-math math {
+	font-size: 1.4rem;
+	line-height: 1.5;
+}
+
+.wp-block-math mo { color: #5f6670; }
+
+.wp-block-math.is-style-destaque {
+	position: relative;
+	padding-top: 2.4rem;
+	background: #fdece4;
+	border: 0;
+	border-left: 5px solid #c2410c;
+}
+
+.wp-block-math.is-style-destaque::before {
+	content: "FÓRMULA";
+	position: absolute;
+	top: 0.75rem;
+	left: 1.1rem;
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	color: #c2410c;
+}
+
+.wp-block-math.is-style-numerada {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.wp-block-math.is-style-numerada math { flex: 1 0 auto; }
+
+.wp-block-math.is-style-numerada::after {
+	content: "(" counter(equacao) ")";
+	color: #5f6670;
+	font-weight: 700;
+	font-size: 0.95rem;
+}
+
+.wp-block-math.is-style-limpa {
+	padding: 0.25rem 0;
+	background: none;
+	border: 0;
+}

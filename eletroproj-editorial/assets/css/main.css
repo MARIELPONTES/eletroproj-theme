@@ -1727,6 +1727,146 @@ pre:hover .copy-code,
 	font-weight: 700;
 }
 
+/* Fórmulas: bloco Matemática (core/math, MathML) e fórmulas na linha. */
+.entry-content {
+	counter-reset: equacao;
+}
+
+.entry-content math {
+	font-family: math, "Cambria Math", "STIX Two Math", "Latin Modern Math", serif;
+	color: var(--texto);
+	math-style: normal;
+}
+
+/* Fórmula dentro de um parágrafo (formato "Matemática em linha"). */
+.entry-content :is(p, li, td, th, figcaption) math:not([display="block"]) {
+	font-size: 1.06em;
+	padding-inline: 0.12em;
+	white-space: nowrap;
+}
+
+/* Caixa padrão: painel calmo, fórmula centralizada e maior. */
+.entry-content .wp-block-math {
+	position: relative;
+	margin-block: 1.8em;
+	padding: 1.5rem clamp(1rem, 4vw, 2rem);
+	--math-fundo: color-mix(in srgb, var(--cinza) 70%, var(--fundo));
+	--math-sombra: color-mix(in srgb, var(--texto) 18%, transparent);
+	/* Sombras nas bordas só aparecem quando a fórmula é larga e dá para rolar. */
+	background:
+		linear-gradient(to right, var(--math-fundo) 30%, transparent) left / 2.5rem 100% no-repeat local,
+		linear-gradient(to left, var(--math-fundo) 30%, transparent) right / 2.5rem 100% no-repeat local,
+		radial-gradient(farthest-side at 0 50%, var(--math-sombra), transparent) left / 0.8rem 100% no-repeat scroll,
+		radial-gradient(farthest-side at 100% 50%, var(--math-sombra), transparent) right / 0.8rem 100% no-repeat scroll,
+		var(--math-fundo);
+	border: 1px solid var(--borda);
+	border-radius: var(--raio);
+	text-align: center;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	scrollbar-width: thin;
+	scrollbar-color: var(--borda) transparent;
+	-webkit-overflow-scrolling: touch;
+}
+
+.entry-content .wp-block-math math {
+	display: block math;
+	font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);
+	line-height: 1.5;
+	margin: 0 auto;
+	width: max-content;
+	max-width: none;
+	padding-block: 0.15em;
+}
+
+/* Operadores (=, +, ×, √…) um tom mais suave que letras e números. */
+.entry-content .wp-block-math mo {
+	color: color-mix(in srgb, var(--texto) 70%, var(--fundo));
+}
+
+/* Estilo "Fórmula em destaque": a fórmula principal do artigo. */
+.entry-content .wp-block-math.is-style-destaque {
+	--math-fundo: var(--marca-clara);
+	padding-top: 2.4rem;
+	border: 0;
+	border-left: 5px solid var(--marca);
+}
+
+.entry-content .wp-block-math.is-style-destaque::before {
+	content: "Fórmula";
+	position: absolute;
+	top: 0.75rem;
+	left: 1.1rem;
+	font-family: var(--f-titulo);
+	font-weight: 800;
+	font-size: 0.72rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--marca);
+}
+
+html[data-theme="dark"] .entry-content .wp-block-math.is-style-destaque::before {
+	color: color-mix(in srgb, var(--marca) 55%, #fff);
+}
+
+/* Estilo "Numerada": (1), (2), (3)… à direita, como em livro técnico. */
+.entry-content .wp-block-math.is-style-numerada {
+	counter-increment: equacao;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.entry-content .wp-block-math.is-style-numerada math {
+	flex: 1 0 auto;
+}
+
+.entry-content .wp-block-math.is-style-numerada::after {
+	content: "(" counter(equacao) ")";
+	flex: none;
+	font-family: var(--f-titulo);
+	font-weight: 700;
+	font-size: 0.95rem;
+	font-variant-numeric: tabular-nums;
+	color: var(--suave);
+}
+
+/* Estilo "Sem caixa": só a fórmula, centralizada no texto. */
+.entry-content .wp-block-math.is-style-limpa {
+	--math-fundo: var(--fundo);
+	padding: 0.25rem 0;
+	border: 0;
+	border-radius: 0;
+}
+
+/* Cor de fundo escolhida no editor substitui a caixa padrão. */
+.entry-content .wp-block-math.has-background {
+	background-image: none;
+	border-color: transparent;
+}
+
+/* Parágrafo logo após a fórmula ("Onde: V = tensão…") colado a ela. */
+.entry-content .wp-block-math + p:has(> strong:first-child) {
+	margin-top: -0.6em;
+	font-size: 0.95em;
+	color: var(--suave);
+}
+
+@media (max-width: 600px) {
+	.entry-content .wp-block-math {
+		margin-inline: calc(var(--gutter) * -0.5);
+	}
+}
+
+@media print {
+	.entry-content .wp-block-math {
+		background: none;
+		border: 1px solid #999;
+		overflow: visible;
+	}
+}
+
 /* Ferramentas/calculadoras incorporadas. */
 .entry-content iframe {
 	max-width: 100%;
