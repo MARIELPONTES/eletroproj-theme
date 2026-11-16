@@ -11,7 +11,7 @@ while ( have_posts() ) :
 	the_post();
 	?>
 	<article <?php post_class( 'article' ); ?>>
-		<div class="container">
+		<div class="container container--artigo">
 			<header class="article-head">
 				<?php eletroproj_breadcrumbs(); ?>
 				<p class="article-head__byline">
@@ -125,7 +125,7 @@ while ( have_posts() ) :
 	?>
 
 	<?php if ( comments_open() || get_comments_number() ) : ?>
-		<div class="container">
+		<div class="container container--artigo">
 			<div class="article-layout">
 				<div class="article-main"><?php comments_template(); ?></div>
 			</div>
