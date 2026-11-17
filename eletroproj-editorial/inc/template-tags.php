@@ -151,7 +151,7 @@ function eletroproj_share_links() {
 		'linkedin' => array( 'LinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=' . $url ),
 	);
 	echo '<span class="share">';
-	echo eletroproj_icon( 'compartilhar', 16 ) . ' <span>' . esc_html__( 'Compartilhar:', 'eletroproj' ) . '</span> '; // phpcs:ignore WordPress.Security.EscapeOutput
+	echo eletroproj_icon( 'compartilhar', 16 ) . '<span class="share__text"><span>' . esc_html__( 'Compartilhar:', 'eletroproj' ) . '</span> '; // phpcs:ignore WordPress.Security.EscapeOutput
 	$parts = array();
 	foreach ( $links as $key => $data ) {
 		$parts[] = sprintf(
@@ -162,7 +162,7 @@ function eletroproj_share_links() {
 	}
 	$parts[] = '<button type="button" class="share__copy" data-copy-link="' . esc_url( get_permalink() ) . '">' . esc_html__( 'copiar link', 'eletroproj' ) . '</button>';
 	echo implode( ', ', $parts ); // phpcs:ignore WordPress.Security.EscapeOutput
-	echo '</span>';
+	echo '</span></span>';
 }
 
 /**
