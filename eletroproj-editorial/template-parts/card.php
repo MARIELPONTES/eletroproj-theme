@@ -6,7 +6,7 @@
  */
 
 ?>
-<article <?php post_class( 'card' ); ?>>
+<article <?php post_class( 'post-card' ); ?>>
 	<header class="card__head">
 		<?php eletroproj_tilted_media( 'eletroproj-thumb', 'tilted--sm' ); ?>
 		<div>
