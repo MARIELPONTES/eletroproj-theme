@@ -53,7 +53,6 @@
 }
 
 html[data-theme="dark"]:root {
-	--marca-texto: color-mix(in srgb, var(--marca) 55%, #fff);
 	--wp--preset--color--texto: #e4e7eb;
 	--wp--preset--color--suave: #a4adb8;
 	--wp--preset--color--fundo: #12232b;
@@ -71,7 +70,6 @@ html[data-theme="dark"]:root {
 
 @media (prefers-color-scheme: dark) {
 	html:root:not([data-theme="light"]) {
-		--marca-texto: color-mix(in srgb, var(--marca) 55%, #fff);
 		--wp--preset--color--texto: #e4e7eb;
 		--wp--preset--color--suave: #a4adb8;
 		--wp--preset--color--fundo: #12232b;
@@ -499,12 +497,16 @@ html[data-theme="dark"] .theme-toggle__moon {
 }
 
 html[data-theme="dark"] .pills a {
-	color: #fff;
+	background: color-mix(in srgb, var(--marca) 12%, #fff);
+	color: var(--marca);
 }
 
 .pills a:hover,
 .pills .current-menu-item > a,
-.pills .current-cat > a {
+.pills .current-cat > a,
+html[data-theme="dark"] .pills a:hover,
+html[data-theme="dark"] .pills .current-menu-item > a,
+html[data-theme="dark"] .pills .current-cat > a {
 	background: var(--marca);
 	color: #fff;
 }
@@ -602,7 +604,7 @@ a.tilted:hover {
 }
 
 html[data-theme="dark"] .byline__author {
-	color: color-mix(in srgb, var(--marca) 55%, #fff);
+	color: var(--marca);
 }
 
 .byline em {
@@ -696,7 +698,7 @@ html[data-theme="dark"] .byline__author {
 
 html[data-theme="dark"] .read-more,
 html[data-theme="dark"] .summary__label {
-	color: color-mix(in srgb, var(--marca) 55%, #fff);
+	color: var(--marca);
 }
 
 .read-more--small {
@@ -892,7 +894,7 @@ html[data-theme="dark"] .summary__label {
 }
 
 html[data-theme="dark"] .newsletter__label {
-	color: #fff;
+	color: var(--marca);
 }
 
 .newsletter__title {
@@ -1057,7 +1059,8 @@ html[data-theme="dark"] .guide {
 }
 
 html[data-theme="dark"] .service__icon {
-	color: #fff;
+	background: color-mix(in srgb, var(--marca) 12%, #fff);
+	color: var(--marca);
 }
 
 .service__title {
@@ -1819,7 +1822,7 @@ pre:hover .copy-code,
 }
 
 html[data-theme="dark"] .entry-content .wp-block-math.is-style-destaque::before {
-	color: color-mix(in srgb, var(--marca) 55%, #fff);
+	color: var(--marca);
 }
 
 /* Estilo "Numerada": (1), (2), (3)… à direita, como em livro técnico. */
