@@ -108,7 +108,7 @@
 	};
 
 	// Botão "Copiar" nos blocos de código.
-	document.querySelectorAll( '.entry-content pre' ).forEach( function ( pre ) {
+	document.querySelectorAll( '.entry-content pre:not(.wp-block-verse)' ).forEach( function ( pre ) {
 		var btn = document.createElement( 'button' );
 		btn.type = 'button';
 		btn.className = 'copy-code';
