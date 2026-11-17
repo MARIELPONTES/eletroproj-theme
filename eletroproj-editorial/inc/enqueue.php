@@ -91,8 +91,13 @@ function eletroproj_head_early() {
 			esc_url( ELETROPROJ_URI . '/' . $font )
 		);
 	}
-	// Aplica o tema salvo antes da pintura, para não piscar.
-	echo "<script>(function(){var t=null;try{t=localStorage.getItem('eletroproj-tema');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);})();</script>\n";
+	/*
+	 * Aplica o modo antes da pintura, para não piscar:
+	 * 1) escolha do visitante (botão sol/lua), se feita com o padrão atual;
+	 * 2) senão, o padrão do Personalizar (claro/escuro);
+	 * 3) senão, o modo do sistema do visitante.
+	 */
+	echo "<script>(function(){var d=document.documentElement,p=d.getAttribute('data-tema-padrao')||'sistema',t=null,b=null;try{t=localStorage.getItem('eletroproj-tema');b=localStorage.getItem('eletroproj-tema-base');}catch(e){}if(b===null){b='sistema';}if(b!==p){t=null;}if(t!=='dark'&&t!=='light'){t=p==='escuro'?'dark':p==='claro'?'light':(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}d.setAttribute('data-theme',t);})();</script>\n";
 }
 add_action( 'wp_head', 'eletroproj_head_early', 1 );
 
@@ -103,3 +108,25 @@ function eletroproj_editor_assets() {
 	wp_add_inline_style( 'wp-block-library', eletroproj_custom_colors_css() );
 }
 add_action( 'enqueue_block_editor_assets', 'eletroproj_editor_assets' );
+
+/**
+ * Marca no <html> o modo de cor padrão escolhido no Personalizar.
+ * Com claro/escuro, já sai o data-theme certo no HTML (funciona até sem JavaScript).
+ *
+ * @param string $output Atributos do <html>.
+ * @return string
+ */
+function eletroproj_html_modo_padrao( $output ) {
+	if ( is_admin() ) {
+		return $output;
+	}
+	$modo    = eletroproj_sanitize_modo_padrao( eletroproj_mod( 'modo_padrao' ) );
+	$output .= ' data-tema-padrao="' . esc_attr( $modo ) . '"';
+	if ( 'claro' === $modo ) {
+		$output .= ' data-theme="light"';
+	} elseif ( 'escuro' === $modo ) {
+		$output .= ' data-theme="dark"';
+	}
+	return $output;
+}
+add_filter( 'language_attributes', 'eletroproj_html_modo_padrao' );

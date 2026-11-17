@@ -53,6 +53,7 @@
 			doc.setAttribute( 'data-theme', next );
 			try {
 				localStorage.setItem( 'eletroproj-tema', next );
+				localStorage.setItem( 'eletroproj-tema-base', doc.getAttribute( 'data-tema-padrao' ) || 'sistema' );
 			} catch ( e ) {}
 			syncPressed();
 		} );

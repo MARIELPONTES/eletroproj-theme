@@ -16,6 +16,7 @@ function eletroproj_defaults() {
 	return array(
 		'eletroproj_cor_marca'           => '#C2410C',
 		'eletroproj_cor_link'            => '#0B66C3',
+		'eletroproj_modo_padrao'         => 'sistema',
 
 		'eletroproj_largura_site'        => 1240,
 		'eletroproj_largura_texto'       => 680,
@@ -141,6 +142,16 @@ function eletroproj_sanitize_checkbox( $v ) {
 function eletroproj_sanitize_id_list( $v ) {
 	$ids = array_filter( array_map( 'absint', explode( ',', (string) $v ) ) );
 	return implode( ',', array_unique( $ids ) );
+}
+
+/**
+ * Sanitiza o modo de cor padrão do site.
+ *
+ * @param string $v Valor.
+ * @return string
+ */
+function eletroproj_sanitize_modo_padrao( $v ) {
+	return in_array( $v, array( 'sistema', 'claro', 'escuro' ), true ) ? $v : 'sistema';
 }
 
 /**
@@ -337,6 +348,28 @@ function eletroproj_customize_register( $wp_customize ) {
 	);
 	$add( 'eletroproj_cor_marca', 'eletroproj_cores', __( 'Cor da marca (cabeçalho, botões, destaques)', 'eletroproj' ), 'color' );
 	$add( 'eletroproj_cor_link', 'eletroproj_cores', __( 'Cor dos links no texto', 'eletroproj' ), 'color' );
+
+	$wp_customize->add_setting(
+		'eletroproj_modo_padrao',
+		array(
+			'default'           => $d['eletroproj_modo_padrao'],
+			'sanitize_callback' => 'eletroproj_sanitize_modo_padrao',
+		)
+	);
+	$wp_customize->add_control(
+		'eletroproj_modo_padrao',
+		array(
+			'label'       => __( 'Modo de cor padrão do site', 'eletroproj' ),
+			'description' => __( 'Como o site abre para quem ainda não clicou no botão de sol/lua. Quem clicar no botão continua vendo o modo que escolheu (até você mudar esta opção de novo).', 'eletroproj' ),
+			'section'     => 'eletroproj_cores',
+			'type'        => 'radio',
+			'choices'     => array(
+				'sistema' => __( 'Seguir o sistema do visitante', 'eletroproj' ),
+				'claro'   => __( 'Claro', 'eletroproj' ),
+				'escuro'  => __( 'Escuro', 'eletroproj' ),
+			),
+		)
+	);
 
 	// Larguras.
 	$wp_customize->add_section(
