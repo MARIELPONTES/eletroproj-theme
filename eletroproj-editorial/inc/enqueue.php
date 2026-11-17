@@ -97,7 +97,8 @@ function eletroproj_head_early() {
 	 * 2) senão, o padrão do Personalizar (claro/escuro);
 	 * 3) senão, o modo do sistema do visitante.
 	 */
-	echo "<script>(function(){var d=document.documentElement,p=d.getAttribute('data-tema-padrao')||'sistema',t=null,b=null;try{t=localStorage.getItem('eletroproj-tema');b=localStorage.getItem('eletroproj-tema-base');}catch(e){}if(b===null){b='sistema';}if(b!==p){t=null;}if(t!=='dark'&&t!=='light'){t=p==='escuro'?'dark':p==='claro'?'light':(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}d.setAttribute('data-theme',t);})();</script>\n";
+	// Os atributos impedem que plugins de cache (LiteSpeed, WP Rocket etc.) atrasem este script.
+	echo "<script data-no-optimize=1 data-no-defer=1 data-no-minify=1 data-cfasync=false data-pagespeed-no-defer nowprocket>(function(){var d=document.documentElement,p=d.getAttribute('data-tema-padrao')||'sistema',t=null,b=null;try{t=localStorage.getItem('eletroproj-tema');b=localStorage.getItem('eletroproj-tema-base');}catch(e){}if(b===null){b='sistema';}if(b!==p){t=null;}if(t!=='dark'&&t!=='light'){t=p==='escuro'?'dark':p==='claro'?'light':(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}d.setAttribute('data-theme',t);})();</script>\n";
 }
 add_action( 'wp_head', 'eletroproj_head_early', 1 );
 
