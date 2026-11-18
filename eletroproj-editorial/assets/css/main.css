@@ -1633,6 +1633,7 @@ pre:hover .copy-code,
 
 .entry-content .wp-block-table {
 	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 .entry-content table {
