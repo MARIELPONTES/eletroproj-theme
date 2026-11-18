@@ -23,6 +23,8 @@
 	--marca: var(--wp--preset--color--marca, #c2410c);
 	--marca-clara: var(--wp--preset--color--marca-clara, #fdece4);
 	--marca-escura: color-mix(in srgb, var(--marca) 78%, #000);
+	/* Cor da marca usada em TEXTO (no modo escuro fica mais clara, para manter o contraste). */
+	--marca-texto: var(--marca);
 	--link: var(--wp--preset--color--link, #0b66c3);
 	--texto: var(--wp--preset--color--texto, #2b2f36);
 	--suave: var(--wp--preset--color--suave, #5f6670);
@@ -43,6 +45,8 @@
 
 	--container: 1240px;
 	--texto-largura: 680px;
+	--lateral-largura: 300px;
+	--lateral-gap: 3.5rem;
 	--raio: 12px;
 	--gutter: clamp(1rem, 4vw, 2rem);
 	color-scheme: light;
@@ -93,6 +97,9 @@ html {
 	-webkit-text-size-adjust: 100%;
 	text-size-adjust: 100%;
 	scroll-padding-top: 1.5rem;
+	/* Nada pode vazar para os lados. A barra de rolagem vertical da página fica visível;
+	   só o índice lateral (.article-aside__sticky) esconde a própria barra. */
+	overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -103,6 +110,7 @@ html {
 
 body {
 	margin: 0;
+	overflow-x: clip;
 	background: var(--fundo);
 	color: var(--texto);
 	font-family: var(--f-texto);
@@ -469,7 +477,8 @@ html[data-theme="dark"] .theme-toggle__moon {
 	display: block;
 	white-space: nowrap;
 	background: var(--marca-clara);
-	color: var(--marca);
+	/* Tom mais escuro da marca: garante contraste AA (> 4,5:1) sobre o fundo claro. */
+	color: var(--marca-escura);
 	text-decoration: none;
 	font-family: var(--f-titulo);
 	font-weight: 700;
@@ -480,12 +489,23 @@ html[data-theme="dark"] .theme-toggle__moon {
 }
 
 html[data-theme="dark"] .pills a {
-	color: #fff;
+	background: color-mix(in srgb, var(--marca) 12%, #fff);
+	color: var(--marca-escura);
+}
+
+@media (prefers-color-scheme: dark) {
+	html:not([data-theme="light"]) .pills a {
+		background: color-mix(in srgb, var(--marca) 12%, #fff);
+		color: var(--marca-escura);
+	}
 }
 
 .pills a:hover,
 .pills .current-menu-item > a,
-.pills .current-cat > a {
+.pills .current-cat > a,
+html[data-theme="dark"] .pills a:hover,
+html[data-theme="dark"] .pills .current-menu-item > a,
+html[data-theme="dark"] .pills .current-cat > a {
 	background: var(--marca);
 	color: #fff;
 }
@@ -575,7 +595,7 @@ a.tilted:hover {
 }
 
 .byline__author {
-	color: var(--marca);
+	color: var(--marca-texto);
 	font-family: var(--f-titulo);
 	font-weight: 700;
 	text-decoration: underline;
@@ -583,7 +603,7 @@ a.tilted:hover {
 }
 
 html[data-theme="dark"] .byline__author {
-	color: color-mix(in srgb, var(--marca) 55%, #fff);
+	color: var(--marca);
 }
 
 .byline em {
@@ -621,7 +641,7 @@ html[data-theme="dark"] .byline__author {
 .card-featured__title a:hover,
 .card__title a:hover,
 .card-mini__title a:hover {
-	color: var(--marca);
+	color: var(--marca-texto);
 }
 
 .card-featured__excerpt {
@@ -648,7 +668,7 @@ html[data-theme="dark"] .byline__author {
 }
 
 .card-meta .icon {
-	color: var(--marca);
+	color: var(--marca-texto);
 	fill: var(--marca);
 	stroke: none;
 }
@@ -668,7 +688,7 @@ html[data-theme="dark"] .byline__author {
 
 .read-more {
 	display: inline-block;
-	color: var(--marca);
+	color: var(--marca-texto);
 	font-family: var(--f-titulo);
 	font-weight: 700;
 	font-size: 1.05rem;
@@ -677,7 +697,7 @@ html[data-theme="dark"] .byline__author {
 
 html[data-theme="dark"] .read-more,
 html[data-theme="dark"] .summary__label {
-	color: color-mix(in srgb, var(--marca) 55%, #fff);
+	color: var(--marca);
 }
 
 .read-more--small {
@@ -811,7 +831,7 @@ html[data-theme="dark"] .summary__label {
 
 .pagination a:hover {
 	background: var(--marca-clara);
-	color: var(--marca);
+	color: var(--marca-texto);
 }
 
 /* 8. Newsletter ----------------------------------------------------------- */
@@ -866,14 +886,14 @@ html[data-theme="dark"] .summary__label {
 	background: var(--fundo);
 	border: 2px solid var(--marca);
 	border-radius: 999px;
-	color: var(--marca);
+	color: var(--marca-texto);
 	font-family: var(--f-titulo);
 	font-weight: 800;
 	font-size: 0.85rem;
 }
 
 html[data-theme="dark"] .newsletter__label {
-	color: #fff;
+	color: var(--marca);
 }
 
 .newsletter__title {
@@ -1033,12 +1053,13 @@ html[data-theme="dark"] .guide {
 	margin-bottom: 1rem;
 	border-radius: 18px;
 	background: var(--marca-clara);
-	color: var(--marca);
+	color: var(--marca-texto);
 	transform: rotate(-6deg);
 }
 
 html[data-theme="dark"] .service__icon {
-	color: #fff;
+	background: color-mix(in srgb, var(--marca) 12%, #fff);
+	color: var(--marca);
 }
 
 .service__title {
@@ -1080,7 +1101,7 @@ html[data-theme="dark"] .service__icon {
 }
 
 .breadcrumbs a:hover {
-	color: var(--marca);
+	color: var(--marca-texto);
 }
 
 .article-head__byline {
@@ -1129,16 +1150,24 @@ html[data-theme="dark"] .service__icon {
 }
 
 .meta-box .icon {
-	color: var(--marca);
+	color: var(--marca-texto);
 }
 
 .meta-box a {
 	color: var(--texto);
 }
 
+/* Ícone ao lado do texto; se faltar espaço, o texto quebra embaixo dele mesmo (não do ícone). */
+.share {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.4rem;
+}
+
 .share .icon {
-	vertical-align: -0.15em;
-	margin-right: 0.15rem;
+	flex: none;
+	align-self: flex-start;
+	margin-top: 0.25em; /* centraliza com a primeira linha do texto */
 }
 
 .share__copy {
@@ -1154,9 +1183,15 @@ html[data-theme="dark"] .service__icon {
 
 .article-layout {
 	display: grid;
-	grid-template-columns: minmax(0, var(--texto-largura)) 320px;
+	grid-template-columns: minmax(0, var(--texto-largura)) var(--lateral-largura);
 	justify-content: space-between;
-	gap: clamp(2rem, 6vw, 6rem);
+	gap: clamp(2rem, 4vw, var(--lateral-gap));
+}
+
+/* O container do post tem exatamente a largura de texto + lateral,
+   então sobra o mesmo espaço dos dois lados da página. */
+.container--artigo {
+	max-width: calc(var(--texto-largura) + var(--lateral-gap) + var(--lateral-largura) + 2 * var(--gutter));
 }
 
 .article-main {
@@ -1170,6 +1205,27 @@ html[data-theme="dark"] .service__icon {
 .article-aside__sticky {
 	position: sticky;
 	top: 1.5rem;
+	margin-top: 2rem;
+	max-height: calc(100vh - 3rem);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: none;
+}
+
+.article-aside__sticky::-webkit-scrollbar {
+	display: none;
+}
+
+.article-aside__sticky > :first-child {
+	margin-top: 0;
+}
+
+/* Imagens largas não invadem a coluna lateral. */
+.article-main .entry-content .alignwide,
+.article-main .entry-content .alignfull {
+	width: 100%;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 .summary {
@@ -1192,7 +1248,7 @@ html[data-theme="dark"] .service__icon {
 	font-size: 0.78rem;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
-	color: var(--marca);
+	color: var(--marca-texto);
 	margin-right: 0.35rem;
 	vertical-align: 0.15em;
 }
@@ -1218,6 +1274,21 @@ html[data-theme="dark"] .service__icon {
 	border-radius: var(--raio);
 	padding: 1rem 1.25rem;
 	margin: 0 0 2.25rem;
+}
+
+/* Índice na lateral (desktop), acompanha a leitura. */
+.toc--lateral {
+	margin: 0 0 1.5rem;
+	padding: 0.9rem 1rem;
+}
+
+.toc--lateral .toc__list {
+	font-size: 0.95rem;
+}
+
+/* Índice acima do texto: só no celular/tablet. */
+.toc--inline {
+	display: none;
 }
 
 .toc__title {
@@ -1250,7 +1321,7 @@ html[data-theme="dark"] .service__icon {
 .toc__item--h2::before {
 	content: counter(toc) ".";
 	min-width: 1.4em;
-	color: var(--marca);
+	color: var(--marca-texto);
 	font-family: var(--f-titulo);
 	font-weight: 800;
 }
@@ -1272,7 +1343,7 @@ html[data-theme="dark"] .service__icon {
 
 .toc__item a:hover,
 .toc__item a.is-active {
-	color: var(--marca);
+	color: var(--marca-texto);
 	text-decoration-color: currentColor;
 }
 
@@ -1299,7 +1370,7 @@ html[data-theme="dark"] .service__icon {
 
 .tag-list a:hover {
 	background: var(--marca-clara);
-	color: var(--marca);
+	color: var(--marca-texto);
 }
 
 .author-box {
@@ -1352,7 +1423,7 @@ html[data-theme="dark"] .service__icon {
 }
 
 .article-aside .newsletter {
-	margin-top: 4.5rem;
+	margin-top: 0;
 }
 
 .widget {
@@ -1393,7 +1464,7 @@ html[data-theme="dark"] .service__icon {
 	font-size: 4.1em;
 	line-height: 0.82;
 	margin: 0.08em 0.1em 0 0;
-	color: var(--marca);
+	color: var(--marca-texto);
 }
 
 .entry-content h2 {
@@ -1429,7 +1500,7 @@ html[data-theme="dark"] .service__icon {
 }
 
 .entry-content li::marker {
-	color: var(--marca);
+	color: var(--marca-texto);
 	font-weight: 700;
 }
 
@@ -1573,7 +1644,7 @@ pre:hover .copy-code,
 }
 
 .entry-content thead th,
-.entry-content .is-style-tecnica tr:first-child td {
+.entry-content .is-style-tecnica table:not(:has(thead)) tr:first-child td {
 	background: var(--cinza);
 	font-weight: 800;
 }
@@ -1663,11 +1734,151 @@ pre:hover .copy-code,
 	content: "↬";
 	position: absolute;
 	left: 0;
-	color: var(--marca);
+	color: var(--marca-texto);
 }
 
 .entry-content .is-style-leitura a {
 	font-weight: 700;
+}
+
+/* Fórmulas: bloco Matemática (core/math, MathML) e fórmulas na linha. */
+.entry-content {
+	counter-reset: equacao;
+}
+
+.entry-content math {
+	font-family: math, "Cambria Math", "STIX Two Math", "Latin Modern Math", serif;
+	color: var(--texto);
+	math-style: normal;
+}
+
+/* Fórmula dentro de um parágrafo (formato "Matemática em linha"). */
+.entry-content :is(p, li, td, th, figcaption) math:not([display="block"]) {
+	font-size: 1.06em;
+	padding-inline: 0.12em;
+	white-space: nowrap;
+}
+
+/* Caixa padrão: painel calmo, fórmula centralizada e maior. */
+.entry-content .wp-block-math {
+	position: relative;
+	margin-block: 1.8em;
+	padding: 1.5rem clamp(1rem, 4vw, 2rem);
+	--math-fundo: color-mix(in srgb, var(--cinza) 70%, var(--fundo));
+	--math-sombra: color-mix(in srgb, var(--texto) 18%, transparent);
+	/* Sombras nas bordas só aparecem quando a fórmula é larga e dá para rolar. */
+	background:
+		linear-gradient(to right, var(--math-fundo) 30%, transparent) left / 2.5rem 100% no-repeat local,
+		linear-gradient(to left, var(--math-fundo) 30%, transparent) right / 2.5rem 100% no-repeat local,
+		radial-gradient(farthest-side at 0 50%, var(--math-sombra), transparent) left / 0.8rem 100% no-repeat scroll,
+		radial-gradient(farthest-side at 100% 50%, var(--math-sombra), transparent) right / 0.8rem 100% no-repeat scroll,
+		var(--math-fundo);
+	border: 1px solid var(--borda);
+	border-radius: var(--raio);
+	text-align: center;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	scrollbar-width: thin;
+	scrollbar-color: var(--borda) transparent;
+	-webkit-overflow-scrolling: touch;
+}
+
+.entry-content .wp-block-math math {
+	display: block math;
+	font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);
+	line-height: 1.5;
+	margin: 0 auto;
+	width: max-content;
+	max-width: none;
+	padding-block: 0.15em;
+}
+
+/* Operadores (=, +, ×, √…) um tom mais suave que letras e números. */
+.entry-content .wp-block-math mo {
+	color: color-mix(in srgb, var(--texto) 70%, var(--fundo));
+}
+
+/* Estilo "Fórmula em destaque": a fórmula principal do artigo. */
+.entry-content .wp-block-math.is-style-destaque {
+	--math-fundo: var(--marca-clara);
+	padding-top: 2.4rem;
+	border: 0;
+	border-left: 5px solid var(--marca);
+}
+
+.entry-content .wp-block-math.is-style-destaque::before {
+	content: "Fórmula";
+	position: absolute;
+	top: 0.75rem;
+	left: 1.1rem;
+	font-family: var(--f-titulo);
+	font-weight: 800;
+	font-size: 0.72rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--marca-texto);
+}
+
+html[data-theme="dark"] .entry-content .wp-block-math.is-style-destaque::before {
+	color: var(--marca);
+}
+
+/* Estilo "Numerada": (1), (2), (3)… à direita, como em livro técnico. */
+.entry-content .wp-block-math.is-style-numerada {
+	counter-increment: equacao;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.entry-content .wp-block-math.is-style-numerada math {
+	flex: 1 0 auto;
+}
+
+.entry-content .wp-block-math.is-style-numerada::after {
+	content: "(" counter(equacao) ")";
+	flex: none;
+	font-family: var(--f-titulo);
+	font-weight: 700;
+	font-size: 0.95rem;
+	font-variant-numeric: tabular-nums;
+	color: var(--suave);
+}
+
+/* Estilo "Sem caixa": só a fórmula, centralizada no texto. */
+.entry-content .wp-block-math.is-style-limpa {
+	--math-fundo: var(--fundo);
+	padding: 0.25rem 0;
+	border: 0;
+	border-radius: 0;
+}
+
+/* Cor de fundo escolhida no editor substitui a caixa padrão. */
+.entry-content .wp-block-math.has-background {
+	background-image: none;
+	border-color: transparent;
+}
+
+/* Parágrafo logo após a fórmula ("Onde: V = tensão…") colado a ela. */
+.entry-content .wp-block-math + p:has(> strong:first-child) {
+	margin-top: -0.6em;
+	font-size: 0.95em;
+	color: var(--suave);
+}
+
+@media (max-width: 600px) {
+	.entry-content .wp-block-math {
+		margin-inline: calc(var(--gutter) * -0.5);
+	}
+}
+
+@media print {
+	.entry-content .wp-block-math {
+		background: none;
+		border: 1px solid #999;
+		overflow: visible;
+	}
 }
 
 /* Ferramentas/calculadoras incorporadas. */
@@ -1693,6 +1904,602 @@ pre:hover .copy-code,
 	margin: 2rem 0;
 	font-family: var(--f-titulo);
 	font-weight: 700;
+}
+
+/* 11b. Blocos de ensino técnico ------------------------------------------- */
+/* Tudo só com CSS (sem JavaScript extra), usando as variáveis do tema:
+   funciona igual no modo claro e no escuro. */
+
+.entry-content {
+	--verde: #12925a;
+	--vermelho: #c81e1e;
+	--roxo: #7c4dcc;
+}
+
+html[data-theme="dark"] .entry-content {
+	--vermelho: #f05252;
+	--roxo: #a78bfa;
+}
+
+@media (prefers-color-scheme: dark) {
+	html:not([data-theme="light"]) .entry-content {
+		--vermelho: #f05252;
+		--roxo: #a78bfa;
+	}
+}
+
+/* Rótulo pequeno em maiúsculas no topo das caixas de ensino. */
+.entry-content .is-style-objetivos::before,
+.entry-content .is-style-exemplo::before,
+.entry-content .is-style-definicao::before,
+.entry-content .is-style-perigo::before {
+	display: block;
+	margin-bottom: 0.6rem;
+	font-family: var(--f-titulo);
+	font-weight: 800;
+	font-size: 0.74rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	font-style: normal;
+}
+
+/* "Neste artigo você vai aprender" — abre o post. */
+.entry-content .is-style-objetivos {
+	padding: 1.25rem 1.5rem;
+	border: 1px solid var(--borda);
+	border-top: 4px solid var(--marca);
+	border-radius: var(--raio);
+	background: var(--fundo);
+	box-shadow: var(--sombra-leve);
+	font-size: 0.95em;
+}
+
+.entry-content .is-style-objetivos::before {
+	content: "Neste artigo você vai aprender";
+	color: var(--marca-texto);
+}
+
+.entry-content .is-style-objetivos ul {
+	list-style: none;
+	padding-left: 0;
+}
+
+.entry-content .is-style-objetivos li {
+	position: relative;
+	padding-left: 1.6rem;
+}
+
+.entry-content .is-style-objetivos li::before {
+	content: "→";
+	position: absolute;
+	left: 0;
+	font-family: var(--f-titulo);
+	font-weight: 800;
+	color: var(--marca-texto);
+}
+
+/* Exemplo resolvido / exercício. */
+.entry-content .is-style-exemplo {
+	padding: 1.25rem 1.5rem;
+	border-radius: var(--raio);
+	border: 1px solid color-mix(in srgb, var(--roxo) 30%, transparent);
+	border-left: 5px solid var(--roxo);
+	background: var(--lilas-claro);
+	font-size: 0.95em;
+}
+
+.entry-content .is-style-exemplo::before {
+	content: "Exemplo resolvido";
+	color: var(--roxo);
+}
+
+/* Definição de termo técnico. */
+.entry-content .is-style-definicao {
+	padding: 1.1rem 1.4rem;
+	border-radius: var(--raio);
+	border-left: 5px solid var(--texto);
+	background: var(--cinza);
+	font-size: 0.95em;
+}
+
+.entry-content .is-style-definicao::before {
+	content: "Definição";
+	color: var(--suave);
+}
+
+/* Perigo: risco de choque, arco elétrico, morte (NR-10). */
+.entry-content .is-style-perigo {
+	padding: 1.2rem 1.4rem;
+	border-radius: var(--raio);
+	border: 1px solid color-mix(in srgb, var(--vermelho) 35%, transparent);
+	border-left: 5px solid var(--vermelho);
+	background: color-mix(in srgb, var(--vermelho) 9%, var(--fundo));
+	font-size: 0.95em;
+}
+
+.entry-content .is-style-perigo::before {
+	content: "⚡ Perigo — risco elétrico";
+	color: var(--vermelho);
+}
+
+.entry-content :is(.is-style-objetivos, .is-style-exemplo, .is-style-definicao, .is-style-perigo) > :last-child {
+	margin-bottom: 0;
+}
+
+.entry-content :is(.is-style-objetivos, .is-style-exemplo, .is-style-definicao, .is-style-perigo) h3 {
+	margin-top: 0;
+	font-size: 1.15rem;
+}
+
+.entry-content .is-style-exemplo h4 {
+	margin-top: 1.2em;
+	margin-bottom: 0.4em;
+	font-size: 0.85rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--suave);
+}
+
+/* Lista "Passo a passo": círculos numerados ligados por uma linha. */
+.entry-content ol.is-style-passos {
+	list-style: none;
+	padding-left: 0;
+	counter-reset: passo;
+}
+
+.entry-content .is-style-passos > li {
+	position: relative;
+	counter-increment: passo;
+	margin: 0;
+	padding: 0 0 1.2em 3rem;
+}
+
+.entry-content .is-style-passos > li::before {
+	content: counter(passo);
+	position: absolute;
+	left: 0;
+	top: 0.1em;
+	width: 2rem;
+	height: 2rem;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--marca);
+	color: #fff;
+	font-family: var(--f-titulo);
+	font-weight: 800;
+	font-size: 0.95rem;
+	line-height: 1;
+	font-variant-numeric: tabular-nums;
+}
+
+.entry-content .is-style-passos > li:not(:last-child)::after {
+	content: "";
+	position: absolute;
+	left: calc(1rem - 1px);
+	top: 2.4rem;
+	bottom: 0.2rem;
+	width: 2px;
+	background: var(--borda);
+}
+
+.entry-content .is-style-passos > li:last-child {
+	padding-bottom: 0;
+}
+
+.entry-content .is-style-passos > li > strong:first-child {
+	font-family: var(--f-titulo);
+}
+
+/* Lista "Checklist": quadradinhos com ✓ (inspeção, NR-10, entrega de obra). */
+.entry-content ul.is-style-checklist {
+	list-style: none;
+	padding-left: 0;
+}
+
+.entry-content .is-style-checklist > li {
+	position: relative;
+	padding-left: 2.1rem;
+}
+
+.entry-content .is-style-checklist > li::before {
+	content: "✓";
+	position: absolute;
+	left: 0;
+	top: 0.3em;
+	width: 1.3rem;
+	height: 1.3rem;
+	display: grid;
+	place-items: center;
+	border-radius: 5px;
+	background: var(--verde);
+	color: #fff;
+	font-family: var(--f-titulo);
+	font-weight: 800;
+	font-size: 0.8rem;
+	line-height: 1;
+}
+
+/* Tabela "Ficha técnica": pares nome / valor (dados de placa, especificações). */
+.entry-content .wp-block-table.is-style-ficha {
+	border: 1px solid var(--borda);
+	border-radius: var(--raio);
+}
+
+.entry-content .is-style-ficha table {
+	font-variant-numeric: tabular-nums;
+}
+
+.entry-content .is-style-ficha td,
+.entry-content .is-style-ficha th {
+	border: 0;
+	border-bottom: 1px solid var(--borda);
+}
+
+.entry-content .is-style-ficha tr:last-child td {
+	border-bottom: 0;
+}
+
+.entry-content .is-style-ficha td:first-child {
+	width: 42%;
+	background: var(--cinza);
+	color: var(--suave);
+	font-weight: 700;
+}
+
+.entry-content .is-style-ficha td:last-child {
+	font-weight: 700;
+}
+
+/* Cabeçalho de tabela com filete na cor da marca. */
+.entry-content thead th {
+	border-bottom: 2px solid var(--marca);
+}
+
+/* Detalhes (abre e fecha): "Ver solução", "Ver cálculo completo". */
+.entry-content .wp-block-details {
+	border: 1px solid var(--borda);
+	border-radius: var(--raio);
+	background: var(--fundo);
+	overflow: hidden;
+}
+
+.entry-content .wp-block-details > summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.95rem 1.25rem;
+	list-style: none;
+	cursor: pointer;
+	font-family: var(--f-titulo);
+	font-weight: 700;
+	font-size: 1rem;
+	line-height: 1.35;
+	transition: background-color 0.15s ease;
+}
+
+.entry-content .wp-block-details > summary::-webkit-details-marker {
+	display: none;
+}
+
+.entry-content .wp-block-details > summary::after {
+	content: "";
+	flex: none;
+	width: 0.55rem;
+	height: 0.55rem;
+	margin-right: 0.2rem;
+	border-right: 2px solid var(--marca-texto);
+	border-bottom: 2px solid var(--marca-texto);
+	transform: translateY(-25%) rotate(45deg);
+	transition: transform 0.2s ease;
+}
+
+.entry-content .wp-block-details > summary:hover {
+	background: var(--cinza);
+}
+
+.entry-content .wp-block-details[open] > summary {
+	border-bottom: 1px solid var(--borda);
+}
+
+.entry-content .wp-block-details[open] > summary::after {
+	transform: translateY(25%) rotate(-135deg);
+}
+
+.entry-content .wp-block-details > :not(summary) {
+	margin-inline: 1.25rem;
+	font-size: 0.95em;
+}
+
+.entry-content .wp-block-details > summary + * {
+	margin-top: 1.1rem;
+}
+
+.entry-content .wp-block-details > :last-child:not(summary) {
+	margin-bottom: 1.25rem;
+}
+
+.entry-content .wp-block-details + .wp-block-details {
+	margin-top: -0.6em;
+}
+
+/* FAQ do Rank Math. */
+.entry-content .wp-block-rank-math-faq-block {
+	border-top: 3px solid var(--marca);
+}
+
+.entry-content .rank-math-faq-item {
+	padding: 1.2rem 0 1.2rem 2.6rem;
+	border-bottom: 1px solid var(--borda);
+	position: relative;
+}
+
+.entry-content .rank-math-faq-item::before {
+	content: "?";
+	position: absolute;
+	left: 0;
+	top: 1.25rem;
+	width: 1.75rem;
+	height: 1.75rem;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--marca-clara);
+	color: var(--marca-texto);
+	font-family: var(--f-titulo);
+	font-weight: 800;
+	font-size: 0.95rem;
+	line-height: 1;
+}
+
+.entry-content .rank-math-question {
+	margin: 0 0 0.4rem;
+	font-size: 1.12rem;
+	line-height: 1.35;
+}
+
+.entry-content .rank-math-answer {
+	font-size: 0.95em;
+	color: color-mix(in srgb, var(--texto) 88%, var(--fundo));
+}
+
+.entry-content .rank-math-answer > :last-child {
+	margin-bottom: 0;
+}
+
+/* Colunas: espaço e estilos "Cartões" e "Comparativo". */
+.entry-content .wp-block-columns {
+	gap: 1.25rem;
+}
+
+.entry-content .wp-block-column > :first-child {
+	margin-top: 0;
+}
+
+.entry-content .wp-block-column > :last-child {
+	margin-bottom: 0;
+}
+
+.entry-content :is(.is-style-cartoes, .is-style-comparativo) > .wp-block-column {
+	padding: 1.2rem 1.35rem;
+	border: 1px solid var(--borda);
+	border-radius: var(--raio);
+	background: var(--fundo);
+	box-shadow: var(--sombra-leve);
+	font-size: 0.95em;
+}
+
+.entry-content :is(.is-style-cartoes, .is-style-comparativo) h3 {
+	font-size: 1.12rem;
+	margin-bottom: 0.5em;
+}
+
+.entry-content .is-style-comparativo > .wp-block-column:first-child {
+	border-top: 4px solid var(--verde);
+}
+
+.entry-content .is-style-comparativo > .wp-block-column:nth-child(2) {
+	border-top: 4px solid var(--vermelho);
+}
+
+.entry-content .is-style-comparativo > .wp-block-column:first-child li::marker {
+	content: "✓  ";
+	color: var(--verde);
+}
+
+.entry-content .is-style-comparativo > .wp-block-column:nth-child(2) li::marker {
+	content: "✕  ";
+	color: var(--vermelho);
+}
+
+/* Mídia e texto: vira um cartão (foto do componente + explicação). */
+.entry-content .wp-block-media-text {
+	border: 1px solid var(--borda);
+	border-radius: var(--raio);
+	background: var(--cinza);
+	overflow: hidden;
+}
+
+.entry-content .wp-block-media-text img {
+	border-radius: 0;
+}
+
+.entry-content .wp-block-media-text__content {
+	padding: 1.25rem 1.5rem;
+	font-size: 0.95em;
+}
+
+.entry-content .wp-block-media-text__content > :first-child {
+	margin-top: 0;
+}
+
+.entry-content .wp-block-media-text__content > :last-child {
+	margin-bottom: 0;
+}
+
+/* Arquivo para baixar (planilha, PDF, projeto). */
+.entry-content .wp-block-file {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.75rem 1rem;
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--borda);
+	border-left: 5px solid var(--link);
+	border-radius: var(--raio);
+	background: var(--fundo);
+	font-family: var(--f-titulo);
+	font-size: 1rem;
+	font-weight: 700;
+}
+
+.entry-content .wp-block-file > a:not(.wp-block-file__button) {
+	flex: 1 1 14rem;
+	color: var(--texto);
+	text-decoration: none;
+}
+
+.entry-content .wp-block-file .wp-block-file__button {
+	margin-left: auto;
+	padding: 0.6em 1.15em;
+	border-radius: 10px;
+	background: var(--link);
+	color: #fff;
+	font-size: 0.9rem;
+	text-decoration: none;
+}
+
+.entry-content .wp-block-file .wp-block-file__button:hover {
+	background: color-mix(in srgb, var(--link) 80%, #000);
+	color: #fff;
+}
+
+/* Pré-formatado: painel claro para diagramas de quadro, árvores, saídas de terminal. */
+.entry-content .wp-block-preformatted {
+	background: var(--cinza);
+	color: var(--texto);
+	border: 1px solid var(--borda);
+	font-size: 0.85rem;
+	line-height: 1.55;
+	white-space: pre;
+}
+
+.entry-content .wp-block-preformatted .copy-code {
+	background: var(--fundo);
+	color: var(--texto);
+	border: 1px solid var(--borda);
+}
+
+/* Verso: texto comum em itálico (não é código). */
+.entry-content .wp-block-verse {
+	background: none;
+	color: inherit;
+	font-family: var(--f-texto);
+	font-size: 1em;
+	font-style: italic;
+	padding: 0 0 0 1.5rem;
+	border-left: 2px solid var(--borda);
+	border-radius: 0;
+	white-space: pre-wrap;
+	overflow: visible;
+}
+
+/* Separador: filete curto na cor da marca; "Largura total" e "Pontos" também. */
+.entry-content .wp-block-separator {
+	border: 0;
+	border-top: 1px solid var(--borda);
+	margin-block: 2.5rem;
+	opacity: 1;
+}
+
+.entry-content .wp-block-separator:not(.is-style-wide):not(.is-style-dots) {
+	width: 4.5rem;
+	border-top: 3px solid var(--marca);
+	border-radius: 3px;
+}
+
+.entry-content .wp-block-separator.is-style-wide {
+	width: 100%;
+}
+
+.entry-content .wp-block-separator.is-style-dots {
+	color: var(--marca-texto);
+}
+
+/* Botões dentro do texto: sem isso a regra de link deixava o texto azul. */
+.entry-content .wp-block-button__link,
+.entry-content .wp-block-button__link:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+/* Botão "Contorno". */
+.entry-content .wp-block-button.is-style-outline > .wp-block-button__link {
+	background: transparent;
+	color: var(--marca-texto);
+	border: 2px solid currentColor;
+	box-shadow: none;
+	padding: calc(0.8em - 2px) calc(1.4em - 2px);
+}
+
+.entry-content .wp-block-button.is-style-outline > .wp-block-button__link:hover {
+	background: var(--marca-clara);
+	color: var(--marca-texto);
+}
+
+/* Grupo com cor de fundo escolhida no editor ganha respiro e cantos. */
+.entry-content .wp-block-group.has-background {
+	padding: 1.2rem 1.4rem;
+	border-radius: var(--raio);
+}
+
+/* Galeria. */
+.entry-content .wp-block-gallery img {
+	border-radius: 8px;
+}
+
+/* Vídeo incorporado (YouTube etc.). */
+.entry-content .wp-block-embed__wrapper {
+	border-radius: var(--raio);
+	overflow: hidden;
+}
+
+/* Notas de rodapé (referências, itens de norma). */
+.entry-content .wp-block-footnotes {
+	margin-top: 3rem;
+	padding-top: 1rem;
+	padding-left: 1.4em;
+	border-top: 1px solid var(--borda);
+	font-size: 0.85rem;
+	line-height: 1.55;
+	color: var(--suave);
+}
+
+.entry-content sup.fn a,
+.entry-content .fn a {
+	padding-inline: 0.15em;
+	font-family: var(--f-titulo);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+/* Siglas (<abbr title="Dispositivo diferencial residual">DR</abbr>). */
+.entry-content abbr[title] {
+	text-decoration: underline dotted;
+	text-underline-offset: 0.2em;
+	cursor: help;
+}
+
+/* Índices e expoentes não mexem no espaço entre linhas (mm², 10³, I_n). */
+.entry-content sub,
+.entry-content sup {
+	line-height: 0;
+}
+
+/* Valores e unidades com números alinhados (use "Código na linha" só para código). */
+.entry-content :is(td, th) {
+	font-variant-numeric: tabular-nums;
 }
 
 /* 12. Comentários --------------------------------------------------------- */
@@ -1752,7 +2559,7 @@ pre:hover .copy-code,
 	font-family: var(--f-titulo);
 	font-weight: 700;
 	font-size: 0.9rem;
-	color: var(--marca);
+	color: var(--marca-texto);
 }
 
 .comment-respond {
@@ -1808,7 +2615,7 @@ pre:hover .copy-code,
 	font-size: 0.8rem;
 	letter-spacing: 0.16em;
 	text-transform: uppercase;
-	color: var(--marca);
+	color: var(--marca-texto);
 	margin-bottom: 0.3rem;
 }
 
@@ -1876,7 +2683,7 @@ pre:hover .copy-code,
 	font-size: clamp(5rem, 16vw, 9rem);
 	line-height: 1;
 	margin: 0;
-	color: var(--marca);
+	color: var(--marca-texto);
 	transform: rotate(-4deg);
 	display: inline-block;
 }
@@ -2028,6 +2835,16 @@ pre:hover .copy-code,
 	.magazine__aside,
 	.article-aside__sticky {
 		position: static;
+		max-height: none;
+		overflow: visible;
+	}
+
+	.toc--inline {
+		display: block;
+	}
+
+	.toc--lateral {
+		display: none;
 	}
 
 	.article-aside .author-box--compact {

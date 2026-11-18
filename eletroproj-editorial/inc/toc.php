@@ -113,27 +113,35 @@ function eletroproj_toc_items() {
 }
 
 /**
- * Mostra o sumário (só se houver 3 ou mais seções e se estiver ativado).
+ * Mostra o sumário (só os H2; aparece se houver 3 ou mais e se estiver ativado).
+ *
+ * O bloco é um <details>: o leitor pode recolher (guardar) e abrir (exibir) o índice.
+ *
+ * @param string $variant 'lateral' (coluna ao lado do artigo, fixa ao rolar) ou 'inline' (acima do texto, no celular/tablet).
  */
-function eletroproj_the_toc() {
+function eletroproj_the_toc( $variant = 'lateral' ) {
 	if ( ! get_theme_mod( 'eletroproj_mostrar_sumario', true ) ) {
 		return;
 	}
-	$items = eletroproj_toc_items();
-	$h2    = array_filter(
-		$items,
-		function ( $i ) {
-			return 2 === $i['level'];
-		}
-	);
+	static $h2 = null;
+	if ( null === $h2 ) {
+		$h2 = array_values(
+			array_filter(
+				eletroproj_toc_items(),
+				function ( $i ) {
+					return 2 === $i['level'];
+				}
+			)
+		);
+	}
 	if ( count( $h2 ) < 3 ) {
 		return;
 	}
-	echo '<details class="toc" open><summary class="toc__title">' . esc_html__( 'Neste artigo', 'eletroproj' ) . '</summary><ol class="toc__list">';
-	foreach ( $items as $item ) {
+	$variant = ( 'inline' === $variant ) ? 'inline' : 'lateral';
+	echo '<details class="toc toc--' . esc_attr( $variant ) . '" open><summary class="toc__title">' . esc_html__( 'Neste artigo', 'eletroproj' ) . '</summary><ol class="toc__list">';
+	foreach ( $h2 as $item ) {
 		printf(
-			'<li class="toc__item toc__item--h%1$d"><a href="#%2$s">%3$s</a></li>',
-			(int) $item['level'],
+			'<li class="toc__item toc__item--h2"><a href="#%1$s">%2$s</a></li>',
 			esc_attr( $item['id'] ),
 			esc_html( $item['text'] )
 		);

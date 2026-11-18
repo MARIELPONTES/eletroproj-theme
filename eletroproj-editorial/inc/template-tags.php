@@ -102,14 +102,23 @@ function eletroproj_author_wrote() {
  */
 function eletroproj_date_and_cats() {
 	$cats = eletroproj_category_links();
+	$data  = eletroproj_mod( 'mostrar_datas' );
+	if ( ! $data && ! $cats ) {
+		return;
+	}
 	echo '<span class="meta-line">';
-	printf(
-		'<time class="meta-line__date" datetime="%1$s">%2$s</time>',
-		esc_attr( get_the_date( DATE_W3C ) ),
-		esc_html( get_the_date( 'j M Y' ) )
-	);
+	if ( $data ) {
+		printf(
+			'<time class="meta-line__date" datetime="%1$s">%2$s</time>',
+			esc_attr( get_the_date( DATE_W3C ) ),
+			esc_html( get_the_date( 'j M Y' ) )
+		);
+	}
 	if ( $cats ) {
-		echo ' <em>' . esc_html__( 'em', 'eletroproj' ) . '</em> <span class="meta-line__cats">' . wp_kses_post( $cats ) . '</span>';
+		if ( $data ) {
+			echo ' <em>' . esc_html__( 'em', 'eletroproj' ) . '</em> ';
+		}
+		echo '<span class="meta-line__cats">' . wp_kses_post( $cats ) . '</span>';
 	}
 	echo '</span>';
 }
@@ -142,7 +151,7 @@ function eletroproj_share_links() {
 		'linkedin' => array( 'LinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=' . $url ),
 	);
 	echo '<span class="share">';
-	echo eletroproj_icon( 'compartilhar', 16 ) . ' <span>' . esc_html__( 'Compartilhar:', 'eletroproj' ) . '</span> '; // phpcs:ignore WordPress.Security.EscapeOutput
+	echo eletroproj_icon( 'compartilhar', 16 ) . '<span class="share__text"><span>' . esc_html__( 'Compartilhar:', 'eletroproj' ) . '</span> '; // phpcs:ignore WordPress.Security.EscapeOutput
 	$parts = array();
 	foreach ( $links as $key => $data ) {
 		$parts[] = sprintf(
@@ -153,7 +162,7 @@ function eletroproj_share_links() {
 	}
 	$parts[] = '<button type="button" class="share__copy" data-copy-link="' . esc_url( get_permalink() ) . '">' . esc_html__( 'copiar link', 'eletroproj' ) . '</button>';
 	echo implode( ', ', $parts ); // phpcs:ignore WordPress.Security.EscapeOutput
-	echo '</span>';
+	echo '</span></span>';
 }
 
 /**
@@ -208,6 +217,69 @@ function eletroproj_breadcrumbs() {
 }
 
 /**
+ * Faixa de categorias abaixo do menu.
+ *
+ * Prioridade: categorias marcadas no Personalizador → menu "Faixa de categorias" → categorias com mais artigos.
+ */
+function eletroproj_topics_bar() {
+	if ( ! eletroproj_mod( 'faixa_mostrar' ) ) {
+		return;
+	}
+	$ids = array_filter( array_map( 'absint', explode( ',', (string) eletroproj_mod( 'faixa_categorias' ) ) ) );
+
+	ob_start();
+	if ( $ids ) {
+		$ordem = eletroproj_mod( 'faixa_ordem' );
+		$args  = array(
+			'include'    => $ids,
+			'hide_empty' => false,
+		);
+		if ( 'nome' === $ordem ) {
+			$args['orderby'] = 'name';
+		} elseif ( 'quantidade' === $ordem ) {
+			$args['orderby'] = 'count';
+			$args['order']   = 'DESC';
+		} else {
+			$args['orderby'] = 'include';
+		}
+		eletroproj_render_category_pills( get_categories( $args ) );
+	} else {
+		wp_nav_menu(
+			array(
+				'theme_location' => 'categorias',
+				'container'      => false,
+				'menu_class'     => 'pills',
+				'depth'          => 1,
+				'fallback_cb'    => 'eletroproj_categories_fallback',
+			)
+		);
+	}
+	$html = trim( ob_get_clean() );
+	if ( '' === $html ) {
+		return;
+	}
+	echo '<nav class="topics-bar" aria-label="' . esc_attr__( 'Categorias', 'eletroproj' ) . '"><div class="container">' . $html . '</div></nav>'; // phpcs:ignore WordPress.Security.EscapeOutput
+}
+
+/**
+ * Imprime a lista de categorias no formato de "pílulas".
+ *
+ * @param WP_Term[] $cats Categorias.
+ */
+function eletroproj_render_category_pills( $cats ) {
+	if ( empty( $cats ) || is_wp_error( $cats ) ) {
+		return;
+	}
+	echo '<ul class="pills">';
+	$current = is_category() ? get_queried_object_id() : 0;
+	foreach ( $cats as $cat ) {
+		$is_current = ( $current === $cat->term_id );
+		echo '<li' . ( $is_current ? ' class="current-cat"' : '' ) . '><a href="' . esc_url( get_category_link( $cat ) ) . '"' . ( $is_current ? ' aria-current="page"' : '' ) . '>' . esc_html( $cat->name ) . '</a></li>'; // phpcs:ignore WordPress.Security.EscapeOutput
+	}
+	echo '</ul>';
+}
+
+/**
  * Menu de fallback quando o usuário ainda não criou o menu de categorias.
  */
 function eletroproj_categories_fallback() {
@@ -218,17 +290,7 @@ function eletroproj_categories_fallback() {
 			'number'  => 16,
 		)
 	);
-	if ( empty( $cats ) ) {
-		return;
-	}
-	echo '<ul class="pills">';
-	$current = is_category() ? get_queried_object_id() : 0;
-	foreach ( $cats as $cat ) {
-		$class = ( $current === $cat->term_id ) ? ' class="current-cat"' : '';
-		$aria  = ( $current === $cat->term_id ) ? ' aria-current="page"' : '';
-		echo '<li' . $class . '><a href="' . esc_url( get_category_link( $cat ) ) . '"' . $aria . '>' . esc_html( $cat->name ) . '</a></li>'; // phpcs:ignore WordPress.Security.EscapeOutput
-	}
-	echo '</ul>';
+	eletroproj_render_category_pills( $cats );
 }
 
 /**

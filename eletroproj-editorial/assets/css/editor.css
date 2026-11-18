@@ -57,3 +57,115 @@ pre.wp-block-code {
 	border: 1px solid #e3e5e8;
 	padding: 0.6rem 0.8rem;
 }
+
+/* Bloco Matemática (fórmulas). */
+math {
+	font-family: math, "Cambria Math", "STIX Two Math", "Latin Modern Math", serif;
+}
+
+.wp-block-math {
+	padding: 1.5rem 2rem;
+	background: #f7f7f8;
+	border: 1px solid #e3e5e8;
+	border-radius: 12px;
+	text-align: center;
+	overflow-x: auto;
+	counter-increment: equacao;
+}
+
+.wp-block-math math {
+	font-size: 1.4rem;
+	line-height: 1.5;
+}
+
+.wp-block-math mo { color: #5f6670; }
+
+.wp-block-math.is-style-destaque {
+	position: relative;
+	padding-top: 2.4rem;
+	background: #fdece4;
+	border: 0;
+	border-left: 5px solid #c2410c;
+}
+
+.wp-block-math.is-style-destaque::before {
+	content: "FÓRMULA";
+	position: absolute;
+	top: 0.75rem;
+	left: 1.1rem;
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	color: #c2410c;
+}
+
+.wp-block-math.is-style-numerada {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.wp-block-math.is-style-numerada math { flex: 1 0 auto; }
+
+.wp-block-math.is-style-numerada::after {
+	content: "(" counter(equacao) ")";
+	color: #5f6670;
+	font-weight: 700;
+	font-size: 0.95rem;
+}
+
+.wp-block-math.is-style-limpa {
+	padding: 0.25rem 0;
+	background: none;
+	border: 0;
+}
+
+/* Blocos de ensino técnico (versão simplificada para o editor). */
+.is-style-perigo { padding: 1.2rem 1.4rem; border-radius: 12px; border-left: 5px solid #c81e1e; background: #fdeeee; }
+.is-style-objetivos { padding: 1.25rem 1.5rem; border: 1px solid #e3e5e8; border-top: 4px solid #c2410c; border-radius: 12px; }
+.is-style-exemplo { padding: 1.25rem 1.5rem; border-radius: 12px; border-left: 5px solid #7c4dcc; background: #f3eafb; }
+.is-style-definicao { padding: 1.1rem 1.4rem; border-radius: 12px; border-left: 5px solid #2b2f36; background: #f5f5f5; }
+.is-style-objetivos::before, .is-style-exemplo::before, .is-style-definicao::before, .is-style-perigo::before {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-family: var(--wp--preset--font-family--titulos, system-ui, sans-serif);
+	font-size: 0.74rem;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+.is-style-objetivos::before { content: "Neste artigo você vai aprender"; color: #c2410c; }
+.is-style-exemplo::before { content: "Exemplo resolvido"; color: #7c4dcc; }
+.is-style-definicao::before { content: "Definição"; color: #5f6670; }
+.is-style-perigo::before { content: "⚡ Perigo — risco elétrico"; color: #c81e1e; }
+
+ol.is-style-passos { list-style: none; padding-left: 0; counter-reset: passo; }
+.is-style-passos > li { position: relative; counter-increment: passo; padding: 0 0 1em 3rem; }
+.is-style-passos > li::before {
+	content: counter(passo);
+	position: absolute; left: 0; top: 0.1em;
+	width: 2rem; height: 2rem; display: grid; place-items: center;
+	border-radius: 50%; background: #c2410c; color: #fff; font-weight: 800; font-size: 0.95rem;
+}
+ul.is-style-checklist { list-style: none; padding-left: 0; }
+.is-style-checklist > li { position: relative; padding-left: 2.1rem; }
+.is-style-checklist > li::before {
+	content: "✓";
+	position: absolute; left: 0; top: 0.3em;
+	width: 1.3rem; height: 1.3rem; display: grid; place-items: center;
+	border-radius: 5px; background: #12925a; color: #fff; font-weight: 800; font-size: 0.8rem;
+}
+
+.is-style-ficha td:first-child { background: #f5f5f5; color: #5f6670; font-weight: 700; width: 42%; }
+.is-style-cartoes > .wp-block-column, .is-style-comparativo > .wp-block-column {
+	padding: 1.2rem 1.35rem; border: 1px solid #e3e5e8; border-radius: 12px;
+}
+.is-style-comparativo > .wp-block-column:first-child { border-top: 4px solid #12925a; }
+.is-style-comparativo > .wp-block-column:nth-child(2) { border-top: 4px solid #c81e1e; }
+
+.wp-block-details { border: 1px solid #e3e5e8; border-radius: 12px; padding: 0.9rem 1.25rem; }
+.wp-block-details summary { font-family: var(--wp--preset--font-family--titulos, system-ui, sans-serif); font-weight: 700; }
+.wp-block-rank-math-faq-block { border-top: 3px solid #c2410c; }
+.rank-math-faq-item { padding: 1rem 0; border-bottom: 1px solid #e3e5e8; }
+pre.wp-block-preformatted { background: #f5f5f5; border: 1px solid #e3e5e8; border-radius: 12px; padding: 1.25rem; font-size: 0.85rem; }
+.wp-block-file { padding: 1rem 1.25rem; border: 1px solid #e3e5e8; border-left: 5px solid #0b66c3; border-radius: 12px; }

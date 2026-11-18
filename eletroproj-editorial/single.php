@@ -11,15 +11,17 @@ while ( have_posts() ) :
 	the_post();
 	?>
 	<article <?php post_class( 'article' ); ?>>
-		<div class="container">
+		<div class="container container--artigo">
 			<header class="article-head">
 				<?php eletroproj_breadcrumbs(); ?>
 				<p class="article-head__byline">
 					<a class="byline__author" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"><?php the_author(); ?></a>
-					<span aria-hidden="true">/</span>
-					<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_date( 'j M Y' ) ); ?></time>
-					<?php if ( get_the_modified_date( 'Ymd' ) > get_the_date( 'Ymd' ) ) : ?>
-						<span class="article-head__updated">(<?php esc_html_e( 'atualizado em', 'eletroproj' ); ?> <time datetime="<?php echo esc_attr( get_the_modified_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_modified_date( 'j M Y' ) ); ?></time>)</span>
+					<?php if ( eletroproj_mod( 'mostrar_datas' ) ) : ?>
+						<span aria-hidden="true">/</span>
+						<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_date( 'j M Y' ) ); ?></time>
+						<?php if ( eletroproj_mod( 'mostrar_atualizado' ) && get_the_modified_date( 'Ymd' ) > get_the_date( 'Ymd' ) ) : ?>
+							<span class="article-head__updated">(<?php esc_html_e( 'atualizado em', 'eletroproj' ); ?> <time datetime="<?php echo esc_attr( get_the_modified_date( DATE_W3C ) ); ?>"><?php echo esc_html( get_the_modified_date( 'j M Y' ) ); ?></time>)</span>
+						<?php endif; ?>
 					<?php endif; ?>
 					<?php if ( comments_open() || get_comments_number() ) : ?>
 						<span aria-hidden="true">/</span>
@@ -58,7 +60,7 @@ while ( have_posts() ) :
 						</figure>
 					<?php endif; ?>
 
-					<?php eletroproj_the_toc(); ?>
+					<?php eletroproj_the_toc( 'inline' ); ?>
 
 					<div class="entry-content">
 						<?php
@@ -88,11 +90,12 @@ while ( have_posts() ) :
 
 				<aside class="article-aside">
 					<?php get_template_part( 'template-parts/author-box', null, array( 'compact' => true ) ); ?>
+					<?php if ( is_active_sidebar( 'lateral-artigo' ) ) : ?>
+						<?php dynamic_sidebar( 'lateral-artigo' ); ?>
+					<?php endif; ?>
 					<div class="article-aside__sticky">
+						<?php eletroproj_the_toc( 'lateral' ); ?>
 						<?php get_template_part( 'template-parts/newsletter', null, array( 'variant' => 'sidebar' ) ); ?>
-						<?php if ( is_active_sidebar( 'lateral-artigo' ) ) : ?>
-							<?php dynamic_sidebar( 'lateral-artigo' ); ?>
-						<?php endif; ?>
 					</div>
 				</aside>
 			</div>
@@ -124,7 +127,7 @@ while ( have_posts() ) :
 	?>
 
 	<?php if ( comments_open() || get_comments_number() ) : ?>
-		<div class="container">
+		<div class="container container--artigo">
 			<div class="article-layout">
 				<div class="article-main"><?php comments_template(); ?></div>
 			</div>

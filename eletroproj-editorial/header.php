@@ -34,7 +34,7 @@
 				<?php if ( has_custom_logo() ) : ?>
 					<?php the_custom_logo(); ?>
 				<?php else : ?>
-					<a class="brand__text" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+					<a class="brand__text" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
 						<span class="brand__mark" aria-hidden="true"><?php echo eletroproj_icon( 'raio', 26 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 						<span class="brand__name"><?php bloginfo( 'name' ); ?></span>
 					</a>
@@ -56,7 +56,7 @@
 			</nav>
 
 			<div class="site-header__tools">
-				<button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-nav">
+				<button type="button" class="menu-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="<?php esc_attr_e( 'Menu', 'eletroproj' ); ?>">
 					<?php echo eletroproj_icon( 'menu', 20 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<span><?php esc_html_e( 'Menu', 'eletroproj' ); ?></span>
 				</button>
@@ -73,21 +73,7 @@
 		</div>
 	</div>
 
-	<nav class="topics-bar" aria-label="<?php esc_attr_e( 'Categorias', 'eletroproj' ); ?>">
-		<div class="container">
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'categorias',
-					'container'      => false,
-					'menu_class'     => 'pills',
-					'depth'          => 1,
-					'fallback_cb'    => 'eletroproj_categories_fallback',
-				)
-			);
-			?>
-		</div>
-	</nav>
+	<?php eletroproj_topics_bar(); ?>
 </header>
 
 <main id="main" class="site-main" tabindex="-1">
