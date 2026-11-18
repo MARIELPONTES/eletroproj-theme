@@ -97,18 +97,9 @@ html {
 	-webkit-text-size-adjust: 100%;
 	text-size-adjust: 100%;
 	scroll-padding-top: 1.5rem;
-	/* Sem barra de rolagem visível (a página continua rolando normalmente). */
-	scrollbar-width: none;
-	-ms-overflow-style: none;
-	/* Nada pode vazar para os lados. */
+	/* Nada pode vazar para os lados. A barra de rolagem vertical da página fica visível;
+	   só o índice lateral (.article-aside__sticky) esconde a própria barra. */
 	overflow-x: hidden;
-}
-
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-	display: none;
-	width: 0;
-	height: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
