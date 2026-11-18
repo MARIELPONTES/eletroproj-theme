@@ -75,7 +75,7 @@ $eletroproj_social = array(
 	</div>
 </footer>
 
-<a class="back-to-top" href="#main"><span class="back-to-top__texto"><?php esc_html_e( 'Voltar ao topo', 'eletroproj' ); ?></span> <?php echo eletroproj_icon( 'topo', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
+<a class="back-to-top" href="#main" title="<?php esc_attr_e( 'Voltar ao topo', 'eletroproj' ); ?>"><span class="back-to-top__texto"><?php esc_html_e( 'Voltar ao topo', 'eletroproj' ); ?></span> <?php echo eletroproj_icon( 'topo', 20 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 
 <?php wp_footer(); ?>
 </body>

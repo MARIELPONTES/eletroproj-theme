@@ -1422,8 +1422,14 @@ html[data-theme="dark"] .service__icon {
 	color: var(--suave);
 }
 
+/* O ícone da carta sobe 3,5rem acima do cartão: o espaço acima precisa ser maior,
+   para não ficar por cima do índice nem ser cortado no topo da coluna. */
 .article-aside .newsletter {
-	margin-top: 0;
+	margin-top: 5rem;
+}
+
+.article-aside__sticky > .newsletter:first-child {
+	margin-top: 3.75rem;
 }
 
 .widget {
@@ -2803,34 +2809,30 @@ html[data-theme="dark"] .entry-content {
 	opacity: 0.9;
 }
 
-/* Voltar ao topo: botão flutuante, sempre visível no canto inferior direito. */
+/* Voltar ao topo: botão flutuante (círculo com seta) no canto inferior direito.
+   Some sozinho enquanto estaria por cima da coluna lateral (main.js). */
 .back-to-top {
 	position: fixed;
-	right: clamp(0.75rem, 2.5vw, 1.5rem);
-	bottom: calc(clamp(0.75rem, 2.5vw, 1.5rem) + env(safe-area-inset-bottom, 0px));
+	right: clamp(0.75rem, 2vw, 1.25rem);
+	bottom: calc(clamp(0.75rem, 2vw, 1.25rem) + env(safe-area-inset-bottom, 0px));
 	z-index: 150;
 	display: inline-flex;
 	align-items: center;
-	gap: 0.4rem;
-	min-height: 2.75rem;
-	padding: 0.6rem 1rem;
-	border-radius: 999px;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 50%;
 	background: var(--marca);
 	color: #fff;
 	box-shadow: var(--sombra);
-	font-family: var(--f-titulo);
-	font-size: 0.9rem;
-	font-weight: 700;
-	line-height: 1;
 	text-decoration: none;
-	transition: background-color 0.2s ease, transform 0.2s ease;
+	transition: opacity 0.2s ease, visibility 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .back-to-top:hover,
 .back-to-top:focus-visible {
 	background: var(--marca-escura);
 	color: #fff;
-	text-decoration: none;
 	transform: translateY(-2px);
 }
 
@@ -2843,23 +2845,20 @@ html[data-theme="dark"] .entry-content {
 	flex: none;
 }
 
-/* No celular vira só o ícone (círculo), para não cobrir o texto. */
-@media (max-width: 640px) {
-	.back-to-top {
-		width: 2.75rem;
-		height: 2.75rem;
-		padding: 0;
-		justify-content: center;
-	}
+.back-to-top.is-oculto {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
 
-	.back-to-top__texto {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		overflow: hidden;
-		clip: rect(0 0 0 0);
-		white-space: nowrap;
-	}
+/* O texto continua para leitores de tela. */
+.back-to-top__texto {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
 }
 
 @media print {

@@ -171,4 +171,32 @@
 			}
 		} );
 	}
+
+	/* Voltar ao topo: some enquanto estaria por cima da coluna lateral ------ */
+	var toTop = document.querySelector( '.back-to-top' );
+	var asideParts = document.querySelectorAll( '.article-aside > *, .article-aside__sticky > *, .magazine__aside > *' );
+	if ( toTop && asideParts.length ) {
+		var topTicking = false;
+		var checkTop = function () {
+			var b = toTop.getBoundingClientRect();
+			var hit = false;
+			for ( var k = 0; k < asideParts.length && ! hit; k++ ) {
+				var r = asideParts[ k ].getBoundingClientRect();
+				if ( r.width && r.height && b.left < r.right + 8 && b.right > r.left - 8 && b.top < r.bottom + 8 && b.bottom > r.top - 8 ) {
+					hit = true;
+				}
+			}
+			toTop.classList.toggle( 'is-oculto', hit );
+			topTicking = false;
+		};
+		var queueTop = function () {
+			if ( ! topTicking ) {
+				window.requestAnimationFrame( checkTop );
+				topTicking = true;
+			}
+		};
+		window.addEventListener( 'scroll', queueTop, { passive: true } );
+		window.addEventListener( 'resize', queueTop );
+		checkTop();
+	}
 } )();
