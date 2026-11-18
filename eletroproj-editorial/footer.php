@@ -71,10 +71,11 @@ $eletroproj_social = array(
 
 		<div class="site-footer__bottom">
 			<p>&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'Todos os direitos reservados.', 'eletroproj' ); ?></p>
-			<a class="back-to-top" href="#main"><?php esc_html_e( 'Voltar ao topo', 'eletroproj' ); ?> <?php echo eletroproj_icon( 'topo', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 		</div>
 	</div>
 </footer>
+
+<a class="back-to-top" href="#main"><span class="back-to-top__texto"><?php esc_html_e( 'Voltar ao topo', 'eletroproj' ); ?></span> <?php echo eletroproj_icon( 'topo', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 
 <?php wp_footer(); ?>
 </body>

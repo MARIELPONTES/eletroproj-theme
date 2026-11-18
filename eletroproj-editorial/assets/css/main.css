@@ -2803,12 +2803,69 @@ html[data-theme="dark"] .entry-content {
 	opacity: 0.9;
 }
 
+/* Voltar ao topo: botão flutuante, sempre visível no canto inferior direito. */
 .back-to-top {
+	position: fixed;
+	right: clamp(0.75rem, 2.5vw, 1.5rem);
+	bottom: calc(clamp(0.75rem, 2.5vw, 1.5rem) + env(safe-area-inset-bottom, 0px));
+	z-index: 150;
 	display: inline-flex;
 	align-items: center;
-	gap: 0.35rem;
+	gap: 0.4rem;
+	min-height: 2.75rem;
+	padding: 0.6rem 1rem;
+	border-radius: 999px;
+	background: var(--marca);
+	color: #fff;
+	box-shadow: var(--sombra);
 	font-family: var(--f-titulo);
+	font-size: 0.9rem;
 	font-weight: 700;
+	line-height: 1;
+	text-decoration: none;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+	background: var(--marca-escura);
+	color: #fff;
+	text-decoration: none;
+	transform: translateY(-2px);
+}
+
+.back-to-top:focus-visible {
+	outline: 3px solid var(--link);
+	outline-offset: 3px;
+}
+
+.back-to-top svg {
+	flex: none;
+}
+
+/* No celular vira só o ícone (círculo), para não cobrir o texto. */
+@media (max-width: 640px) {
+	.back-to-top {
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0;
+		justify-content: center;
+	}
+
+	.back-to-top__texto {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+}
+
+@media print {
+	.back-to-top {
+		display: none;
+	}
 }
 
 /* 15. Responsivo ---------------------------------------------------------- */
