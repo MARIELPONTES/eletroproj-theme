@@ -36,7 +36,7 @@ $eletroproj_social = array(
 
 		<div class="site-footer__grid">
 			<div class="site-footer__about">
-				<a class="brand__text brand__text--footer" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+				<a class="brand__text brand__text--footer" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
 					<span class="brand__mark" aria-hidden="true"><?php echo eletroproj_icon( 'raio', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 					<span class="brand__name"><?php bloginfo( 'name' ); ?></span>
 				</a>
