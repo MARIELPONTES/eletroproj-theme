@@ -67,6 +67,10 @@ function eletroproj_custom_colors_css() {
 	if ( $link ) {
 		$css .= '--wp--preset--color--link:' . $link . ';';
 	}
+	$cat = sanitize_hex_color( get_theme_mod( 'eletroproj_cor_categorias', '#D33A2C' ) );
+	if ( $cat ) {
+		$css .= '--cor-categorias:' . $cat . ';';
+	}
 	foreach ( eletroproj_larguras() as $id => $lim ) {
 		$px = (int) eletroproj_mod( $id );
 		if ( $px ) {

@@ -33,7 +33,11 @@ while ( have_posts() ) :
 						</a>
 					<?php endif; ?>
 				</p>
-				<h1 class="article-head__title"><?php the_title(); ?></h1>
+				<?php if ( eletroproj_mod( 'titulo_degrade' ) ) : ?>
+					<h1 class="article-head__title article-head__title--degrade"><span><?php the_title(); ?></span></h1>
+				<?php else : ?>
+					<h1 class="article-head__title"><?php the_title(); ?></h1>
+				<?php endif; ?>
 				<ul class="meta-box">
 					<li><?php echo eletroproj_icon( 'relogio', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput ?> <span><?php echo esc_html( eletroproj_reading_time() ); ?></span></li>
 					<?php if ( eletroproj_category_links() ) : ?>

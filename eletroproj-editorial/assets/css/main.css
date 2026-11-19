@@ -474,39 +474,30 @@ html[data-theme="dark"] .theme-toggle__moon {
 }
 
 .pills a {
+	/* Cor própria da faixa (Personalizar > Tema Eletroproj > Cores). */
+	--pill: var(--cor-categorias, #d33a2c);
 	display: block;
 	white-space: nowrap;
-	background: var(--marca-clara);
-	/* Tom mais escuro da marca: garante contraste AA (> 4,5:1) sobre o fundo claro. */
-	color: var(--marca-escura);
+	background: color-mix(in srgb, var(--pill) 12%, #fff);
+	border: 1px solid color-mix(in srgb, var(--pill) 22%, #fff);
+	/* Texto um pouco mais escuro que a cor: contraste AA (> 4,5:1) sobre o fundo rosado. */
+	color: color-mix(in srgb, var(--pill) 88%, #000);
 	text-decoration: none;
 	font-family: var(--f-titulo);
 	font-weight: 700;
 	font-size: 0.9rem;
 	padding: 0.4rem 0.8rem;
 	border-radius: 10px;
-	transition: background-color 0.15s ease, color 0.15s ease;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-html[data-theme="dark"] .pills a {
-	background: color-mix(in srgb, var(--marca) 12%, #fff);
-	color: var(--marca-escura);
-}
-
-@media (prefers-color-scheme: dark) {
-	html:not([data-theme="light"]) .pills a {
-		background: color-mix(in srgb, var(--marca) 12%, #fff);
-		color: var(--marca-escura);
-	}
-}
-
+/* No modo escuro as pílulas continuam claras, como no modo claro. */
 .pills a:hover,
+.pills a:focus-visible,
 .pills .current-menu-item > a,
-.pills .current-cat > a,
-html[data-theme="dark"] .pills a:hover,
-html[data-theme="dark"] .pills .current-menu-item > a,
-html[data-theme="dark"] .pills .current-cat > a {
-	background: var(--marca);
+.pills .current-cat > a {
+	background: var(--pill);
+	border-color: var(--pill);
 	color: #fff;
 }
 
@@ -1125,6 +1116,43 @@ html[data-theme="dark"] .service__icon {
 	line-height: 1.12;
 	letter-spacing: -0.02em;
 	margin-bottom: 1.25rem;
+}
+
+/* Título do artigo em degradê (opção em Personalizar > Página do artigo).
+   Modo claro: tons mais fortes para ler bem sobre fundo branco.
+   Modo escuro: tons pastel, como na referência. */
+.article-head__title--degrade {
+	--titulo-degrade: linear-gradient(90deg, #0f8f5a, #8a7d00, #2e8b2e, #8a6a2a, #c8473a, #5a6680, #1e78c8, #0e8fa0);
+}
+
+html[data-theme="dark"] .article-head__title--degrade {
+	--titulo-degrade: linear-gradient(90deg, #b8f5c8, #e5ec7e, #8bd88b, #c9b386, #f0a097, #a9b4c8, #6bb8f0, #5dd5e5);
+}
+
+@media (prefers-color-scheme: dark) {
+	html:not([data-theme="light"]) .article-head__title--degrade {
+		--titulo-degrade: linear-gradient(90deg, #b8f5c8, #e5ec7e, #8bd88b, #c9b386, #f0a097, #a9b4c8, #6bb8f0, #5dd5e5);
+	}
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+	.article-head__title--degrade span {
+		background-image: var(--titulo-degrade);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+		color: transparent;
+		-webkit-box-decoration-break: clone;
+		box-decoration-break: clone;
+	}
+}
+
+@media print {
+	.article-head__title--degrade span {
+		-webkit-text-fill-color: currentColor;
+		color: #000;
+		background: none;
+	}
 }
 
 .meta-box {
