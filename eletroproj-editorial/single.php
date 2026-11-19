@@ -55,7 +55,7 @@ while ( have_posts() ) :
 						</section>
 					<?php endif; ?>
 
-					<?php if ( has_post_thumbnail() ) : ?>
+					<?php if ( has_post_thumbnail() && eletroproj_show_featured_image() ) : ?>
 						<figure class="article-hero">
 							<?php the_post_thumbnail( 'large', array( 'loading' => 'eager', 'fetchpriority' => 'high' ) ); ?>
 							<?php if ( get_the_post_thumbnail_caption() ) : ?>

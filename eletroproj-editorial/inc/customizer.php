@@ -67,6 +67,7 @@ function eletroproj_defaults() {
 		'eletroproj_mostrar_datas'       => true,
 		'eletroproj_mostrar_atualizado'  => true,
 		'eletroproj_mostrar_sumario'     => true,
+		'eletroproj_mostrar_destacada'   => true,
 		'eletroproj_titulo_degrade'      => false,
 
 		'eletroproj_rodape_texto'        => 'Conteúdo técnico de qualidade sobre engenharia elétrica, automação industrial e SPDA.',
@@ -530,6 +531,7 @@ function eletroproj_customize_register( $wp_customize ) {
 			'panel' => 'eletroproj',
 		)
 	);
+	$add( 'eletroproj_mostrar_destacada', 'eletroproj_artigo', __( 'Mostrar a imagem destacada no topo dos posts', 'eletroproj' ), 'checkbox', array( 'description' => __( 'Padrão para todos os posts. Cada post pode mudar isso no painel "Imagem destacada no artigo" do editor.', 'eletroproj' ) ) );
 	$add( 'eletroproj_mostrar_sumario', 'eletroproj_artigo', __( 'Sumário automático (3+ subtítulos)', 'eletroproj' ), 'checkbox' );
 	$add( 'eletroproj_artigo_progresso', 'eletroproj_artigo', __( 'Barra de progresso de leitura', 'eletroproj' ), 'checkbox' );
 	$add( 'eletroproj_artigo_relacionados', 'eletroproj_artigo', __( 'Artigos relacionados no final', 'eletroproj' ), 'checkbox' );
