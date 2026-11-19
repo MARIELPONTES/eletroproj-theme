@@ -3096,3 +3096,16 @@ html[data-theme="dark"] .entry-content {
 		background: #fff;
 	}
 }
+
+/* CalcEletric: no modo claro, o destaque usa a cor pura da marca (#D33A2C),
+   em vez da mistura com a cor do texto (que dava #A4372F).
+   No modo escuro continua a mistura, que fica mais clara e legível no fundo escuro. */
+html[data-theme="light"] #calceletricPost.tool-calceletric {
+	--ce-accent-ink: var(--ce-accent);
+}
+
+@media (prefers-color-scheme: light) {
+	html:not([data-theme="dark"]) #calceletricPost.tool-calceletric {
+		--ce-accent-ink: var(--ce-accent);
+	}
+}
