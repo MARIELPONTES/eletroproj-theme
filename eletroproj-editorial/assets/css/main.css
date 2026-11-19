@@ -251,7 +251,7 @@ input[type="submit"] {
 	text-decoration: none;
 	cursor: pointer;
 	box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--marca) 70%, transparent);
-	transition: transform 0.15s ease, background-color 0.15s ease;
+	transition: background-color 0.15s ease;
 }
 
 .button:hover,
@@ -259,7 +259,6 @@ input[type="submit"] {
 input[type="submit"]:hover {
 	background: var(--marca-escura);
 	color: #fff;
-	transform: translateY(-1px);
 }
 
 .progress {
@@ -2868,14 +2867,13 @@ html[data-theme="dark"] .entry-content {
 	color: #fff;
 	box-shadow: var(--sombra);
 	text-decoration: none;
-	transition: opacity 0.2s ease, visibility 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+	transition: opacity 0.2s ease, visibility 0.2s ease, background-color 0.2s ease;
 }
 
 .back-to-top:hover,
 .back-to-top:focus-visible {
 	background: var(--marca-escura);
 	color: #fff;
-	transform: translateY(-2px);
 }
 
 .back-to-top:focus-visible {
