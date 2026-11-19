@@ -20,8 +20,8 @@
 
 /* 1. Variáveis ------------------------------------------------------------ */
 :root {
-	--marca: var(--wp--preset--color--marca, #c2410c);
-	--marca-clara: var(--wp--preset--color--marca-clara, #fdece4);
+	--marca: var(--wp--preset--color--marca, #d33a2c);
+	--marca-clara: var(--wp--preset--color--marca-clara, #fae7e6);
 	--marca-escura: color-mix(in srgb, var(--marca) 78%, #000);
 	/* Cor da marca usada em TEXTO (no modo escuro fica mais clara, para manter o contraste). */
 	--marca-texto: var(--marca);

@@ -13,8 +13,8 @@
 			"defaultGradients": false,
 			"defaultDuotone": false,
 			"palette": [
-				{ "slug": "marca", "name": "Cor da marca", "color": "#C2410C" },
-				{ "slug": "marca-clara", "name": "Marca clara", "color": "#FDECE4" },
+				{ "slug": "marca", "name": "Cor da marca", "color": "#D33A2C" },
+				{ "slug": "marca-clara", "name": "Marca clara", "color": "#FAE7E6" },
 				{ "slug": "link", "name": "Link", "color": "#0B66C3" },
 				{ "slug": "texto", "name": "Texto", "color": "#2B2F36" },
 				{ "slug": "suave", "name": "Texto suave", "color": "#5F6670" },

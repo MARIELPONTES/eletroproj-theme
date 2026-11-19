@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function eletroproj_defaults() {
 	return array(
-		'eletroproj_cor_marca'           => '#C2410C',
+		'eletroproj_cor_marca'           => '#D33A2C',
 		'eletroproj_cor_link'            => '#0B66C3',
 		'eletroproj_cor_categorias'      => '#D33A2C',
 		'eletroproj_modo_padrao'         => 'sistema',
