@@ -2013,6 +2013,19 @@ html[data-theme="dark"] .entry-content {
 	color: var(--marca-texto);
 }
 
+/* Ferramenta (calculadora, simulador): mesma moldura da caixa "o que você
+   vai aprender", sem rótulo e sem respiro interno — o conteúdo da ferramenta
+   ocupa a caixa inteira. */
+.entry-content .is-style-ferramenta {
+	padding: 0;
+	overflow: hidden;
+	border: 1px solid var(--borda);
+	border-top: 4px solid var(--marca);
+	border-radius: var(--raio);
+	background: var(--fundo);
+	box-shadow: var(--sombra-leve);
+}
+
 /* Exemplo resolvido / exercício. */
 .entry-content .is-style-exemplo {
 	padding: 1.25rem 1.5rem;
