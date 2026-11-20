@@ -14,8 +14,9 @@ defined( 'ABSPATH' ) || exit;
  */
 function eletroproj_defaults() {
 	return array(
-		'eletroproj_cor_marca'           => '#C2410C',
+		'eletroproj_cor_marca'           => '#D33A2C',
 		'eletroproj_cor_link'            => '#0B66C3',
+		'eletroproj_cor_categorias'      => '#D33A2C',
 		'eletroproj_modo_padrao'         => 'sistema',
 
 		'eletroproj_largura_site'        => 1240,
@@ -66,6 +67,8 @@ function eletroproj_defaults() {
 		'eletroproj_mostrar_datas'       => true,
 		'eletroproj_mostrar_atualizado'  => true,
 		'eletroproj_mostrar_sumario'     => true,
+		'eletroproj_mostrar_destacada'   => true,
+		'eletroproj_titulo_degrade'      => false,
 
 		'eletroproj_rodape_texto'        => 'Conteúdo técnico de qualidade sobre engenharia elétrica, automação industrial e SPDA.',
 		'eletroproj_instagram'           => '',
@@ -348,6 +351,7 @@ function eletroproj_customize_register( $wp_customize ) {
 	);
 	$add( 'eletroproj_cor_marca', 'eletroproj_cores', __( 'Cor da marca (cabeçalho, botões, destaques)', 'eletroproj' ), 'color' );
 	$add( 'eletroproj_cor_link', 'eletroproj_cores', __( 'Cor dos links no texto', 'eletroproj' ), 'color' );
+	$add( 'eletroproj_cor_categorias', 'eletroproj_cores', __( 'Cor da faixa de categorias (abaixo do menu)', 'eletroproj' ), 'color' );
 
 	$wp_customize->add_setting(
 		'eletroproj_modo_padrao',
@@ -527,11 +531,13 @@ function eletroproj_customize_register( $wp_customize ) {
 			'panel' => 'eletroproj',
 		)
 	);
+	$add( 'eletroproj_mostrar_destacada', 'eletroproj_artigo', __( 'Mostrar a imagem destacada no topo dos posts', 'eletroproj' ), 'checkbox', array( 'description' => __( 'Padrão para todos os posts. Cada post pode mudar isso no painel "Imagem destacada no artigo" do editor.', 'eletroproj' ) ) );
 	$add( 'eletroproj_mostrar_sumario', 'eletroproj_artigo', __( 'Sumário automático (3+ subtítulos)', 'eletroproj' ), 'checkbox' );
 	$add( 'eletroproj_artigo_progresso', 'eletroproj_artigo', __( 'Barra de progresso de leitura', 'eletroproj' ), 'checkbox' );
 	$add( 'eletroproj_artigo_relacionados', 'eletroproj_artigo', __( 'Artigos relacionados no final', 'eletroproj' ), 'checkbox' );
 	$add( 'eletroproj_mostrar_datas', 'eletroproj_artigo', __( 'Mostrar as datas dos posts (artigo, listas e cards)', 'eletroproj' ), 'checkbox' );
 	$add( 'eletroproj_mostrar_atualizado', 'eletroproj_artigo', __( 'Mostrar "atualizado em" no artigo (quando houver)', 'eletroproj' ), 'checkbox' );
+	$add( 'eletroproj_titulo_degrade', 'eletroproj_artigo', __( 'Título do artigo (H1) em degradê colorido', 'eletroproj' ), 'checkbox', array( 'description' => __( 'Vale só para o título no topo dos posts. Os subtítulos do texto continuam iguais.', 'eletroproj' ) ) );
 
 	// Rodapé e redes.
 	$wp_customize->add_section(

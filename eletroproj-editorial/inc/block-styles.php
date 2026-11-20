@@ -33,6 +33,7 @@ function eletroproj_register_block_styles() {
 		'objetivos' => __( 'Caixa: o que você vai aprender', 'eletroproj' ),
 		'exemplo'   => __( 'Caixa: exemplo resolvido', 'eletroproj' ),
 		'definicao' => __( 'Caixa: definição', 'eletroproj' ),
+		'ferramenta' => __( 'Caixa: ferramenta (calculadora)', 'eletroproj' ),
 	);
 	foreach ( $ensino as $slug => $label ) {
 		register_block_style(

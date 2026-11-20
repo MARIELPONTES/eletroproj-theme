@@ -57,7 +57,7 @@ add_action( 'wp_enqueue_scripts', 'eletroproj_enqueue' );
  * @return string
  */
 function eletroproj_custom_colors_css() {
-	$marca = sanitize_hex_color( get_theme_mod( 'eletroproj_cor_marca', '#C2410C' ) );
+	$marca = sanitize_hex_color( get_theme_mod( 'eletroproj_cor_marca', '#D33A2C' ) );
 	$link  = sanitize_hex_color( get_theme_mod( 'eletroproj_cor_link', '#0B66C3' ) );
 	$css   = 'html:root{';
 	if ( $marca ) {
@@ -66,6 +66,10 @@ function eletroproj_custom_colors_css() {
 	}
 	if ( $link ) {
 		$css .= '--wp--preset--color--link:' . $link . ';';
+	}
+	$cat = sanitize_hex_color( get_theme_mod( 'eletroproj_cor_categorias', '#D33A2C' ) );
+	if ( $cat ) {
+		$css .= '--cor-categorias:' . $cat . ';';
 	}
 	foreach ( eletroproj_larguras() as $id => $lim ) {
 		$px = (int) eletroproj_mod( $id );

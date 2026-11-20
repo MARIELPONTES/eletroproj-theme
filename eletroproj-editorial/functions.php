@@ -23,3 +23,4 @@ require ELETROPROJ_DIR . '/inc/customizer.php';
 require ELETROPROJ_DIR . '/inc/typography.php';
 require ELETROPROJ_DIR . '/inc/schema.php';
 require ELETROPROJ_DIR . '/inc/block-styles.php';
+require ELETROPROJ_DIR . '/inc/featured-image.php';
