@@ -77,7 +77,7 @@ function eletroproj_tipo_elementos() {
 		'categorias'   => array(
 			__( 'Faixa de categorias (abaixo do menu)', 'eletroproj' ),
 			'.pills a',
-			__( 'Padrão: Bricolage Grotesque, peso 700, 14 px, cor da marca.', 'eletroproj' ),
+			__( 'Padrão: Bricolage Grotesque, peso 700, 14 px, cor da faixa de categorias.', 'eletroproj' ),
 		),
 		'indice'       => array(
 			__( 'Índice do artigo ("Neste artigo")', 'eletroproj' ),

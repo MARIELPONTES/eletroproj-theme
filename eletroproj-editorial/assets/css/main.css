@@ -20,8 +20,8 @@
 
 /* 1. Variáveis ------------------------------------------------------------ */
 :root {
-	--marca: var(--wp--preset--color--marca, #c2410c);
-	--marca-clara: var(--wp--preset--color--marca-clara, #fdece4);
+	--marca: var(--wp--preset--color--marca, #d33a2c);
+	--marca-clara: var(--wp--preset--color--marca-clara, #fae7e6);
 	--marca-escura: color-mix(in srgb, var(--marca) 78%, #000);
 	/* Cor da marca usada em TEXTO (no modo escuro fica mais clara, para manter o contraste). */
 	--marca-texto: var(--marca);
@@ -251,7 +251,7 @@ input[type="submit"] {
 	text-decoration: none;
 	cursor: pointer;
 	box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--marca) 70%, transparent);
-	transition: transform 0.15s ease, background-color 0.15s ease;
+	transition: background-color 0.15s ease;
 }
 
 .button:hover,
@@ -259,7 +259,6 @@ input[type="submit"] {
 input[type="submit"]:hover {
 	background: var(--marca-escura);
 	color: #fff;
-	transform: translateY(-1px);
 }
 
 .progress {
@@ -365,6 +364,56 @@ input[type="submit"]:hover {
 .primary-nav__list .current_page_item > a {
 	background: rgb(0 0 0 / 0.18);
 }
+
+/* Submenus (desktop): abrem ao passar o mouse ou ao focar com o teclado. */
+.primary-nav__list li {
+	position: relative;
+}
+
+.primary-nav__list .menu-item-has-children > a::after {
+	content: "";
+	display: inline-block;
+	width: 0.4em;
+	height: 0.4em;
+	margin-left: 0.45em;
+	border-right: 2px solid currentColor;
+	border-bottom: 2px solid currentColor;
+	transform: translateY(-0.15em) rotate(45deg);
+}
+
+.primary-nav__list .sub-menu {
+	list-style: none;
+	margin: 0;
+	padding: 0.4rem;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 110;
+	min-width: 220px;
+	background: var(--marca-escura);
+	border-radius: 12px;
+	box-shadow: var(--sombra);
+	display: none;
+}
+
+.primary-nav__list .sub-menu .sub-menu {
+	position: static;
+	box-shadow: none;
+	background: transparent;
+	padding: 0 0 0 0.9rem;
+	min-width: 0;
+}
+
+.primary-nav__list li:hover > .sub-menu,
+.primary-nav__list li:focus-within > .sub-menu {
+	display: block;
+}
+
+.primary-nav__list .sub-menu a {
+	font-size: 0.95rem;
+	white-space: nowrap;
+}
+
 
 .site-header__tools {
 	display: flex;
@@ -474,39 +523,30 @@ html[data-theme="dark"] .theme-toggle__moon {
 }
 
 .pills a {
+	/* Cor própria da faixa (Personalizar > Tema Eletroproj > Cores). */
+	--pill: var(--cor-categorias, #d33a2c);
 	display: block;
 	white-space: nowrap;
-	background: var(--marca-clara);
-	/* Tom mais escuro da marca: garante contraste AA (> 4,5:1) sobre o fundo claro. */
-	color: var(--marca-escura);
+	background: color-mix(in srgb, var(--pill) 12%, #fff);
+	border: 1px solid color-mix(in srgb, var(--pill) 22%, #fff);
+	/* Texto um pouco mais escuro que a cor: contraste AA (> 4,5:1) sobre o fundo rosado. */
+	color: color-mix(in srgb, var(--pill) 88%, #000);
 	text-decoration: none;
 	font-family: var(--f-titulo);
 	font-weight: 700;
 	font-size: 0.9rem;
 	padding: 0.4rem 0.8rem;
 	border-radius: 10px;
-	transition: background-color 0.15s ease, color 0.15s ease;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-html[data-theme="dark"] .pills a {
-	background: color-mix(in srgb, var(--marca) 12%, #fff);
-	color: var(--marca-escura);
-}
-
-@media (prefers-color-scheme: dark) {
-	html:not([data-theme="light"]) .pills a {
-		background: color-mix(in srgb, var(--marca) 12%, #fff);
-		color: var(--marca-escura);
-	}
-}
-
+/* No modo escuro as pílulas continuam claras, como no modo claro. */
 .pills a:hover,
+.pills a:focus-visible,
 .pills .current-menu-item > a,
-.pills .current-cat > a,
-html[data-theme="dark"] .pills a:hover,
-html[data-theme="dark"] .pills .current-menu-item > a,
-html[data-theme="dark"] .pills .current-cat > a {
-	background: var(--marca);
+.pills .current-cat > a {
+	background: var(--pill);
+	border-color: var(--pill);
 	color: #fff;
 }
 
@@ -1127,6 +1167,43 @@ html[data-theme="dark"] .service__icon {
 	margin-bottom: 1.25rem;
 }
 
+/* Título do artigo em degradê (opção em Personalizar > Página do artigo).
+   Modo claro: tons mais fortes para ler bem sobre fundo branco.
+   Modo escuro: tons pastel, como na referência. */
+.article-head__title--degrade {
+	--titulo-degrade: linear-gradient(90deg, #0f8f5a, #8a7d00, #2e8b2e, #8a6a2a, #c8473a, #5a6680, #1e78c8, #0e8fa0);
+}
+
+html[data-theme="dark"] .article-head__title--degrade {
+	--titulo-degrade: linear-gradient(90deg, #b8f5c8, #e5ec7e, #8bd88b, #c9b386, #f0a097, #a9b4c8, #6bb8f0, #5dd5e5);
+}
+
+@media (prefers-color-scheme: dark) {
+	html:not([data-theme="light"]) .article-head__title--degrade {
+		--titulo-degrade: linear-gradient(90deg, #b8f5c8, #e5ec7e, #8bd88b, #c9b386, #f0a097, #a9b4c8, #6bb8f0, #5dd5e5);
+	}
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+	.article-head__title--degrade span {
+		background-image: var(--titulo-degrade);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+		color: transparent;
+		-webkit-box-decoration-break: clone;
+		box-decoration-break: clone;
+	}
+}
+
+@media print {
+	.article-head__title--degrade span {
+		-webkit-text-fill-color: currentColor;
+		color: #000;
+		background: none;
+	}
+}
+
 .meta-box {
 	display: inline-flex;
 	flex-wrap: wrap;
@@ -1422,8 +1499,14 @@ html[data-theme="dark"] .service__icon {
 	color: var(--suave);
 }
 
+/* O ícone da carta sobe 3,5rem acima do cartão: o espaço acima precisa ser maior,
+   para não ficar por cima do índice nem ser cortado no topo da coluna. */
 .article-aside .newsletter {
-	margin-top: 0;
+	margin-top: 5rem;
+}
+
+.article-aside__sticky > .newsletter:first-child {
+	margin-top: 3.75rem;
 }
 
 .widget {
@@ -1619,6 +1702,7 @@ pre:hover .copy-code,
 	margin-left: calc(50% - 50vw);
 }
 
+/* Tabelas: moldura arredondada, linhas finas, cabeçalho com filete da marca. */
 .entry-content .wp-block-table,
 .entry-content table {
 	font-size: 0.95rem;
@@ -1627,34 +1711,100 @@ pre:hover .copy-code,
 
 .entry-content .wp-block-table {
 	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
 }
 
 .entry-content table {
 	width: 100%;
-	border-collapse: collapse;
+	border-collapse: separate;
+	border-spacing: 0;
 	line-height: 1.45;
+	font-variant-numeric: tabular-nums;
+}
+
+.entry-content .wp-block-table:not(.is-style-ficha) table {
+	border: 1px solid var(--borda);
+	border-radius: var(--raio);
+	box-shadow: var(--sombra-leve);
 }
 
 .entry-content th,
 .entry-content td {
-	padding: 0.65rem 0.8rem;
-	border: 1px solid var(--borda);
+	padding: 0.75rem 1rem;
+	border: 0;
+	border-bottom: 1px solid var(--borda);
 	text-align: left;
 	vertical-align: top;
 }
 
+.entry-content tbody tr:last-child td,
+.entry-content tbody tr:last-child th {
+	border-bottom: 0;
+}
+
+/* Cabeçalho: fundo cinza, texto suave e filete na cor da marca (sem caixa alta: preserva unidades como mm² e kW). */
 .entry-content thead th,
 .entry-content .is-style-tecnica table:not(:has(thead)) tr:first-child td {
 	background: var(--cinza);
+	color: var(--suave);
+	font-size: 0.85rem;
 	font-weight: 800;
+	white-space: nowrap;
 }
 
+.entry-content thead th {
+	border-bottom: 2px solid var(--marca);
+}
+
+/* Cantos arredondados acompanham a moldura. */
+.entry-content .wp-block-table:not(.is-style-ficha) thead th:first-child {
+	border-top-left-radius: calc(var(--raio) - 1px);
+}
+
+.entry-content .wp-block-table:not(.is-style-ficha) thead th:last-child {
+	border-top-right-radius: calc(var(--raio) - 1px);
+}
+
+.entry-content .wp-block-table:not(.is-style-ficha) tbody tr:last-child td:first-child {
+	border-bottom-left-radius: calc(var(--raio) - 1px);
+}
+
+.entry-content .wp-block-table:not(.is-style-ficha) tbody tr:last-child td:last-child {
+	border-bottom-right-radius: calc(var(--raio) - 1px);
+}
+
+/* Tabela técnica: linhas zebradas, 1ª coluna em destaque e realce ao passar o mouse. */
 .entry-content .is-style-tecnica tbody tr:nth-child(even) td {
 	background: color-mix(in srgb, var(--cinza) 55%, transparent);
 }
 
-.entry-content .is-style-tecnica td:not(:first-child) {
-	font-variant-numeric: tabular-nums;
+.entry-content .is-style-tecnica td:first-child {
+	font-weight: 700;
+}
+
+@media (hover: hover) {
+	.entry-content .is-style-tecnica tbody tr:hover td {
+		background: color-mix(in srgb, var(--marca) 8%, transparent);
+	}
+}
+
+/* Legenda: logo abaixo da tabela, alinhada à esquerda. */
+.entry-content .wp-block-table figcaption {
+	margin-top: 0.7rem;
+	text-align: left;
+}
+
+/* Celular: a tabela mantém uma largura mínima e rola para o lado em vez de espremer. */
+@media (max-width: 600px) {
+	.entry-content .wp-block-table:not(.is-style-ficha) table {
+		min-width: 30rem;
+	}
+
+	.entry-content th,
+	.entry-content td {
+		padding: 0.65rem 0.8rem;
+	}
 }
 
 /* Caixas: nota, dica, atenção, norma. */
@@ -1978,6 +2128,19 @@ html[data-theme="dark"] .entry-content {
 	color: var(--marca-texto);
 }
 
+/* Ferramenta (calculadora, simulador): mesma moldura da caixa "o que você
+   vai aprender", sem rótulo e sem respiro interno — o conteúdo da ferramenta
+   ocupa a caixa inteira. */
+.entry-content .is-style-ferramenta {
+	padding: 0;
+	overflow: hidden;
+	border: 1px solid var(--borda);
+	border-top: 4px solid var(--marca);
+	border-radius: var(--raio);
+	background: var(--fundo);
+	box-shadow: var(--sombra-leve);
+}
+
 /* Exemplo resolvido / exercício. */
 .entry-content .is-style-exemplo {
 	padding: 1.25rem 1.5rem;
@@ -2123,15 +2286,14 @@ html[data-theme="dark"] .entry-content {
 /* Tabela "Ficha técnica": pares nome / valor (dados de placa, especificações). */
 .entry-content .wp-block-table.is-style-ficha {
 	border: 1px solid var(--borda);
+	border-left: 4px solid var(--marca);
 	border-radius: var(--raio);
-}
-
-.entry-content .is-style-ficha table {
-	font-variant-numeric: tabular-nums;
+	box-shadow: var(--sombra-leve);
 }
 
 .entry-content .is-style-ficha td,
 .entry-content .is-style-ficha th {
+	vertical-align: middle;
 	border: 0;
 	border-bottom: 1px solid var(--borda);
 }
@@ -2144,16 +2306,12 @@ html[data-theme="dark"] .entry-content {
 	width: 42%;
 	background: var(--cinza);
 	color: var(--suave);
+	font-size: 0.85rem;
 	font-weight: 700;
 }
 
 .entry-content .is-style-ficha td:last-child {
 	font-weight: 700;
-}
-
-/* Cabeçalho de tabela com filete na cor da marca. */
-.entry-content thead th {
-	border-bottom: 2px solid var(--marca);
 }
 
 /* Detalhes (abre e fecha): "Ver solução", "Ver cálculo completo". */
@@ -2224,24 +2382,36 @@ html[data-theme="dark"] .entry-content {
 	margin-top: -0.6em;
 }
 
-/* FAQ do Rank Math. */
+/* FAQ do Rank Math.
+   Markup real: #rank-math-faq.rank-math-block > .rank-math-list > .rank-math-list-item
+   > .rank-math-question (h3) + .rank-math-answer. Mantém os seletores antigos por segurança. */
+.entry-content .rank-math-block,
 .entry-content .wp-block-rank-math-faq-block {
+	margin: 2rem 0 2.5rem;
 	border-top: 3px solid var(--marca);
 }
 
-.entry-content .rank-math-faq-item {
-	padding: 1.2rem 0 1.2rem 2.6rem;
-	border-bottom: 1px solid var(--borda);
-	position: relative;
+.entry-content .rank-math-list {
+	margin: 0;
+	padding: 0;
 }
 
+.entry-content .rank-math-list-item,
+.entry-content .rank-math-faq-item {
+	position: relative;
+	margin: 0;
+	padding: 1.3rem 0 1.3rem 3rem;
+	border-bottom: 1px solid var(--borda);
+}
+
+.entry-content .rank-math-list-item::before,
 .entry-content .rank-math-faq-item::before {
 	content: "?";
 	position: absolute;
 	left: 0;
 	top: 1.25rem;
-	width: 1.75rem;
-	height: 1.75rem;
+	width: 2rem;
+	height: 2rem;
 	display: grid;
 	place-items: center;
 	border-radius: 50%;
@@ -2249,23 +2419,43 @@ html[data-theme="dark"] .entry-content {
 	color: var(--marca-texto);
 	font-family: var(--f-titulo);
 	font-weight: 800;
-	font-size: 0.95rem;
+	font-size: 1rem;
 	line-height: 1;
 }
 
 .entry-content .rank-math-question {
-	margin: 0 0 0.4rem;
+	margin: 0 0 0.5rem !important;
+	padding-top: 0.2rem;
 	font-size: 1.12rem;
 	line-height: 1.35;
 }
 
 .entry-content .rank-math-answer {
 	font-size: 0.95em;
+	line-height: 1.65;
 	color: color-mix(in srgb, var(--texto) 88%, var(--fundo));
+}
+
+.entry-content .rank-math-answer p {
+	margin: 0 0 0.7em;
 }
 
 .entry-content .rank-math-answer > :last-child {
 	margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+	.entry-content .rank-math-list-item,
+	.entry-content .rank-math-faq-item {
+		padding-left: 2.5rem;
+	}
+
+	.entry-content .rank-math-list-item::before,
+	.entry-content .rank-math-faq-item::before {
+		width: 1.75rem;
+		height: 1.75rem;
+		font-size: 0.9rem;
+	}
 }
 
 /* Colunas: espaço e estilos "Cartões" e "Comparativo". */
@@ -2803,35 +2993,30 @@ html[data-theme="dark"] .entry-content {
 	opacity: 0.9;
 }
 
-/* Voltar ao topo: botão flutuante, sempre visível no canto inferior direito. */
+/* Voltar ao topo: botão flutuante (círculo com seta) no canto inferior direito.
+   Some sozinho enquanto estaria por cima da coluna lateral (main.js). */
 .back-to-top {
 	position: fixed;
-	right: clamp(0.75rem, 2.5vw, 1.5rem);
-	bottom: calc(clamp(0.75rem, 2.5vw, 1.5rem) + env(safe-area-inset-bottom, 0px));
+	right: clamp(0.75rem, 2vw, 1.25rem);
+	bottom: calc(clamp(0.75rem, 2vw, 1.25rem) + env(safe-area-inset-bottom, 0px));
 	z-index: 150;
 	display: inline-flex;
 	align-items: center;
-	gap: 0.4rem;
-	min-height: 2.75rem;
-	padding: 0.6rem 1rem;
-	border-radius: 999px;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 50%;
 	background: var(--marca);
 	color: #fff;
 	box-shadow: var(--sombra);
-	font-family: var(--f-titulo);
-	font-size: 0.9rem;
-	font-weight: 700;
-	line-height: 1;
 	text-decoration: none;
-	transition: background-color 0.2s ease, transform 0.2s ease;
+	transition: opacity 0.2s ease, visibility 0.2s ease, background-color 0.2s ease;
 }
 
 .back-to-top:hover,
 .back-to-top:focus-visible {
 	background: var(--marca-escura);
 	color: #fff;
-	text-decoration: none;
-	transform: translateY(-2px);
 }
 
 .back-to-top:focus-visible {
@@ -2843,23 +3028,20 @@ html[data-theme="dark"] .entry-content {
 	flex: none;
 }
 
-/* No celular vira só o ícone (círculo), para não cobrir o texto. */
-@media (max-width: 640px) {
-	.back-to-top {
-		width: 2.75rem;
-		height: 2.75rem;
-		padding: 0;
-		justify-content: center;
-	}
+.back-to-top.is-oculto {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
 
-	.back-to-top__texto {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		overflow: hidden;
-		clip: rect(0 0 0 0);
-		white-space: nowrap;
-	}
+/* O texto continua para leitores de tela. */
+.back-to-top__texto {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
 }
 
 @media print {
@@ -2944,6 +3126,26 @@ html[data-theme="dark"] .entry-content {
 	.primary-nav__list a {
 		font-size: 1.1rem;
 		padding: 0.75rem 0.85rem;
+	}
+
+	/* Submenus no mobile: sempre visíveis, recuados abaixo do item pai. */
+	.primary-nav__list .sub-menu {
+		display: block;
+		position: static;
+		min-width: 0;
+		padding: 0 0 0 1rem;
+		background: transparent;
+		box-shadow: none;
+		border-radius: 0;
+	}
+
+	.primary-nav__list .sub-menu a {
+		font-size: 1rem;
+		white-space: normal;
+	}
+
+	.primary-nav__list .menu-item-has-children > a::after {
+		display: none;
 	}
 
 	.site-header__bar {
@@ -3066,5 +3268,18 @@ html[data-theme="dark"] .entry-content {
 		font-size: 12pt;
 		color: #000;
 		background: #fff;
+	}
+}
+
+/* CalcEletric: no modo claro, o destaque usa a cor pura da marca (#D33A2C),
+   em vez da mistura com a cor do texto (que dava #A4372F).
+   No modo escuro continua a mistura, que fica mais clara e legível no fundo escuro. */
+html[data-theme="light"] #calceletricPost.tool-calceletric {
+	--ce-accent-ink: var(--ce-accent);
+}
+
+@media (prefers-color-scheme: light) {
+	html:not([data-theme="dark"]) #calceletricPost.tool-calceletric {
+		--ce-accent-ink: var(--ce-accent);
 	}
 }

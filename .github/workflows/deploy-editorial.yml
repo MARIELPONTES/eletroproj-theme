@@ -3,9 +3,11 @@ name: Deploy do tema Eletroproj Editorial (FTP)
 # Envia SOMENTE a pasta eletroproj-editorial/ para a pasta própria dela no servidor
 # (wp-content/themes/eletroproj-editorial). Não mexe no tema principal.
 
+# Roda sozinho a cada envio (push) na main ou na correcoes-editorial,
+# que é a branch onde ficam as atualizações do tema.
 on:
   push:
-    branches: [main]
+    branches: [main, correcoes-editorial]
     paths:
       - 'eletroproj-editorial/**'
       - '.github/workflows/deploy-editorial.yml'
