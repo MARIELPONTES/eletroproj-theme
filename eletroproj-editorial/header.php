@@ -48,7 +48,7 @@
 						'theme_location' => 'principal',
 						'container'      => false,
 						'menu_class'     => 'primary-nav__list',
-						'depth'          => 1,
+						'depth'          => 3,
 						'fallback_cb'    => 'eletroproj_primary_fallback',
 					)
 				);
