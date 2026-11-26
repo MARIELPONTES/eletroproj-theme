@@ -360,9 +360,15 @@ input[type="submit"]:hover {
 }
 
 .primary-nav__list a:hover,
-.primary-nav__list .current-menu-item > a,
-.primary-nav__list .current_page_item > a {
+.primary-nav__list .current-menu-item > a:not([href="#"]):not([href=""]),
+.primary-nav__list .current_page_item > a:not([href="#"]):not([href=""]) {
 	background: rgb(0 0 0 / 0.18);
+}
+
+/* Itens de submenu só ficam destacados na página atual de verdade (ou no hover). */
+.primary-nav__list .sub-menu .current-menu-item > a:not(:hover):not([aria-current="page"]),
+.primary-nav__list .sub-menu .current_page_item > a:not(:hover):not([aria-current="page"]) {
+	background: transparent;
 }
 
 /* Submenus (desktop): abrem ao passar o mouse ou ao focar com o teclado. */
