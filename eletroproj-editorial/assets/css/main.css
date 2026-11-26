@@ -365,10 +365,17 @@ input[type="submit"]:hover {
 	background: rgb(0 0 0 / 0.18);
 }
 
-/* Itens de submenu só ficam destacados na página atual de verdade (ou no hover). */
-.primary-nav__list .sub-menu .current-menu-item > a:not(:hover):not([aria-current="page"]),
-.primary-nav__list .sub-menu .current_page_item > a:not(:hover):not([aria-current="page"]) {
+/* Itens de submenu: fundo só no hover ou no foco do teclado, nunca fixo. */
+.primary-nav__list .sub-menu a,
+.primary-nav__list .sub-menu .current-menu-item > a,
+.primary-nav__list .sub-menu .current_page_item > a,
+.primary-nav__list .sub-menu a[aria-current] {
 	background: transparent;
+}
+
+.primary-nav__list .sub-menu a:hover,
+.primary-nav__list .sub-menu a:focus-visible {
+	background: rgb(0 0 0 / 0.28);
 }
 
 /* Submenus (desktop): abrem ao passar o mouse ou ao focar com o teclado. */
