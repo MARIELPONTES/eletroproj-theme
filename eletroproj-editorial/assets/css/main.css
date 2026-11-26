@@ -1652,6 +1652,7 @@ pre:hover .copy-code,
 	margin-left: calc(50% - 50vw);
 }
 
+/* Tabelas: moldura arredondada, linhas finas, cabeçalho com filete da marca. */
 .entry-content .wp-block-table,
 .entry-content table {
 	font-size: 0.95rem;
@@ -1661,34 +1662,99 @@ pre:hover .copy-code,
 .entry-content .wp-block-table {
 	overflow-x: auto;
 	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
 }
 
 .entry-content table {
 	width: 100%;
-	border-collapse: collapse;
+	border-collapse: separate;
+	border-spacing: 0;
 	line-height: 1.45;
+	font-variant-numeric: tabular-nums;
+}
+
+.entry-content .wp-block-table:not(.is-style-ficha) table {
+	border: 1px solid var(--borda);
+	border-radius: var(--raio);
+	box-shadow: var(--sombra-leve);
 }
 
 .entry-content th,
 .entry-content td {
-	padding: 0.65rem 0.8rem;
-	border: 1px solid var(--borda);
+	padding: 0.75rem 1rem;
+	border: 0;
+	border-bottom: 1px solid var(--borda);
 	text-align: left;
 	vertical-align: top;
 }
 
+.entry-content tbody tr:last-child td,
+.entry-content tbody tr:last-child th {
+	border-bottom: 0;
+}
+
+/* Cabeçalho: fundo cinza, texto suave e filete na cor da marca (sem caixa alta: preserva unidades como mm² e kW). */
 .entry-content thead th,
 .entry-content .is-style-tecnica table:not(:has(thead)) tr:first-child td {
 	background: var(--cinza);
+	color: var(--suave);
+	font-size: 0.85rem;
 	font-weight: 800;
+	white-space: nowrap;
 }
 
+.entry-content thead th {
+	border-bottom: 2px solid var(--marca);
+}
+
+/* Cantos arredondados acompanham a moldura. */
+.entry-content .wp-block-table:not(.is-style-ficha) thead th:first-child {
+	border-top-left-radius: calc(var(--raio) - 1px);
+}
+
+.entry-content .wp-block-table:not(.is-style-ficha) thead th:last-child {
+	border-top-right-radius: calc(var(--raio) - 1px);
+}
+
+.entry-content .wp-block-table:not(.is-style-ficha) tbody tr:last-child td:first-child {
+	border-bottom-left-radius: calc(var(--raio) - 1px);
+}
+
+.entry-content .wp-block-table:not(.is-style-ficha) tbody tr:last-child td:last-child {
+	border-bottom-right-radius: calc(var(--raio) - 1px);
+}
+
+/* Tabela técnica: linhas zebradas, 1ª coluna em destaque e realce ao passar o mouse. */
 .entry-content .is-style-tecnica tbody tr:nth-child(even) td {
 	background: color-mix(in srgb, var(--cinza) 55%, transparent);
 }
 
-.entry-content .is-style-tecnica td:not(:first-child) {
-	font-variant-numeric: tabular-nums;
+.entry-content .is-style-tecnica td:first-child {
+	font-weight: 700;
+}
+
+@media (hover: hover) {
+	.entry-content .is-style-tecnica tbody tr:hover td {
+		background: color-mix(in srgb, var(--marca) 8%, transparent);
+	}
+}
+
+/* Legenda: logo abaixo da tabela, alinhada à esquerda. */
+.entry-content .wp-block-table figcaption {
+	margin-top: 0.7rem;
+	text-align: left;
+}
+
+/* Celular: a tabela mantém uma largura mínima e rola para o lado em vez de espremer. */
+@media (max-width: 600px) {
+	.entry-content .wp-block-table:not(.is-style-ficha) table {
+		min-width: 30rem;
+	}
+
+	.entry-content th,
+	.entry-content td {
+		padding: 0.65rem 0.8rem;
+	}
 }
 
 /* Caixas: nota, dica, atenção, norma. */
@@ -2170,15 +2236,14 @@ html[data-theme="dark"] .entry-content {
 /* Tabela "Ficha técnica": pares nome / valor (dados de placa, especificações). */
 .entry-content .wp-block-table.is-style-ficha {
 	border: 1px solid var(--borda);
+	border-left: 4px solid var(--marca);
 	border-radius: var(--raio);
-}
-
-.entry-content .is-style-ficha table {
-	font-variant-numeric: tabular-nums;
+	box-shadow: var(--sombra-leve);
 }
 
 .entry-content .is-style-ficha td,
 .entry-content .is-style-ficha th {
+	vertical-align: middle;
 	border: 0;
 	border-bottom: 1px solid var(--borda);
 }
@@ -2191,16 +2256,12 @@ html[data-theme="dark"] .entry-content {
 	width: 42%;
 	background: var(--cinza);
 	color: var(--suave);
+	font-size: 0.85rem;
 	font-weight: 700;
 }
 
 .entry-content .is-style-ficha td:last-child {
 	font-weight: 700;
-}
-
-/* Cabeçalho de tabela com filete na cor da marca. */
-.entry-content thead th {
-	border-bottom: 2px solid var(--marca);
 }
 
 /* Detalhes (abre e fecha): "Ver solução", "Ver cálculo completo". */
