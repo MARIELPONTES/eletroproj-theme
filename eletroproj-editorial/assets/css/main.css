@@ -360,8 +360,8 @@ input[type="submit"]:hover {
 }
 
 .primary-nav__list a:hover,
-.primary-nav__list .current-menu-item > a:not([href="#"]):not([href=""]),
-.primary-nav__list .current_page_item > a:not([href="#"]):not([href=""]) {
+.primary-nav__list > .current-menu-item > a:not([href="#"]):not([href=""]),
+.primary-nav__list > .current_page_item > a:not([href="#"]):not([href=""]) {
 	background: rgb(0 0 0 / 0.18);
 }
 
